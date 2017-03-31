@@ -15,12 +15,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     loginwindow.cpp \
-    addpatient.cpp
+    addpatient.cpp \
+    healthcarestaff.cpp
 
 HEADERS  += mainwindow.h \
     loginwindow.h \
-    addpatient.h
+    addpatient.h \
+    healthcarestaff.h
 
 FORMS    += mainwindow.ui \
     loginwindow.ui \
-    addpatient.ui
+    addpatient.ui \
+    healthcarestaff.ui

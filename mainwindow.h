@@ -15,6 +15,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+signals:
+    void openAddStaff();
+
+private slots:
+    void on_addStaffPushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

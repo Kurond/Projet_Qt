@@ -135,6 +135,19 @@
        </rect>
       </property>
      </widget>
+     <widget class="QPushButton" name="addStaffPushButton">
+      <property name="geometry">
+       <rect>
+        <x>442</x>
+        <y>310</y>
+        <width>161</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Ajouter du personnel</string>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -144,7 +157,7 @@
      <x>0</x>
      <y>0</y>
      <width>635</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

@@ -1,7 +1,7 @@
 #include "addpatient.h"
 #include "ui_addpatient.h"
 
-AddPatient::AddPatient(QWidget *parent) :
+AddPatient::AddPatient(QWidget * parent) :
     QDialog(parent),
     ui(new Ui::AddPatient)
 {

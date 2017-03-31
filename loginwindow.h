@@ -18,6 +18,7 @@ public:
 signals:
     void connectionCancel();
     void connectionSucceded(bool success);
+
 private:
     Ui::LoginWindow *ui;
     bool futureDBconnection();
