@@ -90,4 +90,3 @@ int Patient::get_priority() const {
 void Patient::set_priority(int _priority) {
   Patient::_priority = _priority;
 }
-

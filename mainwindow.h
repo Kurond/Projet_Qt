@@ -27,6 +27,7 @@ private:
 
 private slots:
     void quit_clicked();
+    void addPatient();
 };
 
 #endif // MAINWINDOW_H
