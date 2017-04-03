@@ -17,13 +17,15 @@ SOURCES += main.cpp\
     loginwindow.cpp \
     addpatient.cpp \
     healthcarestaff.cpp \
-    staff.cpp
+    staff.cpp \
+    Patient.cpp
 
 HEADERS  += mainwindow.h \
     loginwindow.h \
     addpatient.h \
     healthcarestaff.h \
-    staff.h
+    staff.h \
+    Patient.h
 
 FORMS    += mainwindow.ui \
     loginwindow.ui \

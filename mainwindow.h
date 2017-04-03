@@ -17,12 +17,16 @@ public:
 
 signals:
     void openAddStaff();
+    void quit();
 
 private slots:
     void on_addStaffPushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
+
+private slots:
+    void quit_clicked();
 };
 
 #endif // MAINWINDOW_H
