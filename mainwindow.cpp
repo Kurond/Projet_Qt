@@ -4,10 +4,13 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    patientForm(this)
 {
     ui->setupUi(this);
+
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(quit_clicked()));
+    connect(ui->actionPatient,  SIGNAL(triggered()), this, SLOT(addPatient()));
 }
 
 MainWindow::~MainWindow() {
@@ -21,4 +24,8 @@ void MainWindow::on_addStaffPushButton_clicked()
 
 void MainWindow::quit_clicked() {
     emit quit();
+}
+
+void MainWindow::addPatient() {
+    // Open patient form
 }
