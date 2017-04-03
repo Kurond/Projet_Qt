@@ -28,7 +28,11 @@ void HealthCareStaff::on_addPushButton_clicked()
 
 void HealthCareStaff::on_cancelPushButton_clicked()
 {
-
+    ui->firstNameLineEdit->setText("");
+    ui->lastNameLineEdit->setText("");
+    ui->passwordLineEdit->setText("");
+    ui->loginLineEdit->setText("");
+    ui->typeComboBox->setCurrentIndex(0);
 }
 
 void HealthCareStaff::displayAddStaff() {
