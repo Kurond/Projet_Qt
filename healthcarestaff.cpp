@@ -24,10 +24,10 @@ HealthCareStaff::~HealthCareStaff()
 
 void HealthCareStaff::on_addPushButton_clicked()
 {
-    Staff staff;
-    staff.setFirstName(ui->firstNameLineEdit);
-    staff.setLastName(ui->lastNameLineEdit);
-    staff.setType(ui->typeComboBox->currentText());
+    //Staff staff;
+    //staff.setFirstName(ui->firstNameLineEdit);
+    //staff.setLastName(ui->lastNameLineEdit);
+    //staff.setType(ui->typeComboBox->currentText());
 
 }
 
