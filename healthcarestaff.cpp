@@ -1,5 +1,6 @@
 #include "healthcarestaff.h"
 #include "ui_healthcarestaff.h"
+#include "staff.h"
 
 HealthCareStaff::HealthCareStaff(QWidget *parent) :
     QDialog(parent),
@@ -23,6 +24,10 @@ HealthCareStaff::~HealthCareStaff()
 
 void HealthCareStaff::on_addPushButton_clicked()
 {
+    Staff staff;
+    staff.setFirstName(ui->firstNameLineEdit);
+    staff.setLastName(ui->lastNameLineEdit);
+    staff.setType(ui->typeComboBox->currentText());
 
 }
 
