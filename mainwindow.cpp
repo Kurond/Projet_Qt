@@ -29,6 +29,8 @@ void MainWindow::addPatient() {
     AddPatient addPatientForm;
 
     if (addPatientForm.exec() == QDialog::Accepted) {
+        Patient newPatient = addPatientForm.getPatient();
 
+        std::cout << newPatient.get_fistName() << " " << newPatient.get_lastName() << std::endl;
     }
 }

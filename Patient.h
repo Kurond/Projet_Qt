@@ -28,6 +28,7 @@ private:
   int _priority;
 
 public:
+  Patient();
   Patient(const string &_fistName, const string &_lastName, const string &_address, const string &_city,
           const string &_comment, int _phone, int _postalCode, int _duration, int _priority);
 

@@ -5,6 +5,18 @@
 
 #include "Patient.h"
 
+Patient::Patient() : _fistName(""),
+    _lastName(""),
+    _address(""),
+    _city(""),
+    _comment(""),
+    _phone(0),
+    _postalCode(0),
+    _duration(0),
+    _priority(0) {
+
+}
+
 Patient::Patient(const string &_fistName, const string &_lastName, const string &_address, const string &_city,
                   const string &_comment, int _phone, int _postalCode, int _duration, int _priority)
   : _fistName(_fistName),

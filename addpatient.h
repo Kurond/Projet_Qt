@@ -18,6 +18,7 @@ public:
     explicit AddPatient(QWidget *parent = 0);
     ~AddPatient();
     string isFormValid();
+    Patient getPatient();
 
 private slots:
     void on_cancelButton_clicked();
@@ -26,7 +27,7 @@ private slots:
 
 private:
     Ui::AddPatient *ui;
-    //Patient _patient;
+    Patient _patient;
 };
 
 #endif // ADDPATIENT_H
