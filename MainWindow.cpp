@@ -1,7 +1,9 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "AddStaffForm.h"
+#include "c_init_bd.h"
 #include <iostream>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -12,8 +14,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(quit_clicked()));
     connect(ui->actionPatient,  SIGNAL(triggered()), this, SLOT(addPatient()));
 
+    c_init_bd::Creation_BD();
+    QStringList list = c_init_bd::getAllTypes();
+
+    while (list.hasNext()) {
+      QStandardItem * item =  new QStandardItem(list.next());
+
+    }
     // qtree view initialization
     standardModel = new QStandardItemModel;
+
 
     QStandardItem * rootNode = standardModel->invisibleRootItem();
     QStandardItem * doctorA =  new QStandardItem("Medecin A");
@@ -24,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->treeView->setModel(standardModel);
     ui->treeView->expandAll();
+
+    c_init_bd::Creation_BD();
+    QStringList list = c_init_bd::getAllTypes();
 }
 
 MainWindow::~MainWindow() {

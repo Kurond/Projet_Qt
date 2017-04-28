@@ -18,10 +18,11 @@ SOURCES +=\
     AddPatientForm.cpp \
     AddStaffForm.cpp \
     LoginWindow.cpp \
-    Main.cpp \
     MainWindow.cpp \
     Staff.cpp \
     StaffType.cpp
+    main.cpp \
+    c_init_bd.cpp
 
 HEADERS  += \
     Patient.h \
@@ -31,6 +32,7 @@ HEADERS  += \
     MainWindow.h \
     Staff.h \
     StaffType.h
+    c_init_bd.h
 
 FORMS    += \
     LoginForm.ui \

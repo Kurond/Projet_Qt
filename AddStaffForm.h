@@ -20,9 +20,7 @@ public:
 
 private slots:
     void on_addPushButton_clicked();
-
     void on_cancelPushButton_clicked();
-
     void on_typeComboBox_currentIndexChanged(const QString &arg1);
 
 public slots:

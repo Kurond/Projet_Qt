@@ -21,7 +21,6 @@ public:
 private slots:
     void on_cancelButton_clicked();
     void on_addButton_clicked();
-
     void on_addRessourceButton_clicked();
 
 private:

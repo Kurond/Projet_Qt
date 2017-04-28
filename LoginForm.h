@@ -21,7 +21,7 @@ signals:
 
 private:
     Ui::LoginWindow *ui;
-    bool futureDBconnection();
+    bool future_dbconnection();
 
 public slots:
     void onConnection(bool success);
