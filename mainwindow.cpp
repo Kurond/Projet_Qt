@@ -11,6 +11,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(quit_clicked()));
     connect(ui->actionPatient,  SIGNAL(triggered()), this, SLOT(addPatient()));
+
+    // qtree view initialization
+    standardModel = new QStandardItemModel;
+
+    QStandardItem * rootNode = standardModel->invisibleRootItem();
+    QStandardItem * doctorA =  new QStandardItem("Medecin A");
+    QStandardItem * doctorB =  new QStandardItem("Medecin B");
+    typesList.append(doctorA);
+    typesList.append(doctorB);
+    rootNode->appendRows(typesList);
+
+    ui->treeView->setModel(standardModel);
+    ui->treeView->expandAll();
 }
 
 MainWindow::~MainWindow() {
@@ -19,16 +32,27 @@ MainWindow::~MainWindow() {
 
 void MainWindow::on_addStaffPushButton_clicked()
 {
-    emit openAddStaff();
     AddStaffForm healthCareStaff;
+    Staff newStaff;
+
     if(healthCareStaff.exec()==QDialog::Accepted)
     {
-        Staff newStaff = healthCareStaff.getStaff();
+        newStaff = healthCareStaff.getStaff();
         cout << "FirstName: " << newStaff.getFirstName() << endl;
         cout << "LastName: " <<  newStaff.getLastName() << endl;
         cout << "Type: " <<  newStaff.getType() << endl;
         cout << "Login: " <<  newStaff.getLogin() << endl;
         cout << "Password: " <<  newStaff.getPassword() << endl;
+    }
+
+
+    QListIterator<QStandardItem *> list(typesList);
+    while (list.hasNext()) {
+        QStandardItem * type = list.next();
+        if (type->text().toStdString() == newStaff.getType()){
+            QStandardItem * newStaffItem =  new QStandardItem(QString(newStaff.getLastName().c_str()));
+            type->appendRow(newStaffItem);
+        }
     }
 }
 
@@ -42,7 +66,7 @@ void MainWindow::addPatient() {
     if (addPatientForm.exec() == QDialog::Accepted) {
         Patient newPatient = addPatientForm.getPatient();
 
-        std::cout << newPatient.get_fistName() << " " << newPatient.get_lastName() << std::endl;
+        std::cout << newPatient.getFistName() << " " << newPatient.getLastName() << std::endl;
     }
 
 }

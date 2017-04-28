@@ -1,5 +1,7 @@
 #include "AddPatientForm.h"
 #include "ui_AddPatientForm.h"
+#include "QList"
+#include "Staff.h"
 #include<iostream>
 #include <QMessageBox>
 
@@ -8,6 +10,10 @@ AddPatientForm::AddPatientForm(QWidget * parent) :
     ui(new Ui::AddPatientForm)
 {
     ui->setupUi(this);
+
+    QList<Staff> * staffList = new QList<Staff>();
+    staffList->append(Staff("Henry", "Thierry", "Medecin"));
+    ui->ressourcesBox->addItem(QIcon(), "Henry");
 }
 
 AddPatientForm::~AddPatientForm()
@@ -27,7 +33,7 @@ string AddPatientForm::isFormValid() {
         errors = errors.append("Le champs prenom ne peut pas être vide. \n");
     }
     else {
-        _patient.set_fistName(ui->firstnameText->text().toStdString());
+        _patient.setFirstName(ui->firstnameText->text().toStdString());
     }
 
     // If the last name wasn't set
@@ -35,7 +41,7 @@ string AddPatientForm::isFormValid() {
         errors = errors.append("Le champs nom ne peut pas être vide. \n");
     }
     else {
-        _patient.set_lastName(ui->lastnameText->text().toStdString());
+        _patient.setLastName(ui->lastnameText->text().toStdString());
     }
 
     // If the adress wasn't set
@@ -43,7 +49,7 @@ string AddPatientForm::isFormValid() {
         errors = errors.append("Le champs adresse ne peut pas être vide. \n");
     }
     else {
-        _patient.set_address(ui->addressText->text().toStdString());
+        _patient.setAddress(ui->addressText->text().toStdString());
     }
 
     // If the postal code wasn't set
@@ -58,7 +64,7 @@ string AddPatientForm::isFormValid() {
             errors = errors.append("Le champs code postal doit être un nombre. \n");
         }
         else {
-            _patient.set_postalCode(postalcode);
+            _patient.setPostalCode(postalcode);
         }
     }
 
@@ -71,7 +77,7 @@ string AddPatientForm::isFormValid() {
             errors = errors.append("Le champs téléphone doit être un nombre. \n");
         }
         else {
-            _patient.set_postalCode(phoneNumber);
+            _patient.setPostalCode(phoneNumber);
         }
     }
 
@@ -94,5 +100,10 @@ void AddPatientForm::on_addButton_clicked() {
             QMessageBox::Ok,
             QMessageBox::Cancel);
     }
+
+}
+
+void AddPatientForm::on_addRessourceButton_clicked()
+{
 
 }

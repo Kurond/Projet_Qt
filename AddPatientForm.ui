@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>591</width>
-    <height>540</height>
+    <height>613</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QWidget" name="formLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>20</x>
      <y>10</y>
-     <width>541</width>
-     <height>461</height>
+     <width>551</width>
+     <height>591</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
@@ -31,7 +31,11 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QLineEdit" name="lastnameText"/>
+     <widget class="QLineEdit" name="lastnameText">
+      <property name="placeholderText">
+       <string/>
+      </property>
+     </widget>
     </item>
     <item row="1" column="0">
      <widget class="QLabel" name="label_2">
@@ -41,7 +45,11 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QLineEdit" name="firstnameText"/>
+     <widget class="QLineEdit" name="firstnameText">
+      <property name="placeholderText">
+       <string/>
+      </property>
+     </widget>
     </item>
     <item row="2" column="0">
      <widget class="QLabel" name="label_3">
@@ -66,14 +74,17 @@
     <item row="4" column="0">
      <widget class="QLabel" name="label_5">
       <property name="text">
-       <string>Jour de consultation</string>
+       <string>Date de consultation</string>
       </property>
      </widget>
     </item>
     <item row="4" column="1">
      <widget class="QLineEdit" name="consultationText">
       <property name="text">
-       <string>1h</string>
+       <string/>
+      </property>
+      <property name="placeholderText">
+       <string>Format: jj/mm/yyyy</string>
       </property>
      </widget>
     </item>
@@ -113,63 +124,69 @@
       </item>
      </widget>
     </item>
-    <item row="6" column="0">
+    <item row="7" column="0">
      <widget class="QLabel" name="label_7">
       <property name="text">
        <string>Ressources</string>
       </property>
      </widget>
     </item>
-    <item row="8" column="0">
-     <widget class="QLabel" name="label_8">
-      <property name="text">
-       <string>Commmentaires</string>
-      </property>
-     </widget>
+    <item row="7" column="1">
+     <widget class="QTableWidget" name="tableWidget"/>
     </item>
-    <item row="8" column="1">
-     <widget class="QTextEdit" name="commentText"/>
-    </item>
-    <item row="7" column="0">
+    <item row="11" column="0">
      <widget class="QLabel" name="label_9">
       <property name="text">
        <string>Téléphone</string>
       </property>
      </widget>
     </item>
-    <item row="7" column="1">
+    <item row="11" column="1">
      <widget class="QLineEdit" name="phoneText"/>
     </item>
-    <item row="6" column="1">
-     <widget class="QComboBox" name="ressourceBox"/>
+    <item row="12" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>Commmentaires</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="1">
+     <widget class="QTextEdit" name="commentText"/>
+    </item>
+    <item row="13" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="addButton">
+        <property name="text">
+         <string>Ajouter</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="cancelButton">
+        <property name="text">
+         <string>Annuler</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="8" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QComboBox" name="ressourceBox"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="addRessourceButton">
+        <property name="text">
+         <string>Ajouter une ressource</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
-  </widget>
-  <widget class="QPushButton" name="cancelButton">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>480</y>
-     <width>99</width>
-     <height>27</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Annuler</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="addButton">
-   <property name="geometry">
-    <rect>
-     <x>470</x>
-     <y>480</y>
-     <width>99</width>
-     <height>27</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Ajouter</string>
-   </property>
   </widget>
  </widget>
  <resources/>

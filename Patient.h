@@ -16,7 +16,8 @@ using namespace std;
 
 class Patient {
 private:
-  string _fistName;
+  int id;
+  string _firstName;
   string _lastName;
   string _address;
   string _city;
@@ -29,27 +30,29 @@ private:
 
 public:
   Patient();
-  Patient(const string &_fistName, const string &_lastName, const string &_address, const string &_city,
-          const string &_comment, int _phone, int _postalCode, int _duration, int _priority);
+  Patient(const string &fistName, const string &lastName, const string &address, const string &city,
+          const string &comment, int phone, int postalCode, int duration, int priority);
 
-  const string &get_fistName() const;
-  void set_fistName(const string &_fistName);
-  const string &get_lastName() const;
-  void set_lastName(const string &_lastName);
-  const string &get_address() const;
-  void set_address(const string &_address);
-  const string &get_city() const;
-  void set_city(const string &_city);
-  const string &get_comment() const;
-  void set_comment(const string &_comment);
-  int get_phone() const;
-  void set_phone(int _phone);
-  int get_postalCode() const;
-  void set_postalCode(int _postalCode);
-  int get_duration() const;
-  void set_duration(int _duration);
-  int get_priority() const;
-  void set_priority(int _priority);
+  int getId() const;
+  void setId(int id);
+  const string &getFistName() const;
+  void setFirstName(const string &firstName);
+  const string &getLastName() const;
+  void setLastName(const string &lastName);
+  const string &getAddress() const;
+  void setAddress(const string &address);
+  const string &getCity() const;
+  void setCity(const string &city);
+  const string &getComment() const;
+  void setComment(const string &comment);
+  int getPhone() const;
+  void setPhone(int phone);
+  int getPostalCode() const;
+  void setPostalCode(int postalCode);
+  int getDuration() const;
+  void setDuration(int duration);
+  int getPriority() const;
+  void setPriority(int priority);
 };
 
 

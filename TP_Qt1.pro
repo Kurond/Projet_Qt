@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT      += core gui
+QT      += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,7 +20,8 @@ SOURCES +=\
     LoginWindow.cpp \
     Main.cpp \
     MainWindow.cpp \
-    Staff.cpp
+    Staff.cpp \
+    StaffType.cpp
 
 HEADERS  += \
     Patient.h \
@@ -27,7 +29,8 @@ HEADERS  += \
     AddPatientForm.h \
     LoginForm.h \
     MainWindow.h \
-    Staff.h
+    Staff.h \
+    StaffType.h
 
 FORMS    += \
     LoginForm.ui \

@@ -5,7 +5,7 @@
 
 #include "Patient.h"
 
-Patient::Patient() : _fistName(""),
+Patient::Patient() : _firstName(""),
     _lastName(""),
     _address(""),
     _city(""),
@@ -17,89 +17,89 @@ Patient::Patient() : _fistName(""),
 
 }
 
-Patient::Patient(const string &_fistName, const string &_lastName, const string &_address, const string &_city,
-                  const string &_comment, int _phone, int _postalCode, int _duration, int _priority)
-  : _fistName(_fistName),
-    _lastName(_lastName),
-    _address(_address),
-    _city(_city),
-    _comment(_comment),
-    _phone(_phone),
-    _postalCode(_postalCode),
-    _duration(_duration),
-    _priority(_priority) {
+Patient::Patient(const string &fistName, const string &lastName, const string &address, const string &city,
+                  const string &comment, int phone, int postalCode, int duration, int priority)
+  : _firstName(fistName),
+    _lastName(lastName),
+    _address(address),
+    _city(city),
+    _comment(comment),
+    _phone(phone),
+    _postalCode(postalCode),
+    _duration(duration),
+    _priority(priority) {
 
 }
 
-const string &Patient::get_fistName() const {
-  return _fistName;
+const string &Patient::getFistName() const {
+  return _firstName;
 }
 
-void Patient::set_fistName(const string &_fistName) {
-  Patient::_fistName = _fistName;
+void Patient::setFirstName(const string &fistName) {
+  Patient::_firstName = fistName;
 }
 
-const string &Patient::get_lastName() const {
+const string &Patient::getLastName() const {
   return _lastName;
 }
 
-void Patient::set_lastName(const string &_lastName) {
-  Patient::_lastName = _lastName;
+void Patient::setLastName(const string &lastName) {
+  Patient::_lastName = lastName;
 }
 
-const string &Patient::get_address() const {
+const string &Patient::getAddress() const {
   return _address;
 }
 
-void Patient::set_address(const string &_address) {
-  Patient::_address = _address;
+void Patient::setAddress(const string &address) {
+  Patient::_address = address;
 }
 
-const string &Patient::get_city() const {
+const string &Patient::getCity() const {
   return _city;
 }
 
-void Patient::set_city(const string &_city) {
-  Patient::_city = _city;
+void Patient::setCity(const string &city) {
+  Patient::_city = city;
 }
 
-const string &Patient::get_comment() const {
+const string &Patient::getComment() const {
   return _comment;
 }
 
-void Patient::set_comment(const string &_comment) {
-  Patient::_comment = _comment;
+void Patient::setComment(const string &comment) {
+  Patient::_comment = comment;
 }
 
-int Patient::get_phone() const {
+int Patient::getPhone() const {
   return _phone;
 }
 
-void Patient::set_phone(int _phone) {
-  Patient::_phone = _phone;
+void Patient::setPhone(int phone) {
+  Patient::_phone = phone;
 }
 
-int Patient::get_postalCode() const {
+int Patient::getPostalCode() const {
   return _postalCode;
 }
 
-void Patient::set_postalCode(int _postalCode) {
-  Patient::_postalCode = _postalCode;
+void Patient::setPostalCode(int postalCode) {
+  Patient::_postalCode = postalCode;
 }
 
-int Patient::get_duration() const {
+int Patient::getDuration() const {
   return _duration;
 }
 
-void Patient::set_duration(int _duration) {
-  Patient::_duration = _duration;
+void Patient::setDuration(int duration) {
+  Patient::_duration = duration;
 }
 
-int Patient::get_priority() const {
+int Patient::getPriority() const {
   return _priority;
 }
 
-void Patient::set_priority(int _priority) {
-  Patient::_priority = _priority;
+void Patient::setPriority(int priority) {
+  Patient::_priority = priority;
 }
 

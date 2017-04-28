@@ -1,50 +1,59 @@
 #include "Staff.h"
 
-Staff::Staff() : firstName(""), lastName(""), type(""), login(""), password("")
+Staff::Staff() :_id(0), _firstName(""), _lastName(""), type(""), login(""), password("")
+{
+}
+
+Staff::Staff(const string &fistName, const string &lastName, const string &type) :
+  _firstName(_firstName), _lastName(lastName), type(type)
 {
 }
 
 Staff::~Staff()
 {
+}
 
+int Staff::getId() const
+{
+    return _id;
 }
 
 const string &Staff::getFirstName() const {
-  return firstName;
+  return _firstName;
 }
 
 void Staff::setFirstName(const string &firstName) {
-  Staff::firstName = firstName;
+  Staff::_firstName = firstName;
 }
 
 const string &Staff::getLastName() const {
-  return lastName;
+  return _lastName;
 }
 
 void Staff::setLastName(const string &lastName) {
-  Staff::lastName = lastName;
+  Staff::_lastName = lastName;
 }
 
 const string &Staff::getType() const {
-  return type;
+  return _type;
 }
 
 void Staff::setType(const string &type) {
-  Staff::type = type;
+  Staff::_type = type;
 }
 
 const string &Staff::getLogin() const {
-  return login;
+  return _login;
 }
 
 void Staff::setLogin(const string &login) {
-  Staff::login = login;
+  Staff::_login = login;
 }
 
 const string &Staff::getPassword() const {
-  return password;
+  return _password;
 }
 
 void Staff::setPassword(const string &password) {
-  Staff::password = password;
+  Staff::_password = password;
 }

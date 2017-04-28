@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "AddPatientForm.h"
+#include "QStandardItemModel"
 #include "Staff.h"
 
 namespace Ui {
@@ -25,6 +26,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QStandardItemModel * standardModel;
+    QList<QStandardItem *> typesList;
 
 private slots:
     void quit_clicked();

@@ -72,6 +72,8 @@ void AddStaffForm::setVisibleConnexion(bool isVisible) {
     ui->loginLabel->setVisible(isVisible);
     ui->passwordLabel->setVisible(isVisible);
     ui->sepLine->setVisible(isVisible);
+    ui->passwordConfLabel->setVisible(isVisible);
+    ui->passwordConfLineEdit->setVisible(isVisible);
 }
 
 string AddStaffForm::isFormValid() const {
