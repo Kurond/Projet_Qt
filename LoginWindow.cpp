@@ -21,7 +21,7 @@ LoginWindow::~LoginWindow() {
     delete ui;
 }
 
-bool LoginWindow::futureDBconnection() {
+bool LoginWindow::future_dbconnection() {
     QString tempLogin("login");
     QString tempPass("password");
 
@@ -50,7 +50,7 @@ void LoginWindow::onConnection(bool success) {
 }
 
 void LoginWindow::on_connectButton_clicked() {
-    if (futureDBconnection()) {
+    if (future_dbconnection()) {
         emit connectionSucceded(true);
     } else {
         emit connectionSucceded(false);

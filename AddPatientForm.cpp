@@ -82,7 +82,7 @@ void AddPatientForm::on_cancelButton_clicked() {
     reject();
 }
 
-void AddPatientForm::on_addButton_clicked() {
+void AddPatientForm::on_ad_dbutton_clicked() {
     string accepted = isFormValid();
 
     if (accepted == "") {

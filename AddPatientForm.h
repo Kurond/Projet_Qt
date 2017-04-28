@@ -20,7 +20,7 @@ public:
 
 private slots:
     void on_cancelButton_clicked();
-    void on_addButton_clicked();
+    void on_ad_dbutton_clicked();
 
 private:
     Ui::AddPatientForm *ui;

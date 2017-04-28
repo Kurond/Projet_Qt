@@ -158,7 +158,7 @@
     <string>Annuler</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="addButton">
+  <widget class="QPushButton" name="ad_dbutton">
    <property name="geometry">
     <rect>
      <x>470</x>

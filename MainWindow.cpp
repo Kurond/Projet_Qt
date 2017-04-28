@@ -1,7 +1,9 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "AddStaffForm.h"
+#include "c_init_bd.h"
 #include <iostream>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,6 +13,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(quit_clicked()));
     connect(ui->actionPatient,  SIGNAL(triggered()), this, SLOT(addPatient()));
+
+    c_init_bd::Creation_BD();
+    QStringList list = c_init_bd::getAllTypes();
+
+    qDebug() << "size: " << list.size();
+    for (int i = 0; i < list.size(); i++) {
+        qDebug() << list[i];
+    }
+
+    qDebug() << "end";
 }
 
 MainWindow::~MainWindow() {
