@@ -75,7 +75,7 @@ bool c_init_bd::Creation_BD()
             return false;
         }
 
-        b_test=query.exec("create table TRessource "
+        b_test=query.exec("create table TStaff "
                           "(Id integer primary key, "
                           "Nom varchar(50), "
                           "Prenom varchar(50), "
@@ -83,7 +83,7 @@ bool c_init_bd::Creation_BD()
         if(!b_test)
         {
             qDebug() << query.lastError().text();
-            qDebug() << "Table TRessource non crée !\n";
+            qDebug() << "Table TStaff non crée !\n";
             return false;
         }
 
@@ -139,7 +139,7 @@ bool c_init_bd::Creation_BD()
             return false;
         }
 
-        b_test=query.exec("INSERT INTO TRessource "
+        b_test=query.exec("INSERT INTO TStaff "
                           "SELECT '1' AS 'Id', 'Admin' AS 'Nom', 'Admin' AS 'Prenom', '7' AS 'IdType'"
                                   "UNION SELECT 2, 'Dubois', 'Jean', 1 "
                                   "UNION SELECT 3, 'De La Roche', 'Julie', 1 "
