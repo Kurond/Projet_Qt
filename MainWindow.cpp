@@ -16,28 +16,18 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(quit_clicked()));
     connect(ui->actionPatient,  SIGNAL(triggered()), this, SLOT(addPatient()));
 
-    //c_init_bd::Creation_BD();
-    //
-
+    // Create the database
     c_init_bd::Creation_BD();
-<<<<<<< HEAD
-    QStringList list = c_init_bd::getAllTypes();
+
+    StaffConnector connector;
+    QList<Staff> list = connector.selectAll();
+
     QStandardItem * rootNode = standardModel->invisibleRootItem();
 
     for (int i = 0; i < list.size(); ++i) {
        QStandardItem * item =  new QStandardItem(list.at(i));
        typesList.append(item);
-=======
-
-    StaffConnector connector;
-    QList<Staff> list = connector.selectAll();
-
-    qDebug() << "size: " << list.size();
-    for (int i = 0; i < list.size(); i++) {
-        qDebug() << QString(list[i].getFirstName().c_str());
-    }
->>>>>>> cf3f68c3fa81f4d4cadc87afbb726562bc411129
-
+       qDebug() << QString(list[i].getFirstName().c_str());
     }
     // qtree view initialization
     standardModel = new QStandardItemModel;
