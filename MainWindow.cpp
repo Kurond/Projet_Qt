@@ -2,6 +2,7 @@
 #include "ui_MainWindow.h"
 #include "AddStaffForm.h"
 #include "StaffConnector.h"
+#include "StaffTypeConnector.h"
 #include "c_init_bd.h"
 #include <iostream>
 #include <QDebug>
@@ -9,40 +10,41 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    _standardModel(new QStandardItemModel(this))
 {
     ui->setupUi(this);
 
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(quit_clicked()));
     connect(ui->actionPatient,  SIGNAL(triggered()), this, SLOT(addPatient()));
 
-    //c_init_bd::Creation_BD();
-    //
-
     c_init_bd::Creation_BD();
-<<<<<<< HEAD
-    QStringList list = c_init_bd::getAllTypes();
-    QStandardItem * rootNode = standardModel->invisibleRootItem();
+    StaffConnector staffConnector;
+    StaffTypeConnector staffTypeConnector;
 
-    for (int i = 0; i < list.size(); ++i) {
-       QStandardItem * item =  new QStandardItem(list.at(i));
-       typesList.append(item);
-=======
+    QList<Staff> staffList = staffConnector.selectAll();
+    QList<StaffType> typeList = staffTypeConnector.selectAll();
 
-    StaffConnector connector;
-    QList<Staff> list = connector.selectAll();
+    QList<QStandardItem *> items;
+    QStandardItem * rootNode = _standardModel->invisibleRootItem();
 
-    qDebug() << "size: " << list.size();
-    for (int i = 0; i < list.size(); i++) {
-        qDebug() << QString(list[i].getFirstName().c_str());
+    for (int i = 0; i < typeList.size(); ++i) {
+       QStandardItem * item =  new QStandardItem(typeList.at(i).getName().c_str());
+       items.append(item);
     }
->>>>>>> cf3f68c3fa81f4d4cadc87afbb726562bc411129
+    rootNode->appendRows(items);
 
+    for (int i = 0; i < staffList.size(); i++) {
+        for (int j = 0; j < items.size(); ++j) {
+            if (staffList.at(i).getTypeId() == typeList.at(j).getId()) {
+                QStandardItem * item =  new QStandardItem((staffList.at(i).getFirstName() + " " + staffList.at(i).getLastName()).c_str());
+                items.at(j)->appendRow(item);
+            }
+        }
     }
+
     // qtree view initialization
-    standardModel = new QStandardItemModel;
-    rootNode->appendRows(typesList);
-    ui->treeView->setModel(standardModel);
+    ui->treeView->setModel(_standardModel);
     ui->treeView->expandAll();
 }
 
@@ -66,7 +68,7 @@ void MainWindow::on_addStaffPushButton_clicked()
     }
 
 
-    QListIterator<QStandardItem *> list(typesList);
+    QListIterator<QStandardItem *> list(_typesList);
     while (list.hasNext()) {
         QStandardItem * type = list.next();
         if (type->text().toStdString() == newStaff.getType()){

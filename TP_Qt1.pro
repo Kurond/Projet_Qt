@@ -24,7 +24,9 @@ SOURCES +=\
     main.cpp \
     c_init_bd.cpp \
     Connector.cpp \
-    StaffConnector.cpp
+    StaffConnector.cpp \
+    Account.cpp \
+    StaffTypeConnector.cpp
 
 HEADERS  += \
     Patient.h \
@@ -36,7 +38,9 @@ HEADERS  += \
     StaffType.h \
     c_init_bd.h \
     Connector.h \
-    StaffConnector.h
+    StaffConnector.h \
+    Account.h \
+    StaffTypeConnector.h
 
 FORMS    += \
     LoginForm.ui \
