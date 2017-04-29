@@ -16,11 +16,8 @@ public:
     virtual inline bool insert(Staff element);
 };
 
-
-
-StaffConnector::StaffConnector() :  Connector<Staff>("TStaff", "DB") {
-
-}
+StaffConnector::StaffConnector() :  Connector<Staff>("TStaff", "DB")
+{}
 
 QList<Staff> StaffConnector::selectAll() {
     // Initialize the result
@@ -49,11 +46,11 @@ QList<Staff> StaffConnector::selectAll() {
     while (query.next()) {
         Staff staff;
 
+        staff.setId(query.value(0).toInt());
         staff.setLastName(query.value(1).toString().toStdString());
         staff.setFirstName(query.value(2).toString().toStdString());
+        staff.setTypeId(query.value(3).toInt());
         staff.setType(query.value(4).toString().toStdString());
-
-        //qDebug() << staff.getFirstName().c_str();
 
         result << staff;
     }
@@ -62,10 +59,6 @@ QList<Staff> StaffConnector::selectAll() {
 
     return result;
 }
-
-
-
-
 
 
 QList<Staff> StaffConnector::selectFromId() {

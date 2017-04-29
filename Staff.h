@@ -10,7 +10,7 @@ class Staff
 {
 public:
     Staff();
-    Staff(const string &fistName, const string &_lastName, const string &type);
+    Staff(const string &fistName, const string &_lastName, const int idType, const string &type);
     ~Staff();
 
     int getId() const;
@@ -19,6 +19,8 @@ public:
     void setFirstName(const string &firstName);
     const string &getLastName() const;
     void setLastName(const string &lastName);
+    int getTypeId() const;
+    void setTypeId(int id);
     const string &getType() const;
     void setType(const string &type);
     const string &getLogin() const;
@@ -26,12 +28,12 @@ public:
     const string &getPassword() const;
     void setPassword(const string &password);
 
-
 private:
     int _id;
     string _firstName;
     string _lastName;
     string _type;
+    int _idType;
     string _login;
     string _password;
 

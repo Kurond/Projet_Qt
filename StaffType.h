@@ -12,6 +12,8 @@ public:
 
     int getId() const;
     void setId(int id);
+    void setName(const string &name);
+    const string &getName() const;
 private:
     int _id;
     string _name;

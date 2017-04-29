@@ -26,8 +26,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QStandardItemModel * standardModel;
-    QList<QStandardItem *> typesList;
+    QStandardItemModel * _standardModel;
+    QList<QStandardItem *> _typesList;
 
 private slots:
     void quit_clicked();
