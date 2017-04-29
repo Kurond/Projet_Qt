@@ -16,27 +16,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
     c_init_bd::Creation_BD();
     QStringList list = c_init_bd::getAllTypes();
+    QStandardItem * rootNode = standardModel->invisibleRootItem();
 
-    while (list.hasNext()) {
-      QStandardItem * item =  new QStandardItem(list.next());
+    for (int i = 0; i < list.size(); ++i) {
+       QStandardItem * item =  new QStandardItem(list.at(i));
+       typesList.append(item);
 
     }
     // qtree view initialization
     standardModel = new QStandardItemModel;
-
-
-    QStandardItem * rootNode = standardModel->invisibleRootItem();
-    QStandardItem * doctorA =  new QStandardItem("Medecin A");
-    QStandardItem * doctorB =  new QStandardItem("Medecin B");
-    typesList.append(doctorA);
-    typesList.append(doctorB);
     rootNode->appendRows(typesList);
-
     ui->treeView->setModel(standardModel);
     ui->treeView->expandAll();
-
-    c_init_bd::Creation_BD();
-    QStringList list = c_init_bd::getAllTypes();
 }
 
 MainWindow::~MainWindow() {

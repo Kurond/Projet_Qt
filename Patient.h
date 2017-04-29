@@ -16,7 +16,7 @@ using namespace std;
 
 class Patient {
 private:
-  int id;
+  int _id;
   string _firstName;
   string _lastName;
   string _address;

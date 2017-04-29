@@ -20,9 +20,11 @@ SOURCES +=\
     LoginWindow.cpp \
     MainWindow.cpp \
     Staff.cpp \
-    StaffType.cpp
+    StaffType.cpp \
     main.cpp \
-    c_init_bd.cpp
+    c_init_bd.cpp \
+    Connector.cpp \
+    StaffConnector.cpp
 
 HEADERS  += \
     Patient.h \
@@ -31,8 +33,10 @@ HEADERS  += \
     LoginForm.h \
     MainWindow.h \
     Staff.h \
-    StaffType.h
-    c_init_bd.h
+    StaffType.h \
+    c_init_bd.h \
+    Connector.h \
+    StaffConnector.h
 
 FORMS    += \
     LoginForm.ui \

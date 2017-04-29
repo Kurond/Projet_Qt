@@ -28,7 +28,7 @@ public:
 
 
 private:
-    int id;
+    int _id;
     string _firstName;
     string _lastName;
     string _type;

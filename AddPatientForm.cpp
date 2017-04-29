@@ -10,10 +10,6 @@ AddPatientForm::AddPatientForm(QWidget * parent) :
     ui(new Ui::AddPatientForm)
 {
     ui->setupUi(this);
-
-    QList<Staff> * staffList = new QList<Staff>();
-    staffList->append(Staff("Henry", "Thierry", "Medecin"));
-    ui->ressourcesBox->addItem(QIcon(), "Henry");
 }
 
 AddPatientForm::~AddPatientForm()

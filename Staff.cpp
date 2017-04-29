@@ -1,11 +1,11 @@
 #include "Staff.h"
 
-Staff::Staff() :_id(0), _firstName(""), _lastName(""), type(""), login(""), password("")
+Staff::Staff() :_id(0), _firstName(""), _lastName(""), _type(""), _login(""), _password("")
 {
 }
 
-Staff::Staff(const string &fistName, const string &lastName, const string &type) :
-  _firstName(_firstName), _lastName(lastName), type(type)
+Staff::Staff(const string &firstName, const string &lastName, const string &type) :
+  _firstName(firstName), _lastName(lastName), _type(type)
 {
 }
 

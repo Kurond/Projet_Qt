@@ -1,6 +1,9 @@
 #ifndef STAFFTYPE_H
 #define STAFFTYPE_H
 
+#include <string>
+
+using namespace std;
 
 class StaffType
 {
@@ -10,7 +13,7 @@ public:
     int getId() const;
     void setId(int id);
 private:
-    int id;
+    int _id;
     string _name;
 };
 

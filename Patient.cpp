@@ -5,7 +5,7 @@
 
 #include "Patient.h"
 
-Patient::Patient() : _firstName(""),
+Patient::Patient() : _id(0), _firstName(""),
     _lastName(""),
     _address(""),
     _city(""),
