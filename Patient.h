@@ -23,6 +23,8 @@ private:
   string _city;
   string _comment;
 
+  string _consultationDate;
+
   int _phone;
   int _postalCode;
   int _duration;
@@ -35,7 +37,7 @@ public:
 
   int getId() const;
   void setId(int id);
-  const string &getFistName() const;
+  const string &getFirstName() const;
   void setFirstName(const string &firstName);
   const string &getLastName() const;
   void setLastName(const string &lastName);
@@ -53,6 +55,9 @@ public:
   void setDuration(int duration);
   int getPriority() const;
   void setPriority(int priority);
+  const string &getConsultationDate() const;
+  void setConsultationDate(const string &consultationDate);
+
 };
 
 

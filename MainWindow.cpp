@@ -4,8 +4,7 @@
 #include "StaffConnector.h"
 #include "c_init_bd.h"
 #include <iostream>
-#include <QDebug>
-#include <QString>
+#include <QStandardItem>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -22,18 +21,18 @@ MainWindow::MainWindow(QWidget *parent) :
     StaffConnector connector;
     QList<Staff> list = connector.selectAll();
 
-    QStandardItem * rootNode = standardModel->invisibleRootItem();
+    //QStandardItem * rootNode = standardModel->invisibleRootItem();
 
     for (int i = 0; i < list.size(); ++i) {
-       QStandardItem * item =  new QStandardItem(list.at(i));
-       typesList.append(item);
-       qDebug() << QString(list[i].getFirstName().c_str());
+       //QStandardItem * item =  new QStandardItem(list.at(i));
+       //typesList.append(item);
+       qDebug() << QString(list[i].getFirstName().c_str()) + " " + QString(list[i].getLastName().c_str());
     }
     // qtree view initialization
-    standardModel = new QStandardItemModel;
-    rootNode->appendRows(typesList);
-    ui->treeView->setModel(standardModel);
-    ui->treeView->expandAll();
+    //standardModel = new QStandardItemModel;
+    //rootNode->appendRows(typesList);
+    //ui->treeView->setModel(standardModel);
+    //ui->treeView->expandAll();
 }
 
 MainWindow::~MainWindow() {
@@ -76,7 +75,7 @@ void MainWindow::addPatient() {
     if (addPatientForm.exec() == QDialog::Accepted) {
         Patient newPatient = addPatientForm.getPatient();
 
-        std::cout << newPatient.getFistName() << " " << newPatient.getLastName() << std::endl;
+        std::cout << newPatient.getFirstName() << " " << newPatient.getLastName() << std::endl;
     }
 
 }

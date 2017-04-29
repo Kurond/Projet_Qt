@@ -19,7 +19,8 @@ Patient::Patient() : _id(0), _firstName(""),
 
 Patient::Patient(const string &fistName, const string &lastName, const string &address, const string &city,
                   const string &comment, int phone, int postalCode, int duration, int priority)
-  : _firstName(fistName),
+  : _id(0),
+    _firstName(fistName),
     _lastName(lastName),
     _address(address),
     _city(city),
@@ -31,7 +32,15 @@ Patient::Patient(const string &fistName, const string &lastName, const string &a
 
 }
 
-const string &Patient::getFistName() const {
+int Patient::getId() const {
+    return _id;
+}
+
+void Patient::setId(int id) {
+    _id = id;
+}
+
+const string &Patient::getFirstName() const {
   return _firstName;
 }
 
@@ -103,3 +112,10 @@ void Patient::setPriority(int priority) {
   Patient::_priority = priority;
 }
 
+const string &Patient::getConsultationDate() const {
+   return _consultationDate;
+}
+
+void Patient::setConsultationDate(const string &consultationDate) {
+    _consultationDate = consultationDate;
+}

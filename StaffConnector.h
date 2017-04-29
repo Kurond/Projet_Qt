@@ -4,7 +4,6 @@
 #include "Connector.h"
 #include "Staff.h"
 
-#include <QDebug>
 #include <QSqlQuery>
 
 class StaffConnector  : public Connector<Staff>
@@ -54,8 +53,9 @@ QList<Staff> StaffConnector::selectAll() {
         staff.setFirstName(query.value(2).toString().toStdString());
         staff.setType(query.value(4).toString().toStdString());
 
+        //qDebug() << staff.getFirstName().c_str();
+
         result << staff;
-        qDebug() << query.value(4).toString() << "\n";
     }
 
     _database.close();
