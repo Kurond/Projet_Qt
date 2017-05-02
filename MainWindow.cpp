@@ -22,6 +22,12 @@ MainWindow::MainWindow(QWidget *parent) :
         StaffConnector staffConnector;
         StaffTypeConnector staffTypeConnector;
 
+        // Test
+        QList<Staff> nonIt = staffConnector.getNonIt();
+        for (int i = 0; i < nonIt.size(); i++) {
+            qDebug() << nonIt[i].getFirstName().c_str() << " " << nonIt[i].getLastName().c_str();
+        }
+
         QList<Staff> staffList = staffConnector.selectAll();
         QList<StaffType> typeList = staffTypeConnector.selectAll();
 

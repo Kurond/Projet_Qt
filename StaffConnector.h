@@ -14,17 +14,19 @@ public:
     virtual inline QList<Staff> selectAll();
     virtual inline QList<Staff> selectFromId();
     virtual inline bool insert(Staff element);
+
+    QList<Staff> inline getNonIt();
+
+protected:
+    virtual inline QList<Staff> setResult(QSqlQuery query);
 };
 
-StaffConnector::StaffConnector() :  Connector<Staff>("TStaff", "DB")
+StaffConnector::StaffConnector() : Connector<Staff>("TStaff", "DB")
 {}
 
 QList<Staff> StaffConnector::selectAll() {
     // Initialize the result
     QList<Staff> result;
-
-    // Get the database
-    //QSqlDatabase database = getDatabase();
 
     // Open the database
     _database.open();
@@ -36,6 +38,7 @@ QList<Staff> StaffConnector::selectAll() {
 
     // Create the query
     QSqlQuery query(_database);
+
     bool queryResult = query.exec("SELECT * FROM " + getTable() + " NATURAL JOIN TType");
     if (!queryResult) {
         qDebug() << "Impossible to read database\n";
@@ -43,6 +46,26 @@ QList<Staff> StaffConnector::selectAll() {
     }
 
     // Get all result
+    result = setResult(query);
+
+    _database.close();
+
+    return result;
+}
+
+QList<Staff> StaffConnector::selectFromId() {
+    QList<Staff> result;
+
+    return result;
+}
+
+bool StaffConnector::insert(Staff element) {
+    return false;
+}
+
+QList<Staff> StaffConnector::setResult(QSqlQuery query) {
+    QList<Staff> result;
+
     while (query.next()) {
         Staff staff;
 
@@ -55,18 +78,37 @@ QList<Staff> StaffConnector::selectAll() {
         result << staff;
     }
 
-    _database.close();
-
     return result;
 }
 
 
-QList<Staff> StaffConnector::selectFromId() {
+QList<Staff> StaffConnector::getNonIt() {
+    // Initialize the result
+    QList<Staff> result;
 
-}
+    // Open the database
+    _database.open();
 
-bool StaffConnector::insert(Staff element) {
+    if(!_database.isOpen())
+    {
+        qDebug() << "Impossible to open database\n";
+    }
 
+    // Create the query
+    QSqlQuery query(_database);
+    bool queryResult = query.exec("SELECT * FROM " + getTable() + " NATURAL JOIN TType WHERE IdType != 7");
+
+    if (!queryResult) {
+        qDebug() << "Impossible to read database\n";
+        return result;
+    }
+
+    // Get all result
+    result = setResult(query);
+
+    _database.close();
+
+    return result;
 }
 
 

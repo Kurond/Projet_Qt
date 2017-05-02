@@ -15,6 +15,9 @@ public:
     virtual inline QList<StaffType> selectAll();
     virtual inline QList<StaffType> selectFromId();
     virtual inline bool insert(StaffType element);
+
+protected:
+    virtual inline QList<StaffType> setResult(QSqlQuery query);
 };
 
 StaffTypeConnector::StaffTypeConnector() :  Connector<StaffType>("TType", "DB")
@@ -26,10 +29,9 @@ QList<StaffType> StaffTypeConnector::selectAll() {
 
     // Open the database
     _database.open();
-    if(!_database.isOpen())
-    {
-        //qDebug() << _database.lastError();
+    if(!_database.isOpen()) {
         qDebug() << "Impossible to open database\n";
+        return result;
     }
 
     // Create the query
@@ -41,30 +43,38 @@ QList<StaffType> StaffTypeConnector::selectAll() {
     }
 
     // Get all result
-    while (query.next()) {
-        StaffType staffType;
-
-        staffType.setId(query.value(0).toInt());
-        staffType.setName(query.value(1).toString().toStdString());
-
-        qDebug() << query.value(0).toString();
-        qDebug() << query.value(1).toString();
-
-        result << staffType;
-    }
+    result = setResult(query);
 
     _database.close();
 
     return result;
 }
 
+QList<StaffType> StaffTypeConnector::setResult(QSqlQuery query) {
+     QList<StaffType> result;
+
+    // Get all result
+    while (query.next()) {
+        StaffType staffType;
+
+        staffType.setId(query.value(0).toInt());
+        staffType.setName(query.value(1).toString().toStdString());
+
+        result << staffType;
+    }
+
+    return result;
+}
+
 
 QList<StaffType> StaffTypeConnector::selectFromId() {
+    QList<StaffType> result;
 
+    return result;
 }
 
 bool StaffTypeConnector::insert(StaffType element) {
-
+    return false;
 }
 
 #endif // STAFFTYPECONNECTOR_H

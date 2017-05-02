@@ -2,6 +2,7 @@
 #include "ui_AddPatientForm.h"
 #include "QList"
 #include "Staff.h"
+#include "StaffConnector.h"
 #include<iostream>
 #include <QMessageBox>
 
@@ -10,6 +11,16 @@ AddPatientForm::AddPatientForm(QWidget * parent) :
     ui(new Ui::AddPatientForm)
 {
     ui->setupUi(this);
+
+    // Fill combo box
+    StaffConnector staffConnector;
+
+    _availableStaffs = staffConnector.getNonIt();
+
+    for (int i = 0; i < _availableStaffs.size(); i++) {
+        QString item = QString(_availableStaffs[i].getFirstName().c_str()) + " " + QString(_availableStaffs[i].getLastName().c_str());
+        ui->ressourceBox->addItem(item);
+    }
 }
 
 AddPatientForm::~AddPatientForm()
@@ -101,5 +112,30 @@ void AddPatientForm::on_addButton_clicked() {
 
 void AddPatientForm::on_addRessourceButton_clicked()
 {
+    // Add the resource to the list
+    _affectedStaffs << _availableStaffs[ui->ressourceBox->currentIndex()];
 
+    // resize the table
+    ui->tableWidget->setRowCount(ui->tableWidget->rowCount() + 1);
+    ui->tableWidget->setColumnCount(2);
+
+    // Creates new elements
+    QTableWidgetItem* firstNameItem = new QTableWidgetItem();
+    firstNameItem->setText(_affectedStaffs[ui->tableWidget->rowCount() - 1].getFirstName().c_str());
+
+    QTableWidgetItem* lastNameItem = new QTableWidgetItem();
+    lastNameItem->setText(_affectedStaffs[ui->tableWidget->rowCount() - 1].getLastName().c_str());
+
+    // add elements to the table
+    ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, firstNameItem);
+    ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, lastNameItem);
+
+    // Delete ressource from combo box
+    _availableStaffs.removeAt(ui->ressourceBox->currentIndex());
+    ui->ressourceBox->clear();
+
+    for (int i = 0; i < _availableStaffs.size(); i++) {
+        QString item = QString(_availableStaffs[i].getFirstName().c_str()) + " " + QString(_availableStaffs[i].getLastName().c_str());
+        ui->ressourceBox->addItem(item);
+    }
 }

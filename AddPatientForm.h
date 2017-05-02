@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "Patient.h"
+#include "Staff.h"
 
 namespace Ui {
 class AddPatientForm;
@@ -26,6 +27,8 @@ private slots:
 private:
     Ui::AddPatientForm *ui;
     Patient _patient;
+    QList<Staff> _affectedStaffs;
+    QList<Staff> _availableStaffs;
 };
 
 #endif // ADDPATIENT_H

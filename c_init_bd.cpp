@@ -155,7 +155,7 @@ bool c_init_bd::Creation_BD()
         if(!b_test)
         {
             qDebug() << query.lastError().text();
-            qDebug() << "Insertion de données dans TRessource impossible !\n";
+            qDebug() << "Insertion de données dans TStaff impossible !\n";
             return false;
         }
 
