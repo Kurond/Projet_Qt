@@ -11,8 +11,8 @@ class StaffConnector  : public Connector<Staff>
 public:
     inline StaffConnector();
 
-    virtual inline QList<Staff> selectAll();
-    virtual inline QList<Staff> selectFromId();
+    virtual inline QList<Staff> getAll();
+    virtual inline Staff getOne(string value, string field);
     virtual inline bool insert(Staff element);
 
     QList<Staff> inline getNonIt();
@@ -24,7 +24,7 @@ protected:
 StaffConnector::StaffConnector() : Connector<Staff>("TStaff", "DB")
 {}
 
-QList<Staff> StaffConnector::selectAll() {
+QList<Staff> StaffConnector::getAll() {
     // Initialize the result
     QList<Staff> result;
 
@@ -46,21 +46,78 @@ QList<Staff> StaffConnector::selectAll() {
     }
 
     // Get all result
-    result = setResult(query);
+    // result = setResult(query);       ne marche pas je comprend pas... en attendant :
+
+    while (query.next()) {
+        Staff staff;
+
+        staff.setId(query.value(0).toInt());
+        staff.setLastName(query.value(1).toString().toStdString());
+        staff.setFirstName(query.value(2).toString().toStdString());
+        staff.setTypeId(query.value(3).toInt());
+        staff.setType(query.value(4).toString().toStdString());
+
+        result << staff;
+    }
 
     _database.close();
 
     return result;
 }
 
-QList<Staff> StaffConnector::selectFromId() {
-    QList<Staff> result;
+Staff StaffConnector::getOne(string value, string field) {
+    Staff result;
+
+    // Open the database
+    _database.open();
+    if(!_database.isOpen())
+    {
+        //qDebug() << _database.lastError();
+        qDebug() << "Impossible to open database\n";
+    }
+
+    // Create the query
+    QSqlQuery query(_database);
+    bool queryResult = query.exec("SELECT * FROM " + getTable() + " NATURAL JOIN TType WHERE" + field.c_str() + " = '" + value.c_str() + "'");
+    if (!queryResult) {
+        qDebug() << "Impossible to read database\n";
+        return result;
+    }
+
+    // Get all result
+    if (query.next()) {
+        result.setId(query.value(0).toInt());
+        result.setLastName(query.value(1).toString().toStdString());
+        result.setFirstName(query.value(2).toString().toStdString());
+        result.setTypeId(query.value(3).toInt());
+        result.setType(query.value(4).toString().toStdString());
+    }
+
+    _database.close();
 
     return result;
 }
 
 bool StaffConnector::insert(Staff element) {
-    return false;
+    bool result = false;
+    int lastId = getLastId();
+
+    cout << "last id: " << lastId << endl;
+    element.display();
+
+    // Open the database
+//    _database.open();
+//    if(!_database.isOpen())
+//    {
+//        //qDebug() << _database.lastError();
+//        qDebug() << "Impossible to open database\n";
+//    }
+
+//    // Create the query
+//    QSqlQuery query(_database);
+//    result = query.exec("INSERT INTO TStaff VALUES (" + lastId + ",'" + element.getLastName() + "'," + element.getFirstName() + "'," + element.getTypeId() + ")");
+
+    return result;
 }
 
 QList<Staff> StaffConnector::setResult(QSqlQuery query) {

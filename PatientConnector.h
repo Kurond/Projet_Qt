@@ -12,8 +12,8 @@ class PatientConnector : public Connector<Patient>
 public:
     inline PatientConnector();
 
-    virtual inline QList<Patient> selectAll();
-    virtual inline QList<Patient> selectFromId();
+    virtual inline QList<Patient> getAll();
+    virtual inline Patient getOne(string value, string field);
     virtual inline bool insert(Patient element);
 };
 
@@ -23,7 +23,7 @@ PatientConnector::PatientConnector() : Connector<Patient>("TPatient", "DB") {
 
 }
 
-QList<Patient> PatientConnector::selectAll() {
+QList<Patient> PatientConnector::getAll() {
     // Initialize the result
     QList<Patient> result;
 
@@ -70,12 +70,14 @@ QList<Patient> PatientConnector::selectAll() {
     return result;
 }
 
-QList<Patient> PatientConnector::selectFromId() {
+Patient PatientConnector::getOne(string value, string field) {
+    Patient result;
 
+    return result;
 }
 
 bool PatientConnector::insert(Patient element) {
-
+    return false;
 }
 
 #endif // PATIENTCONNECTOR_H

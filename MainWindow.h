@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include "AddPatientForm.h"
 #include "QStandardItemModel"
+#include "StaffConnector.h"
+#include "StaffTypeConnector.h"
 #include "Staff.h"
 
 namespace Ui {
