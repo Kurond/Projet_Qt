@@ -22,6 +22,8 @@ protected:
     QString getTable() const;
     QString getDatabaseName() const;
 
+    virtual inline QList<T> setResult(QSqlQuery query) = 0;
+
     void getDatabase();
     QSqlDatabase _database;
 
