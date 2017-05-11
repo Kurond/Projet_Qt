@@ -8,11 +8,7 @@ class c_init_bd
 {
 public:
     c_init_bd();
-
     static bool Creation_BD();
-    static QStringList getAllTypes();
-    //static QSqlDatabase _db;
-
 private:
 
 };

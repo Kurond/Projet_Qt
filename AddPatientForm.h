@@ -29,7 +29,7 @@ private:
     Patient _patient;
     QList<Staff> _affectedStaffs;
     QList<Staff> _availableStaffs;
-    QDate _consultationDate;
+    //QDate _consultationDate;
 };
 
 #endif // ADDPATIENT_H

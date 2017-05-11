@@ -5,6 +5,7 @@
 #include "StaffConnector.h"
 #include<iostream>
 #include <QMessageBox>
+#include <QDate>
 
 AddPatientForm::AddPatientForm(QWidget * parent) :
     QDialog(parent),
@@ -60,15 +61,18 @@ string AddPatientForm::isFormValid() {
     }
 
     // If the date wasn't set
-    if (!_affectedStaffs.isEmpty() && ui->consultationText->text().isEmpty()) {
-        _consultationDate = QDate::fromString(ui->consultationText->text(), "dd/MM/yyyy");
+    if (!_affectedStaffs.isEmpty() && !ui->consultationText->text().isEmpty()) {
+        QDate consultationDate = QDate::fromString(ui->consultationText->text(), "dd/MM/yyyy");
 
         // If date doesn't respect the format
-        if (!_consultationDate.isValid()) {
+        if (!consultationDate.isValid()) {
             errors = errors.append("Le champs date ne respecte pas le format. \n");
         }
+        else {
+            _patient.setConsultationDate(consultationDate.toString().toStdString());
+        }
     }
-    else {
+    else if (!_affectedStaffs.isEmpty()){
         errors = errors.append("Le champs date ne peut pas être vide. \n");
     }
 

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -27,6 +28,8 @@ public:
     void setLogin(const string &login);
     const string &getPassword() const;
     void setPassword(const string &password);
+
+    void display();
 
 private:
     int _id;

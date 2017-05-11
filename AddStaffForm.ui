@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>388</width>
+    <height>249</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>20</y>
+     <x>10</x>
+     <y>10</y>
      <width>361</width>
-     <height>266</height>
+     <height>221</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -101,16 +101,16 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QPushButton" name="addPushButton">
+       <widget class="QPushButton" name="cancelPushButton">
         <property name="text">
-         <string>Ajouter</string>
+         <string>Annuler</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="cancelPushButton">
+       <widget class="QPushButton" name="addPushButton">
         <property name="text">
-         <string>Annuler</string>
+         <string>Ajouter</string>
         </property>
        </widget>
       </item>

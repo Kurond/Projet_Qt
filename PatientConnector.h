@@ -12,9 +12,12 @@ class PatientConnector : public Connector<Patient>
 public:
     inline PatientConnector();
 
-    virtual inline QList<Patient> selectAll();
-    virtual inline QList<Patient> selectFromId();
+    virtual inline QList<Patient> getAll();
+    virtual inline Patient getOne(string value, string field);
     virtual inline bool insert(Patient element);
+
+protected:
+    virtual inline QList<Patient> setResult(QSqlQuery query);
 };
 
 
@@ -23,18 +26,14 @@ PatientConnector::PatientConnector() : Connector<Patient>("TPatient", "DB") {
 
 }
 
-QList<Patient> PatientConnector::selectAll() {
+QList<Patient> PatientConnector::getAll() {
     // Initialize the result
     QList<Patient> result;
-
-    // Get the database
-    //QSqlDatabase database = getDatabase();
 
     // Open the database
     _database.open();
     if(!_database.isOpen())
     {
-        //qDebug() << _database.lastError();
         qDebug() << "Impossible to open database\n";
     }
 
@@ -70,26 +69,57 @@ QList<Patient> PatientConnector::selectAll() {
     return result;
 }
 
-QList<Patient> PatientConnector::selectFromId() {
+Patient PatientConnector::getOne(string value, string field) {
+    Patient result;
 
+    return result;
 }
 
 bool PatientConnector::insert(Patient element) {
-    QSqlQuery query;
-        query.prepare("INSERT INTO " + getTable() + " (Id, Nom, Prenom, Adresse, Ville, CP, Commentaire, Tel, DateConsultation, DureeConsultation, Priorite) "
-                      "VALUES (:id, :nom, :prenom, :adresse, :ville, :cp, :com, :tel, :dateconsult, :dureeconsult, :priorite)");
-        query.bindValue(":id", );
-        query.bindValue(":nom", element.getLastName());
-        query.bindValue(":prenom", element.getFirstName());
-        query.bindValue(":address", element.getAddress());
-        query.bindValue(":ville", element.getCity());
-        query.bindValue(":cp", element.getPostalCode());
-        query.bindValue(":com", element.getComment());
-        query.bindValue(":dateconsult", element.get);
-        query.bindValue(":prenom", element.getFirstName());
-        query.bindValue(":prenom", element.getFirstName());
-        query.bindValue(":prenom", element.getFirstName());
-        query.exec();
+    bool result = false;
+    int lastId = getLastId();
+
+    // Open the database
+    _database.open();
+    if(!_database.isOpen())
+    {
+        //qDebug() << _database.lastError();
+        qDebug() << "Impossible to open database\n";
+    }
+
+    QSqlQuery query(_database);
+
+    query.prepare("INSERT INTO " + getTable() + " (Id, Nom, Prenom, Adresse, Ville, CP, Commentaire, Tel, DateConsultation, DureeConsultation, Priorite) "
+                  "VALUES (:id, :nom, :prenom, :adresse, :ville, :cp, :com, :tel, :dateconsult, :dureeconsult, :priorite)");
+    query.bindValue(":id", lastId);
+    query.bindValue(":nom", (QString)element.getLastName().c_str());
+    query.bindValue(":prenom", (QString)element.getFirstName().c_str());
+    query.bindValue(":address", (QString)element.getAddress().c_str());
+    query.bindValue(":ville", (QString)element.getCity().c_str());
+    query.bindValue(":cp", element.getPostalCode());
+    query.bindValue(":com", (QString)element.getComment().c_str());
+    query.bindValue(":tel", element.getPhone());
+    query.bindValue(":dateconsult", (QString)element.getConsultationDate().c_str());
+    query.bindValue(":dureeconsult", element.getDuration());
+    query.bindValue(":priorite", element.getPriority());
+    bool queryResult = query.exec();
+
+    if (!queryResult) {
+        cout << "not exec" << endl;
+    }
+    else {
+        cout << "exec OK" << endl;
+    }
+
+    _database.close();
+
+    return result;
+}
+
+QList<Patient> PatientConnector::setResult(QSqlQuery query) {
+    QList<Patient> result;
+
+    return result;
 }
 
 #endif // PATIENTCONNECTOR_H

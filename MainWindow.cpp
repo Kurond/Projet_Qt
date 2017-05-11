@@ -20,38 +20,32 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionPatient,  SIGNAL(triggered()), this, SLOT(addPatient()));
 
     c_init_bd::Creation_BD();
-        StaffConnector staffConnector;
-        StaffTypeConnector staffTypeConnector;
+    StaffConnector _staffConnector;
+    StaffTypeConnector _staffTypeConnector;
 
-        // Test
-        QList<Staff> nonIt = staffConnector.getNonIt();
-        for (int i = 0; i < nonIt.size(); i++) {
-            qDebug() << nonIt[i].getFirstName().c_str() << " " << nonIt[i].getLastName().c_str();
-        }
+    QList<Staff> staffList = _staffConnector.getAll();
+    QList<StaffType> typeList = _staffTypeConnector.getAll();
 
-        QList<Staff> staffList = staffConnector.selectAll();
-        QList<StaffType> typeList = staffTypeConnector.selectAll();
+    QStandardItem * rootNode = _standardModel->invisibleRootItem();
 
-        QStandardItem * rootNode = _standardModel->invisibleRootItem();
+    for (int i = 0; i < typeList.size(); ++i) {
+       QStandardItem * item =  new QStandardItem(typeList.at(i).getName().c_str());
+       _typeItemsList.append(item);
+    }
+    rootNode->appendRows(_typeItemsList);
 
-        for (int i = 0; i < typeList.size(); ++i) {
-           QStandardItem * item =  new QStandardItem(typeList.at(i).getName().c_str());
-           _typeItemsList.append(item);
-        }
-        rootNode->appendRows(_typeItemsList);
-
-        for (int i = 0; i < staffList.size(); i++) {
-            for (int j = 0; j < _typeItemsList.size(); ++j) {
-                if (staffList.at(i).getTypeId() == typeList.at(j).getId()) {
-                    QStandardItem * item =  new QStandardItem((staffList.at(i).getFirstName() + " " + staffList.at(i).getLastName()).c_str());
-                    _typeItemsList.at(j)->appendRow(item);
-                }
+    for (int i = 0; i < staffList.size(); i++) {
+        for (int j = 0; j < _typeItemsList.size(); ++j) {
+            if (staffList.at(i).getTypeId() == typeList.at(j).getId()) {
+                QStandardItem * item =  new QStandardItem((staffList.at(i).getFirstName() + " " + staffList.at(i).getLastName()).c_str());
+                _typeItemsList.at(j)->appendRow(item);
             }
         }
+    }
 
-        // qtree view initialization
-        ui->treeView->setModel(_standardModel);
-        ui->treeView->expandAll();
+    // qtree view initialization
+    ui->treeView->setModel(_standardModel);
+    ui->treeView->expandAll();
 }
 
 MainWindow::~MainWindow() {
@@ -65,12 +59,10 @@ void MainWindow::on_addStaffPushButton_clicked()
 
     if(healthCareStaff.exec()==QDialog::Accepted)
     {
+        StaffConnector staffConnector;
         newStaff = healthCareStaff.getStaff();
-        cout << "FirstName: " << newStaff.getFirstName() << endl;
-        cout << "LastName: " <<  newStaff.getLastName() << endl;
-        cout << "Type: " <<  newStaff.getType() << endl;
-        cout << "Login: " <<  newStaff.getLogin() << endl;
-        cout << "Password: " <<  newStaff.getPassword() << endl;
+        newStaff.display();
+        staffConnector.insert(newStaff);
     }
 
 
@@ -96,7 +88,6 @@ void MainWindow::addPatient() {
         Patient newPatient = addPatientForm.getPatient();
 
         connector.insert(newPatient);
-        //std::cout << newPatient.getFirstName() << " " << newPatient.getLastName() << std::endl;
     }
 
 }

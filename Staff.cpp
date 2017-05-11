@@ -71,7 +71,18 @@ const string &Staff::getPassword() const {
 }
 
 void Staff::setPassword(const string &password) {
-  Staff::_password = password;
+    Staff::_password = password;
+}
+
+void Staff::display()
+{
+    cout << "Staff { " << endl;
+    cout << "\tFirstName: " << getFirstName() << endl;
+    cout << "\tLastName: " <<  getLastName() << endl;
+    cout << "\tType: " <<  getType() << endl;
+    cout << "\tLogin: " <<  getLogin() << endl;
+    cout << "\tPassword: " <<  getPassword() << endl;
+    cout << "}" << endl;
 }
 
 ostream& operator<<(ostream& os, const Staff& staff)

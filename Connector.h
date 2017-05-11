@@ -4,6 +4,7 @@
 #include <QString>
 #include <QSqlDatabase>
 #include <QDebug>
+#include <QSqlQuery>
 
 using namespace std;
 
@@ -14,9 +15,10 @@ class Connector
 public:
     inline Connector(QString table, QString databaseName);
 
-    virtual inline QList<T> selectAll() = 0;
-    virtual inline QList<T> selectFromId() = 0;
+    virtual inline QList<T> getAll() = 0;
+    virtual inline T getOne(string value, string field) = 0;
     virtual inline bool insert(T element) = 0;
+    virtual inline int getLastId();
 
 protected:
     QString getTable() const;
@@ -43,6 +45,37 @@ Connector<T>::Connector(QString table, QString databaseName) {
 }
 
 template<typename T>
+int Connector<T>::getLastId()
+{
+    int result = 0;
+
+    // Open the database
+    _database.open();
+    if(!_database.isOpen())
+    {
+        //qDebug() << _database.lastError();
+        qDebug() << "Impossible to open database\n";
+    }
+
+    // Create the query
+    QSqlQuery query(_database);
+    bool queryResult = query.exec("SELECT max(Id) FROM " + getTable());
+    if (!queryResult) {
+        qDebug() << "Impossible to read database\n";
+        return result;
+    }
+
+    // Get all result
+    if (query.next()) {
+        result = query.value(0).toInt();
+    }
+
+    _database.close();
+
+    return result;
+}
+
+template<typename T>
 QString Connector<T>::getTable() const {
     return _table;
 }
@@ -56,6 +89,7 @@ QString Connector<T>::getDatabaseName() const {
 template<typename T>
 void Connector<T>::getDatabase() {
     // Get the database
+//    _database = QSqlDatabase::addDatabase("QSQLITE", "DB");
     _database  = QSqlDatabase::database(getDatabaseName());
 
     // Check if database is valid
