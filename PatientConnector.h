@@ -5,6 +5,7 @@
 #include "Patient.h"
 
 #include <QSqlQuery>
+#include <QSqlError>
 
 using namespace std;
 
@@ -78,9 +79,9 @@ Patient PatientConnector::getOne(string value, string field) {
 
 bool PatientConnector::insert(Patient element) {
     bool result = false;
-    int lastId = getLastId();
+    int lastId = getLastId() + 1;
 
-    cout << "last id : " << lastId << endl;
+    qDebug() << "last id : " << lastId << endl;
 
     // Open the database
     _database.open();
@@ -94,7 +95,7 @@ bool PatientConnector::insert(Patient element) {
 
     query.prepare("INSERT INTO " + getTable() + " (Id, Nom, Prenom, Adresse, Ville, CP, Commentaire, Tel, DateConsultation, DureeConsultation, Priorite) "
                   "VALUES (:id, :nom, :prenom, :adresse, :ville, :cp, :com, :tel, :dateconsult, :dureeconsult, :priorite)");
-    query.bindValue(":id", 1000);
+    query.bindValue(":id", lastId);
     query.bindValue(":nom", (QString)element.getLastName().c_str());
     query.bindValue(":prenom", (QString)element.getFirstName().c_str());
     query.bindValue(":address", (QString)element.getAddress().c_str());
@@ -109,6 +110,8 @@ bool PatientConnector::insert(Patient element) {
 
     if (!queryResult) {
         cout << "not exec" << endl;
+        //qDebug() << query. << endl;
+        qDebug() << query.lastError() << "\n";
     }
     else {
         cout << "exec OK" << endl;

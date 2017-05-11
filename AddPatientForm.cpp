@@ -101,9 +101,11 @@ string AddPatientForm::isFormValid() {
             errors = errors.append("Le champs téléphone doit être un nombre. \n");
         }
         else {
-            _patient.setPostalCode(phoneNumber);
+            _patient.setPhone(phoneNumber);
         }
     }
+
+    _patient.setDuration(ui->durationBox->currentText().toInt());
 
     return errors;
 }

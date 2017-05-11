@@ -90,7 +90,13 @@ void MainWindow::addPatient() {
         Patient newPatient = addPatientForm.getPatient();
 
         connector.insert(newPatient);
-        cout << "patient inserted" << endl;
+
+        QList<Patient> test = connector.getAll();
+
+        for (unsigned int i = 0; i < test.size(); i++)
+        {
+            cout << test[i].getFirstName() << " " << test[i].getLastName() << endl;
+        }
     }
 
 }
