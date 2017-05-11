@@ -80,6 +80,7 @@ void Staff::display()
     cout << "\tFirstName: " << getFirstName() << endl;
     cout << "\tLastName: " <<  getLastName() << endl;
     cout << "\tType: " <<  getType() << endl;
+    cout << "\tidType: " <<  getTypeId() << endl;
     cout << "\tLogin: " <<  getLogin() << endl;
     cout << "\tPassword: " <<  getPassword() << endl;
     cout << "}" << endl;

@@ -2,6 +2,8 @@
 #include <QMessageBox>
 #include "LoginForm.h"
 #include "ui_LoginForm.h"
+#include "AccountConnector.h"
+#include "Account.h"
 
 /**
  * @brief LoginWindow::LoginWindow
@@ -22,13 +24,11 @@ LoginWindow::~LoginWindow() {
 }
 
 bool LoginWindow::future_dbconnection() {
-    QString tempLogin("login");
-    QString tempPass("password");
+    AccountConnector accountConnector;
+    Account account = accountConnector.getOne(ui->loginText->text().toStdString(), "Login");
 
-    if (tempLogin == ui->loginText->text()) {
-        if (tempPass == ui->passText->text()) {
-            return true;
-        }
+    if (ui->passText->text().toStdString() == account.getPassword()) {
+         return true;
     }
 
     return false;

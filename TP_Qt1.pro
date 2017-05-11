@@ -27,7 +27,8 @@ SOURCES +=\
     StaffConnector.cpp \
     PatientConnector.cpp \
     Account.cpp \
-    StaffTypeConnector.cpp
+    StaffTypeConnector.cpp \
+    AccountConnector.cpp
 
 HEADERS  += \
     Patient.h \
@@ -42,7 +43,8 @@ HEADERS  += \
     StaffConnector.h \
     PatientConnector.h \
     Account.h \
-    StaffTypeConnector.h
+    StaffTypeConnector.h \
+    AccountConnector.h
 
 FORMS    += \
     LoginForm.ui \
