@@ -2,6 +2,7 @@
 #include "ui_MainWindow.h"
 #include "AddStaffForm.h"
 #include "StaffConnector.h"
+#include "PatientConnector.h"
 #include "StaffTypeConnector.h"
 #include "c_init_bd.h"
 #include <iostream>
@@ -89,11 +90,13 @@ void MainWindow::quit_clicked() {
 
 void MainWindow::addPatient() {
     AddPatientForm addPatientForm;
+    PatientConnector connector;
 
     if (addPatientForm.exec() == QDialog::Accepted) {
         Patient newPatient = addPatientForm.getPatient();
 
-        std::cout << newPatient.getFirstName() << " " << newPatient.getLastName() << std::endl;
+        connector.insert(newPatient);
+        //std::cout << newPatient.getFirstName() << " " << newPatient.getLastName() << std::endl;
     }
 
 }

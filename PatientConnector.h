@@ -75,7 +75,21 @@ QList<Patient> PatientConnector::selectFromId() {
 }
 
 bool PatientConnector::insert(Patient element) {
-
+    QSqlQuery query;
+        query.prepare("INSERT INTO " + getTable() + " (Id, Nom, Prenom, Adresse, Ville, CP, Commentaire, Tel, DateConsultation, DureeConsultation, Priorite) "
+                      "VALUES (:id, :nom, :prenom, :adresse, :ville, :cp, :com, :tel, :dateconsult, :dureeconsult, :priorite)");
+        query.bindValue(":id", );
+        query.bindValue(":nom", element.getLastName());
+        query.bindValue(":prenom", element.getFirstName());
+        query.bindValue(":address", element.getAddress());
+        query.bindValue(":ville", element.getCity());
+        query.bindValue(":cp", element.getPostalCode());
+        query.bindValue(":com", element.getComment());
+        query.bindValue(":dateconsult", element.get);
+        query.bindValue(":prenom", element.getFirstName());
+        query.bindValue(":prenom", element.getFirstName());
+        query.bindValue(":prenom", element.getFirstName());
+        query.exec();
 }
 
 #endif // PATIENTCONNECTOR_H

@@ -59,6 +59,19 @@ string AddPatientForm::isFormValid() {
         _patient.setAddress(ui->addressText->text().toStdString());
     }
 
+    // If the date wasn't set
+    if (!_affectedStaffs.isEmpty() && ui->consultationText->text().isEmpty()) {
+        _consultationDate = QDate::fromString(ui->consultationText->text(), "dd/MM/yyyy");
+
+        // If date doesn't respect the format
+        if (!_consultationDate.isValid()) {
+            errors = errors.append("Le champs date ne respecte pas le format. \n");
+        }
+    }
+    else {
+        errors = errors.append("Le champs date ne peut pas être vide. \n");
+    }
+
     // If the postal code wasn't set
     if (ui->postalCodeText->text().isEmpty()) {
         errors = errors.append("Le champs code postal ne peut pas être vide. \n");
