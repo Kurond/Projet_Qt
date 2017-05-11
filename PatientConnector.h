@@ -6,6 +6,7 @@
 
 #include <QSqlQuery>
 
+using namespace std;
 
 class PatientConnector : public Connector<Patient>
 {
@@ -79,6 +80,8 @@ bool PatientConnector::insert(Patient element) {
     bool result = false;
     int lastId = getLastId();
 
+    cout << "last id : " << lastId << endl;
+
     // Open the database
     _database.open();
     if(!_database.isOpen())
@@ -91,7 +94,7 @@ bool PatientConnector::insert(Patient element) {
 
     query.prepare("INSERT INTO " + getTable() + " (Id, Nom, Prenom, Adresse, Ville, CP, Commentaire, Tel, DateConsultation, DureeConsultation, Priorite) "
                   "VALUES (:id, :nom, :prenom, :adresse, :ville, :cp, :com, :tel, :dateconsult, :dureeconsult, :priorite)");
-    query.bindValue(":id", lastId);
+    query.bindValue(":id", 1000);
     query.bindValue(":nom", (QString)element.getLastName().c_str());
     query.bindValue(":prenom", (QString)element.getFirstName().c_str());
     query.bindValue(":address", (QString)element.getAddress().c_str());

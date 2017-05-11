@@ -9,6 +9,8 @@
 #include <QDebug>
 #include <QString>
 
+using namespace std;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -88,6 +90,7 @@ void MainWindow::addPatient() {
         Patient newPatient = addPatientForm.getPatient();
 
         connector.insert(newPatient);
+        cout << "patient inserted" << endl;
     }
 
 }
