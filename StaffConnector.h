@@ -101,21 +101,26 @@ Staff StaffConnector::getOne(string value, string field) {
 bool StaffConnector::insert(Staff element) {
     bool result = false;
     int lastId = getLastId();
+    string id = to_string(lastId+1);
 
     cout << "last id: " << lastId << endl;
     element.display();
 
     // Open the database
-//    _database.open();
-//    if(!_database.isOpen())
-//    {
-//        //qDebug() << _database.lastError();
-//        qDebug() << "Impossible to open database\n";
-//    }
+    _database.open();
+    if(!_database.isOpen())
+    {
+        //qDebug() << _database.lastError();
+        qDebug() << "Impossible to open database\n";
+    }
 
-//    // Create the query
-//    QSqlQuery query(_database);
-//    result = query.exec("INSERT INTO TStaff VALUES (" + lastId + ",'" + element.getLastName() + "'," + element.getFirstName() + "'," + element.getTypeId() + ")");
+    // Create the query
+    QSqlQuery query(_database);
+    query.prepare("INSERT INTO TStaff VALUES (:id, :lastName, :firstName, :idType)");
+//    query.bindValue(0, id);
+//    query.bindValue(1, element.getFirstName());
+
+    _database.close();
 
     return result;
 }

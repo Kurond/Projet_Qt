@@ -58,12 +58,10 @@ void MainWindow::on_addStaffPushButton_clicked()
 
     if(healthCareStaff.exec()==QDialog::Accepted)
     {
+        StaffConnector staffConnector;
         newStaff = healthCareStaff.getStaff();
-        cout << "FirstName: " << newStaff.getFirstName() << endl;
-        cout << "LastName: " <<  newStaff.getLastName() << endl;
-        cout << "Type: " <<  newStaff.getType() << endl;
-        cout << "Login: " <<  newStaff.getLogin() << endl;
-        cout << "Password: " <<  newStaff.getPassword() << endl;
+        newStaff.display();
+        staffConnector.insert(newStaff);
     }
 
 
