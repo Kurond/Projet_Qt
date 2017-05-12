@@ -12,7 +12,7 @@ public:
 
     virtual inline QList<Account> getAll();
     virtual inline Account getOne(string value, string field);
-    virtual inline bool insert(Account element);
+    virtual inline int insert(Account element);
 protected:
     virtual inline QList<Account> setResult(QSqlQuery query);
 
@@ -94,17 +94,21 @@ Account AccountConnector::getOne(string value, string field)
 
 }
 
-bool AccountConnector::insert(Account element)
+/**
+ * @brief insert : insert a new element into the database.
+ * @param element : the element to insert.
+ * @return the element id in database if inserted, -1 otherwise.
+ */
+int AccountConnector::insert(Account element)
 {
     bool result = false;
-    int lastId = getLastId();
+    int nextId = getLastId() + 1;
 
     // Open the database
     _database.open();
-    if(!_database.isOpen())
-    {
-        //qDebug() << _database.lastError();
-        qDebug() << "Impossible to open database\n";
+    if(!_database.isOpen()) {
+        qDebug() << _database.lastError() << "\n";
+        return -1;
     }
 
     // Create the query
@@ -113,7 +117,7 @@ bool AccountConnector::insert(Account element)
     query.prepare("INSERT INTO " + getTable() + " (Id, IdRessource, Login, MdP) "
                   "VALUES (:id, :idStaff, :login, :password)");
 
-    query.bindValue(":id", lastId+1);
+    query.bindValue(":id", nextId);
     query.bindValue(":idStaff", element.getStaffId());
     query.bindValue(":login", element.getLogin().c_str());
     query.bindValue(":password", element.getPassword().c_str());
@@ -121,11 +125,12 @@ bool AccountConnector::insert(Account element)
 
     if (!result) {
         qDebug() << "error: " << query.lastError();
+        return -1;
     }
 
+    // Close database and return
     _database.close();
-
-    return result;
+    return nextId;
 }
 
 QList<Account> AccountConnector::setResult(QSqlQuery query)

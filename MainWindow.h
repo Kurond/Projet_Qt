@@ -6,6 +6,7 @@
 #include "QStandardItemModel"
 #include "StaffConnector.h"
 #include "StaffTypeConnector.h"
+#include "PatientConnector.h"
 #include "Staff.h"
 
 namespace Ui {

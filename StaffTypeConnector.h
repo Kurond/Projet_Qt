@@ -14,7 +14,7 @@ public:
 
     virtual inline QList<StaffType> getAll();
     virtual inline StaffType getOne(string value, string field);
-    virtual inline bool insert(StaffType element);
+    virtual inline int insert(StaffType element);
 
 protected:
     virtual inline QList<StaffType> setResult(QSqlQuery query);
@@ -97,8 +97,9 @@ StaffType StaffTypeConnector::getOne(string value, string field) {
     return result;
 }
 
-bool StaffTypeConnector::insert(StaffType element) {
-    return false;
+
+int StaffTypeConnector::insert(StaffType element) {
+    return -1;
 }
 
 #endif // STAFFTYPECONNECTOR_H

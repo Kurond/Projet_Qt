@@ -5,6 +5,7 @@
 #include "StaffConnector.h"
 #include<iostream>
 #include <QMessageBox>
+#include <QDate>
 
 AddPatientForm::AddPatientForm(QWidget * parent) :
     QDialog(parent),
@@ -30,6 +31,10 @@ AddPatientForm::~AddPatientForm()
 
 Patient AddPatientForm::getPatient() {
     return _patient;
+}
+
+QList<Staff> AddPatientForm::getAffectedStaff() {
+    return _affectedStaffs;
 }
 
 string AddPatientForm::isFormValid() {
@@ -59,6 +64,22 @@ string AddPatientForm::isFormValid() {
         _patient.setAddress(ui->addressText->text().toStdString());
     }
 
+    // If the date wasn't set
+    if (!_affectedStaffs.isEmpty() && !ui->consultationText->text().isEmpty()) {
+        QDate consultationDate = QDate::fromString(ui->consultationText->text(), "dd/MM/yyyy");
+
+        // If date doesn't respect the format
+        if (!consultationDate.isValid()) {
+            errors = errors.append("Le champs date ne respecte pas le format. \n");
+        }
+        else {
+            _patient.setConsultationDate(consultationDate.toString().toStdString());
+        }
+    }
+    else if (!_affectedStaffs.isEmpty()){
+        errors = errors.append("Le champs date ne peut pas être vide. \n");
+    }
+
     // If the postal code wasn't set
     if (ui->postalCodeText->text().isEmpty()) {
         errors = errors.append("Le champs code postal ne peut pas être vide. \n");
@@ -84,9 +105,11 @@ string AddPatientForm::isFormValid() {
             errors = errors.append("Le champs téléphone doit être un nombre. \n");
         }
         else {
-            _patient.setPostalCode(phoneNumber);
+            _patient.setPhone(phoneNumber);
         }
     }
+
+    _patient.setDuration(ui->durationBox->currentText().toInt());
 
     return errors;
 }
@@ -126,7 +149,7 @@ void AddPatientForm::on_addRessourceButton_clicked()
     QTableWidgetItem* lastNameItem = new QTableWidgetItem();
     lastNameItem->setText(_affectedStaffs[ui->tableWidget->rowCount() - 1].getLastName().c_str());
 
-    // add elements to the table
+    // Add elements to the table
     ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, firstNameItem);
     ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, lastNameItem);
 

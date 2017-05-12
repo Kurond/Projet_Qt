@@ -14,6 +14,7 @@ AddStaffForm::AddStaffForm(QWidget *parent) :
     QList<StaffType> types = typeConnector.getAll();
     QStringList typeItemsList;
 
+    // Fill the type combo box in with the content of database
     for (int i = 0; i < types.size(); i++) {
         typeItemsList.append(types.at(i).getName().c_str());
     }

@@ -22,13 +22,14 @@ SOURCES +=\
     Staff.cpp \
     StaffType.cpp \
     main.cpp \
-    c_init_bd.cpp \
     Connector.cpp \
     StaffConnector.cpp \
     PatientConnector.cpp \
     Account.cpp \
     StaffTypeConnector.cpp \
-    AccountConnector.cpp
+    AccountConnector.cpp \
+    ConsultConnector.cpp \
+    Consult.cpp
 
 HEADERS  += \
     Patient.h \
@@ -38,13 +39,14 @@ HEADERS  += \
     MainWindow.h \
     Staff.h \
     StaffType.h \
-    c_init_bd.h \
     Connector.h \
     StaffConnector.h \
     PatientConnector.h \
     Account.h \
     StaffTypeConnector.h \
-    AccountConnector.h
+    AccountConnector.h \
+    ConsultConnector.h \
+    Consult.h
 
 FORMS    += \
     LoginForm.ui \
