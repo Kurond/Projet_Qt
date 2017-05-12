@@ -16,17 +16,18 @@ public:
 
     virtual inline QList<Patient> getAll();
     virtual inline Patient getOne(string value, string field);
-    virtual inline bool insert(Patient element);
+    virtual inline int insert(Patient element);
 
 protected:
     virtual inline QList<Patient> setResult(QSqlQuery query);
 };
 
 
-
-PatientConnector::PatientConnector() : Connector<Patient>("TPatient", "DB") {
-
-}
+/**
+ * @brief PatientConnector default constructor.
+ * works with table TPatient and the database DB.
+ */
+PatientConnector::PatientConnector() : Connector<Patient>("TPatient", "DB") { }
 
 QList<Patient> PatientConnector::getAll() {
     // Initialize the result
@@ -77,25 +78,29 @@ Patient PatientConnector::getOne(string value, string field) {
     return result;
 }
 
-bool PatientConnector::insert(Patient element) {
+/**
+ * @brief insert : insert a new element into the database.
+ * @param element : the element to insert.
+ * @return the element id in database if inserted, -1 otherwise.
+ */
+int PatientConnector::insert(Patient element) {
     bool result = false;
-    int lastId = getLastId() + 1;
-
-    qDebug() << "last id : " << lastId << endl;
+    int nextId = getLastId() + 1;
 
     // Open the database
     _database.open();
-    if(!_database.isOpen())
-    {
-        //qDebug() << _database.lastError();
-        qDebug() << "Impossible to open database\n";
+
+    if(!_database.isOpen()) {
+       qDebug() << _database.lastError() << "\n";
+       return -1;
     }
 
+    // Create the query
     QSqlQuery query(_database);
 
     query.prepare("INSERT INTO " + getTable() + " (Id, Nom, Prenom, Adresse, Ville, CP, Commentaire, Tel, DateConsultation, DureeConsultation, Priorite) "
                   "VALUES (:id, :nom, :prenom, :adresse, :ville, :cp, :com, :tel, :dateconsult, :dureeconsult, :priorite)");
-    query.bindValue(":id", lastId);
+    query.bindValue(":id", nextId);
     query.bindValue(":nom", (QString)element.getLastName().c_str());
     query.bindValue(":prenom", (QString)element.getFirstName().c_str());
     query.bindValue(":address", (QString)element.getAddress().c_str());
@@ -106,20 +111,16 @@ bool PatientConnector::insert(Patient element) {
     query.bindValue(":dateconsult", (QString)element.getConsultationDate().c_str());
     query.bindValue(":dureeconsult", element.getDuration());
     query.bindValue(":priorite", element.getPriority());
-    bool queryResult = query.exec();
+    result = query.exec();
 
-    if (!queryResult) {
-        cout << "not exec" << endl;
-        //qDebug() << query. << endl;
+    if (!result) {
         qDebug() << query.lastError() << "\n";
-    }
-    else {
-        cout << "exec OK" << endl;
+        return -1;
     }
 
+    // Close data base and return the id;
     _database.close();
-
-    return result;
+    return nextId;
 }
 
 QList<Patient> PatientConnector::setResult(QSqlQuery query) {

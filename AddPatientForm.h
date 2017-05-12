@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "Patient.h"
 #include "Staff.h"
+#include "Consult.h"
 
 namespace Ui {
 class AddPatientForm;
@@ -18,6 +19,7 @@ public:
     ~AddPatientForm();
     string isFormValid();
     Patient getPatient();
+    QList<Staff> getAffectedStaff();
 
 private slots:
     void on_cancelButton_clicked();
@@ -29,7 +31,6 @@ private:
     Patient _patient;
     QList<Staff> _affectedStaffs;
     QList<Staff> _availableStaffs;
-    //QDate _consultationDate;
 };
 
 #endif // ADDPATIENT_H

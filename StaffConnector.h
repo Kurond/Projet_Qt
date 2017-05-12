@@ -14,7 +14,7 @@ public:
 
     virtual inline QList<Staff> getAll();
     virtual inline Staff getOne(string value, string field);
-    virtual inline bool insert(Staff element);
+    virtual inline int insert(Staff element);
 
     QList<Staff> inline getNonIt();
 
@@ -99,16 +99,20 @@ Staff StaffConnector::getOne(string value, string field) {
     return result;
 }
 
-bool StaffConnector::insert(Staff element) {
+/**
+ * @brief insert : insert a new element into the database.
+ * @param element : the element to insert.
+ * @return the element id in database if inserted, -1 otherwise.
+ */
+int StaffConnector::insert(Staff element) {
     bool result = false;
-    int lastId = getLastId();
+    int nextId = getLastId() + 1;
 
     // Open the database
     _database.open();
-    if(!_database.isOpen())
-    {
-        //qDebug() << _database.lastError();
-        qDebug() << "Impossible to open database\n";
+    if(!_database.isOpen()) {
+        qDebug() << _database.lastError() << "\n";
+        return -1;
     }
 
     // Create the query
@@ -117,19 +121,20 @@ bool StaffConnector::insert(Staff element) {
     query.prepare("INSERT INTO " + getTable() + " (Id, Nom, Prenom, IdType) "
                   "VALUES (:id, :lastName, :firstName, :idType)");
 
-    query.bindValue(":id", lastId+1);
+    query.bindValue(":id", nextId);
     query.bindValue(":lastName", (QString)element.getLastName().c_str());
     query.bindValue(":firstName", (QString)element.getFirstName().c_str());
     query.bindValue(":idType", element.getTypeId());
     result = query.exec();
 
     if (!result) {
-        qDebug() << "error: " << query.lastError();
+        qDebug() << query.lastError() << "\n";
+        return -1;
     }
 
+    // Close database and return
     _database.close();
-
-    return result;
+    return nextId;
 }
 
 QList<Staff> StaffConnector::setResult(QSqlQuery query) {

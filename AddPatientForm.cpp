@@ -33,6 +33,10 @@ Patient AddPatientForm::getPatient() {
     return _patient;
 }
 
+QList<Staff> AddPatientForm::getAffectedStaff() {
+    return _affectedStaffs;
+}
+
 string AddPatientForm::isFormValid() {
     string errors = "";
 
@@ -145,7 +149,7 @@ void AddPatientForm::on_addRessourceButton_clicked()
     QTableWidgetItem* lastNameItem = new QTableWidgetItem();
     lastNameItem->setText(_affectedStaffs[ui->tableWidget->rowCount() - 1].getLastName().c_str());
 
-    // add elements to the table
+    // Add elements to the table
     ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, firstNameItem);
     ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, lastNameItem);
 

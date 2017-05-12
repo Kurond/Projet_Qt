@@ -4,7 +4,7 @@
 #include "StaffConnector.h"
 #include "PatientConnector.h"
 #include "StaffTypeConnector.h"
-#include "c_init_bd.h"
+#include "ConsultConnector.h"
 #include <iostream>
 #include <QDebug>
 #include <QString>
@@ -21,7 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(quit_clicked()));
     connect(ui->actionPatient,  SIGNAL(triggered()), this, SLOT(addPatient()));
 
-    c_init_bd::Creation_BD();
+    //c_init_bd::Creation_BD();
+    StaffConnector::databaseCreation();
     StaffConnector _staffConnector;
     StaffTypeConnector _staffTypeConnector;
 
@@ -88,18 +89,29 @@ void MainWindow::quit_clicked() {
 
 void MainWindow::addPatient() {
     AddPatientForm addPatientForm;
-    PatientConnector connector;
+    PatientConnector patientConnector;
+    ConsultConnector consultConnector;
 
+    // Execute the patient form ans wait for an acceted return
     if (addPatientForm.exec() == QDialog::Accepted) {
+        Consult consult;
+
+        // Get the patient created with the form and add it to the database.
         Patient newPatient = addPatientForm.getPatient();
+        consult._idPatient = patientConnector.insert(newPatient);
 
-        connector.insert(newPatient);
+        // Get the affected ressource and add the to the database
+        QList<Staff> ressources = addPatientForm.getAffectedStaff();
 
-        QList<Patient> test = connector.getAll();
+        for (unsigned int i = 0; i < ressources.size(); i++) {
+            consult._idRessource = ressources[i].getId();
+            consultConnector.insert(consult);
+        }
 
-        for (unsigned int i = 0; i < test.size(); i++)
-        {
-            cout << test[i].getFirstName() << " " << test[i].getLastName() << endl;
+        QList<Consult> test = consultConnector.getAll();
+
+        for (unsigned int i = 0; i < test.size(); i++) {
+            qDebug() << test[i]._idPatient << ", " << test[i]._idRessource;
         }
     }
 
