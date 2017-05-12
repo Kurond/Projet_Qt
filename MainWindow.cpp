@@ -62,17 +62,21 @@ void MainWindow::on_addStaffPushButton_clicked()
     if(healthCareStaff.exec()==QDialog::Accepted)
     {
         StaffConnector staffConnector;
+        StaffTypeConnector typeConnector;
+
         newStaff = healthCareStaff.getStaff();
-        newStaff.display();
+
+        StaffType type = typeConnector.getOne(newStaff.getType(),"Label");
+        newStaff.setTypeId(type.getId());
+
         staffConnector.insert(newStaff);
     }
-
 
     QListIterator<QStandardItem *> list(_typeItemsList);
     while (list.hasNext()) {
         QStandardItem * type = list.next();
         if (type->text().toStdString() == newStaff.getType()){
-            QStandardItem * newStaffItem =  new QStandardItem(QString(newStaff.getLastName().c_str()));
+            QStandardItem * newStaffItem =  new QStandardItem((newStaff.getFirstName() + " " + newStaff.getLastName()).c_str());
             type->appendRow(newStaffItem);
         }
     }

@@ -2,18 +2,24 @@
 #include "ui_AddStaffForm.h"
 #include "Staff.h"
 #include "QMessageBox"
+#include "StaffTypeConnector.h"
 
 AddStaffForm::AddStaffForm(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddStaffForm)
 {
     ui->setupUi(this);
+
+    StaffTypeConnector typeConnector;
+    QList<StaffType> types = typeConnector.getAll();
     QStringList typeItemsList;
-    typeItemsList.append("Medecin A");
-    typeItemsList.append("Médecin B");
-    typeItemsList.append("Radiologue");
-    typeItemsList.append("Informaticien");
+
+    for (int i = 0; i < types.size(); i++) {
+        typeItemsList.append(types.at(i).getName().c_str());
+    }
+
     ui->typeComboBox->addItems(typeItemsList);
+    ui->typeComboBox->setCurrentIndex(0);
 
     setVisibleConnexion(false);
 }

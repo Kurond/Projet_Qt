@@ -80,9 +80,9 @@ StaffType StaffTypeConnector::getOne(string value, string field) {
 
     // Create the query
     QSqlQuery query(_database);
-    bool queryResult = query.exec("SELECT * FROM " + getTable() + " WHERE" + field.c_str() + " = '" + value.c_str() + "'");
+    bool queryResult = query.exec("SELECT * FROM " + getTable() + " WHERE " + field.c_str() + " = '" + value.c_str() + "'");
     if (!queryResult) {
-        qDebug() << "Impossible to read database\n";
+        qDebug() << "Impossible to reaad database\n";
         return result;
     }
 

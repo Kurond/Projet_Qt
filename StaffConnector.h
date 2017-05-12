@@ -3,6 +3,7 @@
 
 #include "Connector.h"
 #include "Staff.h"
+#include "QSqlError"
 
 #include <QSqlQuery>
 
@@ -39,7 +40,7 @@ QList<Staff> StaffConnector::getAll() {
     // Create the query
     QSqlQuery query(_database);
 
-    bool queryResult = query.exec("SELECT * FROM " + getTable() + " NATURAL JOIN TType");
+    bool queryResult = query.exec("SELECT * FROM " + getTable() + ", TType WHERE TType.Id = IdType");
     if (!queryResult) {
         qDebug() << "Impossible to read database\n";
         return result;
@@ -78,7 +79,7 @@ Staff StaffConnector::getOne(string value, string field) {
 
     // Create the query
     QSqlQuery query(_database);
-    bool queryResult = query.exec("SELECT * FROM " + getTable() + " NATURAL JOIN TType WHERE" + field.c_str() + " = '" + value.c_str() + "'");
+    bool queryResult = query.exec("SELECT * FROM " + getTable() + " NATURAL JOIN TType WHERE " + field.c_str() + " = '" + value.c_str() + "'");
     if (!queryResult) {
         qDebug() << "Impossible to read database\n";
         return result;
@@ -101,10 +102,6 @@ Staff StaffConnector::getOne(string value, string field) {
 bool StaffConnector::insert(Staff element) {
     bool result = false;
     int lastId = getLastId();
-    //string id = to_string(lastId+1);
-
-    cout << "last id: " << lastId << endl;
-    element.display();
 
     // Open the database
     _database.open();
@@ -116,9 +113,19 @@ bool StaffConnector::insert(Staff element) {
 
     // Create the query
     QSqlQuery query(_database);
-    query.prepare("INSERT INTO TStaff VALUES (:id, :lastName, :firstName, :idType)");
-//    query.bindValue(0, id);
-//    query.bindValue(1, element.getFirstName());
+
+    query.prepare("INSERT INTO " + getTable() + " (Id, Nom, Prenom, IdType) "
+                  "VALUES (:id, :lastName, :firstName, :idType)");
+
+    query.bindValue(":id", lastId+1);
+    query.bindValue(":lastName", (QString)element.getLastName().c_str());
+    query.bindValue(":firstName", (QString)element.getFirstName().c_str());
+    query.bindValue(":idType", element.getTypeId());
+    result = query.exec();
+
+    if (!result) {
+        qDebug() << "error: " << query.lastError();
+    }
 
     _database.close();
 
