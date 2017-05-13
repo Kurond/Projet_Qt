@@ -31,11 +31,11 @@ QList<Consult> ConsultConnector::getAll() {
     QList<Consult> result;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen()) {
-        qDebug() << "Impossible to open database\n";
-        return result;
-    }
+//    _database.open();
+//    if(!_database.isOpen()) {
+//        qDebug() << "Impossible to open database\n";
+//        return result;
+//    }
 
     // Create the query
     QSqlQuery query(_database);
@@ -58,7 +58,7 @@ QList<Consult> ConsultConnector::getAll() {
     }
 
     // Close database
-    _database.close();
+//    _database.close();
     return result;
 }
 

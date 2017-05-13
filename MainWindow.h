@@ -31,10 +31,12 @@ private:
     Ui::MainWindow *ui;
     QStandardItemModel * _standardModel;
     QList<QStandardItem *> _typeItemsList;
+    QList<Patient> _patients;
 
 private slots:
     void quit_clicked();
     void addPatient();
+    void on_searchButton_clicked();
 };
 
 #endif // MAINWINDOW_H

@@ -6,6 +6,8 @@
 
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QSqlTableModel>
+#include <QSqlRecord>
 
 using namespace std;
 
@@ -18,8 +20,15 @@ public:
     virtual inline Patient getOne(string value, string field);
     virtual inline int insert(Patient element);
 
+    inline QSqlTableModel * getTableModel(QObject * window);
+    inline void filterModel(QString value);
+
 protected:
     virtual inline QList<Patient> setResult(QSqlQuery query);
+
+private:
+    QSqlTableModel * _model;
+
 };
 
 
@@ -33,12 +42,12 @@ QList<Patient> PatientConnector::getAll() {
     // Initialize the result
     QList<Patient> result;
 
-    // Open the database
-    _database.open();
-    if(!_database.isOpen())
-    {
-        qDebug() << "Impossible to open database\n";
-    }
+    // Open the databaseQSqlDatabase db =
+//    _database.open();
+//    if(!_database.isOpen())
+//    {
+//        qDebug() << "Impossible to open database\n";
+//    }
 
     // Create the query
     QSqlQuery query(_database);
@@ -67,7 +76,7 @@ QList<Patient> PatientConnector::getAll() {
         result << patient;
     }
 
-    _database.close();
+//    _database.close();
 
     return result;
 }
@@ -88,12 +97,13 @@ int PatientConnector::insert(Patient element) {
     int nextId = getLastId() + 1;
 
     // Open the database
-    _database.open();
 
-    if(!_database.isOpen()) {
-       qDebug() << _database.lastError() << "\n";
-       return -1;
-    }
+ _database.open();
+
+//    if(!_database.isOpen()) {
+//       qDebug() << _database.lastError() << "\n";
+//       return -1;
+//    }
 
     // Create the query
     QSqlQuery query(_database);
@@ -119,9 +129,25 @@ int PatientConnector::insert(Patient element) {
     }
 
     // Close data base and return the id;
-    _database.close();
+//    _database.close();
     return nextId;
 }
+
+
+QSqlTableModel* PatientConnector::getTableModel(QObject * parent)
+{
+    _model = new QSqlTableModel(parent, _database);
+    _model->setTable(getTable());
+    _model->select();
+
+    return _model;
+}
+
+void PatientConnector::filterModel(QString value)
+{
+    _model->setFilter(QString("Nom LIKE '%%1%' OR Prenom LIKE '%%2%'").arg(value).arg(value));
+}
+
 
 QList<Patient> PatientConnector::setResult(QSqlQuery query) {
     QList<Patient> result;

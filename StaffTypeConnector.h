@@ -28,11 +28,11 @@ QList<StaffType> StaffTypeConnector::getAll() {
     QList<StaffType> result;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen()) {
-        qDebug() << "Impossible to open database\n";
-        return result;
-    }
+//    _database.open();
+//    if(!_database.isOpen()) {
+//        qDebug() << "Impossible to open database\n";
+//        return result;
+//    }
 
     // Create the query
     QSqlQuery query(_database);
@@ -45,7 +45,7 @@ QList<StaffType> StaffTypeConnector::getAll() {
     // Get all result
     result = setResult(query);
 
-    _database.close();
+//    _database.close();
 
     return result;
 }
@@ -71,12 +71,12 @@ StaffType StaffTypeConnector::getOne(string value, string field) {
     StaffType result;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen())
-    {
-        //qDebug() << _database.lastError();
-        qDebug() << "Impossible to open database\n";
-    }
+//    _database.open();
+//    if(!_database.isOpen())
+//    {
+//        //qDebug() << _database.lastError();
+//        qDebug() << "Impossible to open database\n";
+//    }
 
     // Create the query
     QSqlQuery query(_database);
@@ -92,7 +92,7 @@ StaffType StaffTypeConnector::getOne(string value, string field) {
         result.setName(query.value(1).toString().toStdString());
     }
 
-    _database.close();
+//    _database.close();
 
     return result;
 }

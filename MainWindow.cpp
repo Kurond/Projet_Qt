@@ -22,9 +22,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(quit_clicked()));
     connect(ui->actionPatient,  SIGNAL(triggered()), this, SLOT(addPatient()));
 
-    StaffConnector::databaseCreation();
+    StaffConnector::loadDatabase();
     StaffConnector _staffConnector;
     StaffTypeConnector _staffTypeConnector;
+    PatientConnector patientConnector;
 
     QList<Staff> staffList = _staffConnector.getAll();
     QList<StaffType> typeList = _staffTypeConnector.getAll();
@@ -49,6 +50,11 @@ MainWindow::MainWindow(QWidget *parent) :
     // qtree view initialization
     ui->treeView->setModel(_standardModel);
     ui->treeView->expandAll();
+
+    QSqlTableModel * model = patientConnector.getTableModel(this);
+    ui->patientsTableView->setModel(model);
+    ui->patientsTableView->hideColumn(0);
+    ui->patientsTableView->show();
 }
 
 MainWindow::~MainWindow() {
@@ -130,4 +136,11 @@ void MainWindow::addPatient() {
         }
     }
 
+}
+
+void MainWindow::on_searchButton_clicked()
+{
+    PatientConnector patientConnector;
+    qDebug() << ui->searchTextBox->text();
+    patientConnector.filterModel(ui->searchTextBox->text());
 }

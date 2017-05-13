@@ -29,11 +29,11 @@ QList<Account> AccountConnector::getAll()
     QList<Account> result;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen()) {
-        qDebug() << "Impossible to open database\n";
-        return result;
-    }
+//    _database.open();
+//    if(!_database.isOpen()) {
+//        qDebug() << "Impossible to open database\n";
+//        return result;
+//    }
 
     // Create the query
     QSqlQuery query(_database);
@@ -55,7 +55,7 @@ QList<Account> AccountConnector::getAll()
         result << account;
     }
 
-    _database.close();
+//    _database.close();
 
     return result;
 }
@@ -65,7 +65,7 @@ Account AccountConnector::getOne(string value, string field)
     Account result;
 
     // Open the database
-    _database.open();
+//    _database.open();
     if(!_database.isOpen())
     {
         //qDebug() << _database.lastError();
@@ -88,7 +88,7 @@ Account AccountConnector::getOne(string value, string field)
         result.setPassword(query.value(3).toString().toStdString());
     }
 
-    _database.close();
+//    _database.close();
 
     return result;
 
@@ -105,7 +105,7 @@ int AccountConnector::insert(Account element)
     int nextId = getLastId() + 1;
 
     // Open the database
-    _database.open();
+//    _database.open();
     if(!_database.isOpen()) {
         qDebug() << _database.lastError() << "\n";
         return -1;
@@ -129,7 +129,7 @@ int AccountConnector::insert(Account element)
     }
 
     // Close database and return
-    _database.close();
+//    _database.close();
     return nextId;
 }
 

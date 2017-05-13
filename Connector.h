@@ -17,13 +17,15 @@ class Connector
 {
 public:
     inline Connector(QString table, QString databaseName);
+    inline ~Connector();
 
     virtual inline QList<T> getAll() = 0;
     virtual inline T getOne(string value, string field) = 0;
     virtual inline int insert(T element) = 0;
     virtual inline int getLastId();
 
-    static bool databaseCreation();
+    static bool createDatabase();
+    static bool loadDatabase();
 
 protected:
     QString getTable() const;
@@ -37,9 +39,11 @@ protected:
 private:
     QString _table;
     QString _databaseName;
+    static int _instanceCount;
 };
 
-
+template<typename T>
+int Connector<T>::_instanceCount = 0;
 
 template<typename T>
 Connector<T>::Connector(QString table, QString databaseName) {
@@ -47,6 +51,17 @@ Connector<T>::Connector(QString table, QString databaseName) {
     _databaseName = databaseName;
 
     getDatabase();
+
+    _instanceCount++;
+    if (!_database.isOpen())
+        _database.open();
+}
+
+template<typename T>
+Connector<T>::~Connector() {
+    _instanceCount--;
+    if (!_instanceCount && _database.open())
+        _database.close();
 }
 
 template<typename T>
@@ -55,7 +70,6 @@ int Connector<T>::getLastId()
     int result = 0;
 
     // Open the database
-    _database.open();
     if(!_database.isOpen())
     {
         //qDebug() << _database.lastError();
@@ -75,8 +89,6 @@ int Connector<T>::getLastId()
         result = query.value(0).toInt();
     }
 
-    _database.close();
-
     return result;
 }
 
@@ -94,7 +106,6 @@ QString Connector<T>::getDatabaseName() const {
 template<typename T>
 void Connector<T>::getDatabase() {
     // Get the database
-//    _database = QSqlDatabase::addDatabase("QSQLITE", "DB");
     _database  = QSqlDatabase::database(getDatabaseName());
 
     // Check if database is valid
@@ -108,16 +119,40 @@ void Connector<T>::getDatabase() {
     } else {
         qDebug() << "database not valid";
     }
-
-    //return _database;
 }
+
+template<typename T>
+bool Connector<T>::loadDatabase()
+{
+    bool b_test;
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "DB");
+
+    if(db.isValid())
+    {
+        db.setHostName("localhost");
+        db.setUserName("root");
+        db.setPassword("password");
+
+        db.setDatabaseName("base_tmp.sqli");
+
+        return true;
+    }
+    else
+    {
+        qDebug() << db.lastError().text();
+        qDebug() << "Erreur à création de la base !\n";
+        return false;
+    }
+
+}
+
 
 /**
  * @brief dbCreation create the database for the project
  * @return true if the database was created, false otherwise.
  */
 template<typename T>
-bool Connector<T>::databaseCreation() {
+bool Connector<T>::createDatabase() {
     bool b_test;
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "DB");
 
@@ -284,7 +319,6 @@ bool Connector<T>::databaseCreation() {
         }
 
         db.close();
-       // db.removeDatabase("QSQLITE");
         return true;
 
     }

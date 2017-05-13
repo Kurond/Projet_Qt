@@ -29,14 +29,6 @@ QList<Staff> StaffConnector::getAll() {
     // Initialize the result
     QList<Staff> result;
 
-    // Open the database
-    _database.open();
-    if(!_database.isOpen())
-    {
-        //qDebug() << _database.lastError();
-        qDebug() << "Impossible to open database\n";
-    }
-
     // Create the query
     QSqlQuery query(_database);
 
@@ -61,8 +53,6 @@ QList<Staff> StaffConnector::getAll() {
         result << staff;
     }
 
-    _database.close();
-
     return result;
 }
 
@@ -70,12 +60,12 @@ Staff StaffConnector::getOne(string value, string field) {
     Staff result;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen())
-    {
-        //qDebug() << _database.lastError();
-        qDebug() << "Impossible to open database\n";
-    }
+//    _database.open();
+//    if(!_database.isOpen())
+//    {
+//        //qDebug() << _database.lastError();
+//        qDebug() << "Impossible to open database\n";
+//    }
 
     // Create the query
     QSqlQuery query(_database);
@@ -94,7 +84,7 @@ Staff StaffConnector::getOne(string value, string field) {
         result.setType(query.value(4).toString().toStdString());
     }
 
-    _database.close();
+//    _database.close();
 
     return result;
 }
@@ -109,11 +99,11 @@ int StaffConnector::insert(Staff element) {
     int nextId = getLastId() + 1;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen()) {
-        qDebug() << _database.lastError() << "\n";
-        return -1;
-    }
+//    _database.open();
+//    if(!_database.isOpen()) {
+//        qDebug() << _database.lastError() << "\n";
+//        return -1;
+//    }
 
     // Create the query
     QSqlQuery query(_database);
@@ -133,7 +123,7 @@ int StaffConnector::insert(Staff element) {
     }
 
     // Close database and return
-    _database.close();
+//    _database.close();
     return nextId;
 }
 
@@ -161,12 +151,12 @@ QList<Staff> StaffConnector::getNonIt() {
     QList<Staff> result;
 
     // Open the database
-    _database.open();
+//    _database.open();
 
-    if(!_database.isOpen())
-    {
-        qDebug() << "Impossible to open database\n";
-    }
+//    if(!_database.isOpen())
+//    {
+//        qDebug() << "Impossible to open database\n";
+//    }
 
     // Create the query
     QSqlQuery query(_database);
@@ -180,7 +170,7 @@ QList<Staff> StaffConnector::getNonIt() {
     // Get all result
     result = setResult(query);
 
-    _database.close();
+//    _database.close();
 
     return result;
 }
