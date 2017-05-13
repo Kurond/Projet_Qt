@@ -10,14 +10,20 @@
 class StaffTypeConnector: public Connector<StaffType>
 {
 public:
-    inline StaffTypeConnector();
+       ~StaffTypeConnector();
 
     virtual inline QList<StaffType> getAll();
     virtual inline StaffType getOne(string value, string field);
     virtual inline int insert(StaffType element);
 
+    static StaffTypeConnector* getInstance();
+
 protected:
+    inline StaffTypeConnector();
     virtual inline QList<StaffType> setResult(QSqlQuery query);
+
+private:
+    static StaffTypeConnector* _instance;
 };
 
 StaffTypeConnector::StaffTypeConnector() :  Connector<StaffType>("TType", "DB")

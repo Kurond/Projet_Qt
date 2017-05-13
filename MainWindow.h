@@ -5,8 +5,10 @@
 #include "AddPatientForm.h"
 #include "QStandardItemModel"
 #include "StaffConnector.h"
+#include "ConsultConnector.h"
 #include "StaffTypeConnector.h"
 #include "PatientConnector.h"
+#include "AccountConnector.h"
 #include "Staff.h"
 
 namespace Ui {
@@ -31,6 +33,12 @@ private:
     Ui::MainWindow *ui;
     QStandardItemModel * _standardModel;
     QList<QStandardItem *> _typeItemsList;
+
+    StaffConnector* _staffConnector;
+    PatientConnector* _patientConnector;
+    StaffTypeConnector* _staffTypeConnector;
+    ConsultConnector* _consultConnector;
+    AccountConnector* _accountConnector;
 
 private slots:
     void quit_clicked();

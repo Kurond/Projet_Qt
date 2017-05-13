@@ -1,10 +1,6 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "AddStaffForm.h"
-#include "StaffConnector.h"
-#include "PatientConnector.h"
-#include "StaffTypeConnector.h"
-#include "ConsultConnector.h"
 #include "AccountConnector.h"
 #include <iostream>
 #include <QDebug>
@@ -23,11 +19,17 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionPatient,  SIGNAL(triggered()), this, SLOT(addPatient()));
 
     StaffConnector::databaseCreation();
-    StaffConnector _staffConnector;
-    StaffTypeConnector _staffTypeConnector;
 
-    QList<Staff> staffList = _staffConnector.getAll();
-    QList<StaffType> typeList = _staffTypeConnector.getAll();
+    // Getting connectors instance
+    _staffConnector = StaffConnector::getInstance();
+    _patientConnector = PatientConnector::getInstance();
+    _staffTypeConnector = StaffTypeConnector::getInstance();
+    _consultConnector = ConsultConnector::getInstance();
+    _accountConnector = AccountConnector::getInstance();
+
+    // Prepare the tree view
+    QList<Staff> staffList = _staffConnector->getAll();
+    QList<StaffType> typeList = _staffTypeConnector->getAll();
 
     QStandardItem * rootNode = _standardModel->invisibleRootItem();
 
@@ -63,30 +65,25 @@ void MainWindow::on_addStaffPushButton_clicked()
     // Execute staff form and wait for an accepted return
     if(healthCareStaff.exec()==QDialog::Accepted)
     {
-        StaffConnector staffConnector;
-        StaffTypeConnector typeConnector;
-
-
         // Get staff from form and complete it
         newStaff = healthCareStaff.getStaff();
-        StaffType type = typeConnector.getOne(newStaff.getType(),"Label");
+        StaffType type = _staffTypeConnector->getOne(newStaff.getType(),"Label");
         newStaff.setTypeId(type.getId());
 
         // Insert the staff in database
-        int staffId = staffConnector.insert(newStaff);
+        int staffId = _staffConnector->insert(newStaff);
 
         // If the login was setted, the staff is an 'Informaticien'
         if (!newStaff.getLogin().empty()) {
-            AccountConnector accountConnector;
             Account newAccount;
 
             newAccount.setStaffId(staffId);
             newAccount.setLogin(newStaff.getLogin());
             newAccount.setPassword(newStaff.getPassword());
 
-            accountConnector.insert(newAccount);
+            _accountConnector->insert(newAccount);
 
-            QList<Account> accounts = accountConnector.getAll();
+            QList<Account> accounts = _accountConnector->getAll();
             for (unsigned int i = 0; i < accounts.size(); i++) {
                 qDebug() << accounts[i].getLogin().c_str() << " " << accounts[i].getPassword().c_str() << "\n";
             }
@@ -110,8 +107,6 @@ void MainWindow::quit_clicked() {
 
 void MainWindow::addPatient() {
     AddPatientForm addPatientForm;
-    PatientConnector patientConnector;
-    ConsultConnector consultConnector;
 
     // Execute the patient form ans wait for an acceted return
     if (addPatientForm.exec() == QDialog::Accepted) {
@@ -119,14 +114,14 @@ void MainWindow::addPatient() {
 
         // Get the patient created with the form and add it to the database.
         Patient newPatient = addPatientForm.getPatient();
-        consult._idPatient = patientConnector.insert(newPatient);
+        consult._idPatient = _patientConnector->insert(newPatient);
 
         // Get the affected ressource and add the to the database
         QList<Staff> ressources = addPatientForm.getAffectedStaff();
 
         for (unsigned int i = 0; i < ressources.size(); i++) {
             consult._idRessource = ressources[i].getId();
-            consultConnector.insert(consult);
+            _consultConnector->insert(consult);
         }
     }
 

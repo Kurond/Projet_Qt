@@ -8,14 +8,20 @@
 class ConsultConnector : public Connector<Consult>
 {
 public:
-    inline ConsultConnector();
+    ~ConsultConnector();
 
     virtual inline QList<Consult> getAll();
     virtual inline Consult getOne(string value, string field);
     virtual inline int insert(Consult element);
 
+    static ConsultConnector* getInstance();
+
 protected:
+    inline ConsultConnector();
+
     virtual inline QList<Consult> setResult(QSqlQuery query);
+
+    static ConsultConnector* _instance;
 };
 
 

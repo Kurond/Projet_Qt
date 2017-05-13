@@ -10,7 +10,8 @@
 class StaffConnector  : public Connector<Staff>
 {
 public:
-    inline StaffConnector();
+
+    ~StaffConnector();
 
     virtual inline QList<Staff> getAll();
     virtual inline Staff getOne(string value, string field);
@@ -18,12 +19,22 @@ public:
 
     QList<Staff> inline getNonIt();
 
+    static StaffConnector* getInstance();
+
 protected:
+    inline StaffConnector();
     virtual inline QList<Staff> setResult(QSqlQuery query);
+
+    static StaffConnector* _instance;
 };
 
+
+
 StaffConnector::StaffConnector() : Connector<Staff>("TStaff", "DB")
-{}
+{
+
+}
+
 
 QList<Staff> StaffConnector::getAll() {
     // Initialize the result

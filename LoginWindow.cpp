@@ -13,6 +13,7 @@ LoginWindow::LoginWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LoginWindow)
 {
+    _accountConnector = AccountConnector::getInstance();
     ui->setupUi(this);
 }
 
@@ -24,8 +25,7 @@ LoginWindow::~LoginWindow() {
 }
 
 bool LoginWindow::future_dbconnection() {
-    AccountConnector accountConnector;
-    Account account = accountConnector.getOne(ui->loginText->text().toStdString(), "Login");
+    Account account = _accountConnector->getOne(ui->loginText->text().toStdString(), "Login");
 
     if (ui->passText->text().toStdString() == account.getPassword()) {
          return true;

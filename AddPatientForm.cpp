@@ -13,11 +13,11 @@ AddPatientForm::AddPatientForm(QWidget * parent) :
 {
     ui->setupUi(this);
 
+
+    _staffConnector = StaffConnector::getInstance();
+
     // Fill combo box
-    StaffConnector staffConnector;
-
-    _availableStaffs = staffConnector.getNonIt();
-
+    _availableStaffs = _staffConnector->getNonIt();
     for (int i = 0; i < _availableStaffs.size(); i++) {
         QString item = QString(_availableStaffs[i].getFirstName().c_str()) + " " + QString(_availableStaffs[i].getLastName().c_str());
         ui->ressourceBox->addItem(item);

@@ -12,15 +12,23 @@ using namespace std;
 class PatientConnector : public Connector<Patient>
 {
 public:
-    inline PatientConnector();
+    ~PatientConnector();
+
 
     virtual inline QList<Patient> getAll();
     virtual inline Patient getOne(string value, string field);
     virtual inline int insert(Patient element);
 
+    static PatientConnector* getInstance();
+
 protected:
+    inline PatientConnector();
     virtual inline QList<Patient> setResult(QSqlQuery query);
+
+private:
+    static PatientConnector* _instance;
 };
+
 
 
 /**

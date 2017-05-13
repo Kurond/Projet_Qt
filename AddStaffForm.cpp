@@ -2,7 +2,6 @@
 #include "ui_AddStaffForm.h"
 #include "Staff.h"
 #include "QMessageBox"
-#include "StaffTypeConnector.h"
 
 AddStaffForm::AddStaffForm(QWidget *parent) :
     QDialog(parent),
@@ -10,8 +9,9 @@ AddStaffForm::AddStaffForm(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    StaffTypeConnector typeConnector;
-    QList<StaffType> types = typeConnector.getAll();
+    _staffTypeConnector = StaffTypeConnector::getInstance();
+
+    QList<StaffType> types = _staffTypeConnector->getAll();
     QStringList typeItemsList;
 
     // Fill the type combo box in with the content of database

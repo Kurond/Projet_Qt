@@ -2,7 +2,7 @@
 #define LOGINWINDOW_H
 
 #include <QDialog>
-
+#include "AccountConnector.h"
 namespace Ui {
 class LoginWindow;
 }
@@ -22,6 +22,8 @@ signals:
 private:
     Ui::LoginWindow *ui;
     bool future_dbconnection();
+
+    AccountConnector* _accountConnector;
 
 public slots:
     void onConnection(bool success);
