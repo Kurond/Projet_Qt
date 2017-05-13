@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     MainWindow mainWindow;
-    LoginWindow loginWindow;
+    LoginForm loginWindow;
     AddStaffForm staffWindow;
 
     QObject::connect(&loginWindow, SIGNAL(connectionSucceded(bool)), &mainWindow, SLOT(setVisible(bool)));

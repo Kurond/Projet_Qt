@@ -17,7 +17,6 @@ SOURCES +=\
     Patient.cpp \
     AddPatientForm.cpp \
     AddStaffForm.cpp \
-    LoginWindow.cpp \
     MainWindow.cpp \
     Staff.cpp \
     StaffType.cpp \
@@ -29,7 +28,8 @@ SOURCES +=\
     StaffTypeConnector.cpp \
     AccountConnector.cpp \
     ConsultConnector.cpp \
-    Consult.cpp
+    Consult.cpp \
+    LoginForm.cpp
 
 HEADERS  += \
     Patient.h \

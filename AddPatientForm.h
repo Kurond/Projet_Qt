@@ -6,6 +6,9 @@
 #include "Staff.h"
 #include "Consult.h"
 
+#include "PatientConnector.h"
+#include "StaffConnector.h"
+
 namespace Ui {
 class AddPatientForm;
 }
@@ -29,8 +32,11 @@ private slots:
 private:
     Ui::AddPatientForm *ui;
     Patient _patient;
+
     QList<Staff> _affectedStaffs;
     QList<Staff> _availableStaffs;
+
+    StaffConnector* _staffConnector;
 };
 
 #endif // ADDPATIENT_H

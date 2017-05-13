@@ -9,23 +9,23 @@
  * @brief LoginWindow::LoginWindow
  * @param parent
  */
-LoginWindow::LoginWindow(QWidget *parent) :
+LoginForm::LoginForm(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LoginWindow)
 {
+    _accountConnector = AccountConnector::getInstance();
     ui->setupUi(this);
 }
 
 /**
  * @brief LoginWindow::~LoginWindow
  */
-LoginWindow::~LoginWindow() {
+LoginForm::~LoginForm() {
     delete ui;
 }
 
-bool LoginWindow::future_dbconnection() {
-    AccountConnector accountConnector;
-    Account account = accountConnector.getOne(ui->loginText->text().toStdString(), "Login");
+bool LoginForm::future_dbconnection() {
+    Account account = _accountConnector->getOne(ui->loginText->text().toStdString(), "Login");
 
     if (ui->passText->text().toStdString() == account.getPassword()) {
          return true;
@@ -36,7 +36,7 @@ bool LoginWindow::future_dbconnection() {
 
 // SLOTS
 
-void LoginWindow::onConnection(bool success) {
+void LoginForm::onConnection(bool success) {
     if (success) {
         this->close();
     } else {
@@ -49,7 +49,7 @@ void LoginWindow::onConnection(bool success) {
     }
 }
 
-void LoginWindow::on_connectButton_clicked() {
+void LoginForm::on_connectButton_clicked() {
     if (future_dbconnection()) {
         emit connectionSucceded(true);
     } else {
@@ -57,6 +57,6 @@ void LoginWindow::on_connectButton_clicked() {
     }
 }
 
-void LoginWindow::on_cancelButon_clicked() {
+void LoginForm::on_cancelButon_clicked() {
     emit connectionCancel();
 }

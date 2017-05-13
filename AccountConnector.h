@@ -8,13 +8,20 @@
 class AccountConnector : public Connector<Account>
 {
 public:
-    inline AccountConnector();
+    ~AccountConnector();
 
     virtual inline QList<Account> getAll();
     virtual inline Account getOne(string value, string field);
     virtual inline int insert(Account element);
+
+    static AccountConnector* getInstance();
 protected:
+    inline AccountConnector();
+
     virtual inline QList<Account> setResult(QSqlQuery query);
+
+private:
+    static AccountConnector* _instance;
 
 };
 

@@ -2,18 +2,18 @@
 #define LOGINWINDOW_H
 
 #include <QDialog>
-
+#include "AccountConnector.h"
 namespace Ui {
 class LoginWindow;
 }
 
-class LoginWindow : public QDialog
+class LoginForm : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit LoginWindow(QWidget *parent = 0);
-    ~LoginWindow();
+    explicit LoginForm(QWidget *parent = 0);
+    ~LoginForm();
 
 signals:
     void connectionCancel();
@@ -22,6 +22,8 @@ signals:
 private:
     Ui::LoginWindow *ui;
     bool future_dbconnection();
+
+    AccountConnector* _accountConnector;
 
 public slots:
     void onConnection(bool success);

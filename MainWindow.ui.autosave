@@ -101,6 +101,32 @@
        </item>
       </layout>
      </widget>
+     <widget class="QPushButton" name="deletePatientButton">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>320</y>
+        <width>151</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Supprimer patient</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="editPatientButton">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>320</y>
+        <width>141</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Modifier patient</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">

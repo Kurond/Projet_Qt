@@ -2,7 +2,6 @@
 #include "ui_AddStaffForm.h"
 #include "Staff.h"
 #include "QMessageBox"
-#include "StaffTypeConnector.h"
 
 AddStaffForm::AddStaffForm(QWidget *parent) :
     QDialog(parent),
@@ -10,19 +9,17 @@ AddStaffForm::AddStaffForm(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    StaffTypeConnector typeConnector;
-    QList<StaffType> types = typeConnector.getAll();
-    QStringList typeItemsList;
+    _staffTypeConnector = StaffTypeConnector::getInstance();
 
-    // Fill the type combo box in with the content of database
-    for (int i = 0; i < types.size(); i++) {
-        typeItemsList.append(types.at(i).getName().c_str());
-    }
-
-    ui->typeComboBox->addItems(typeItemsList);
-    ui->typeComboBox->setCurrentIndex(0);
-
+    fillTypeCombobox();
     setVisibleConnexion(false);
+}
+
+void AddStaffForm::setStaff(Staff staff)
+{
+    _staff = staff;
+    ui->firstNameLineEdit->setText(_staff.getFirstName().c_str());
+    ui->lastNameLineEdit->setText(_staff.getLastName().c_str());
 }
 
 AddStaffForm::~AddStaffForm()
@@ -81,6 +78,20 @@ void AddStaffForm::setVisibleConnexion(bool isVisible) {
     ui->sepLine->setVisible(isVisible);
     ui->passwordConfLabel->setVisible(isVisible);
     ui->passwordConfLineEdit->setVisible(isVisible);
+}
+
+void AddStaffForm::fillTypeCombobox()
+{
+    QList<StaffType> types = _staffTypeConnector->getAll();
+    QStringList typeItemsList;
+
+    // Fill the type combo box in with the content of database
+    for (int i = 0; i < types.size(); i++) {
+        typeItemsList.append(types.at(i).getName().c_str());
+    }
+
+    ui->typeComboBox->addItems(typeItemsList);
+    ui->typeComboBox->setCurrentIndex(0);
 }
 
 string AddStaffForm::isFormValid() const {

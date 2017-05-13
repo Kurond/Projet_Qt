@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "Staff.h"
+#include "StaffTypeConnector.h"
 
 namespace Ui {
 class AddStaffForm;
@@ -16,6 +17,7 @@ public:
     explicit AddStaffForm(QWidget *parent = 0);
     ~AddStaffForm();
     Staff getStaff() const;
+    void setStaff(Staff staff);
     string isFormValid() const;
 
 private slots:
@@ -30,6 +32,8 @@ private:
     Ui::AddStaffForm *ui;
     void setVisibleConnexion(bool);
     Staff _staff;
+    StaffTypeConnector* _staffTypeConnector;
+    void fillTypeCombobox();
 };
 
 #endif // HEALTHCARESTAFF_H
