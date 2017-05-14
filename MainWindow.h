@@ -28,10 +28,6 @@ signals:
 
     void patientRowClicked(bool success);
 
-
-private slots:
-    void on_addStaffPushButton_clicked();
-
 private:
     Ui::MainWindow *ui;
     QStandardItemModel * _standardModel;
@@ -44,11 +40,20 @@ private:
     ConsultConnector* _consultConnector;
     AccountConnector* _accountConnector;
 
+    QSqlTableModel* _patientsModel;
+    Patient * _patientClicked;
+
+    void areButtonsEnable(bool active);
+
 private slots:
+    void on_addStaffPushButton_clicked();
     void quit_clicked();
     void addPatient();
     void on_searchButton_clicked();
-    void on_patientsTableView_clicked(const QModelIndex &index);
+    void on_editPatientButton_clicked();
+    void on_patientsTableView_pressed(const QModelIndex &index);
+    void on_patientsTableView_doubleClicked(const QModelIndex &index);
+    void on_addPatientPushButton_clicked();
 };
 
 #endif // MAINWINDOW_H

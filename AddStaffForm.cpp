@@ -15,13 +15,6 @@ AddStaffForm::AddStaffForm(QWidget *parent) :
     setVisibleConnexion(false);
 }
 
-void AddStaffForm::setStaff(Staff staff)
-{
-    _staff = staff;
-    ui->firstNameLineEdit->setText(_staff.getFirstName().c_str());
-    ui->lastNameLineEdit->setText(_staff.getLastName().c_str());
-}
-
 AddStaffForm::~AddStaffForm()
 {
     delete ui;

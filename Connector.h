@@ -52,16 +52,16 @@ Connector<T>::Connector(QString table, QString databaseName) {
 
     getDatabase();
 
-    _instanceCount++;
-    if (!_database.isOpen())
-        _database.open();
+//    _instanceCount++;
+//    if (!_database.isOpen())
+//        _database.open();
 }
 
 template<typename T>
 Connector<T>::~Connector() {
-    _instanceCount--;
-    if (!_instanceCount && _database.open())
-        _database.close();
+//    _instanceCount--;
+//    if (!_instanceCount && _database.open())
+//        _database.close();
 }
 
 template<typename T>

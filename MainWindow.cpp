@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     StaffConnector::loadDatabase();
 
+    _patientClicked = NULL;
+
     // Getting connectors instance
     _staffConnector = StaffConnector::getInstance();
     _patientConnector = PatientConnector::getInstance();
@@ -53,22 +55,30 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->treeView->setModel(_standardModel);
     ui->treeView->expandAll();
 
-    QSqlTableModel * patientsModel = _patientConnector->getTableModel(this);
-    ui->patientsTableView->setModel(patientsModel);
-    ui->patientsTableView->hideColumn(3);
-    ui->patientsTableView->hideColumn(4);
-    ui->patientsTableView->hideColumn(5);
-    ui->patientsTableView->hideColumn(6);
-    ui->patientsTableView->hideColumn(7);
-    ui->patientsTableView->hideColumn(9);
-    ui->patientsTableView->hideColumn(10);
-
+    _patientsModel = _patientConnector->getTableModel(this);
+    ui->patientsTableView->setModel(_patientsModel);
+//    ui->patientsTableView->hideColumn(3);
+//    ui->patientsTableView->hideColumn(5);
+//    ui->patientsTableView->hideColumn(6);
+//    ui->patientsTableView->hideColumn(7);
+//    ui->patientsTableView->hideColumn(9);
+//    ui->patientsTableView->hideColumn(10);
+    ui->patientsTableView->setEditTriggers(QTableView::NoEditTriggers);
     ui->patientsTableView->show();
+
+    areButtonsEnable(false);
 }
 
 
 MainWindow::~MainWindow() {
     delete ui;
+    delete _patientClicked;
+}
+
+void MainWindow::areButtonsEnable(bool active)
+{
+    ui->deletePatientButton->setEnabled(active);
+    ui->editPatientButton->setEnabled(active);
 }
 
 void MainWindow::on_addStaffPushButton_clicked()
@@ -144,10 +154,42 @@ void MainWindow::addPatient() {
 void MainWindow::on_searchButton_clicked()
 {
     qDebug() << ui->searchTextBox->text();
-    _patientConnector->filterModel(ui->searchTextBox->text());
+    _patientConnector->searchFilterModel(ui->searchTextBox->text());
+    areButtonsEnable(false);
+
 }
 
-void MainWindow::on_patientsTableView_clicked(const QModelIndex &index)
+void MainWindow::on_editPatientButton_clicked()
 {
-    qDebug() << "coucocu";
+    if (_patientClicked != NULL) {
+        AddPatientForm addPatientForm;
+        addPatientForm.setPatient(_patientClicked);
+
+        // Execute the patient form ans wait for an acceted return
+        if (addPatientForm.exec() == QDialog::Accepted) {
+            _patientConnector->update(addPatientForm.getPatient());
+            _patientConnector->refreshModel();
+        }
+    }
+}
+
+
+void MainWindow::on_patientsTableView_pressed(const QModelIndex &index)
+{
+    areButtonsEnable(true);
+    if (index.isValid() && _patientClicked != NULL ? _patientsModel->record(index.row()).value("Id") != _patientClicked->getId() : _patientClicked == NULL) {
+        _patientClicked = new Patient(_patientsModel->record(index.row()));
+        _patientClicked->display();
+    }
+}
+
+void MainWindow::on_patientsTableView_doubleClicked(const QModelIndex &index)
+{
+    on_patientsTableView_pressed(index);
+    on_editPatientButton_clicked();
+}
+
+void MainWindow::on_addPatientPushButton_clicked()
+{
+    addPatient();
 }

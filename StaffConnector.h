@@ -40,6 +40,13 @@ QList<Staff> StaffConnector::getAll() {
     // Initialize the result
     QList<Staff> result;
 
+    // Open the database
+    _database.open();
+    if(!_database.isOpen()) {
+        qDebug() << _database.lastError() << "\n";
+        return result;
+    }
+
     // Create the query
     QSqlQuery query(_database);
 
@@ -63,12 +70,20 @@ QList<Staff> StaffConnector::getAll() {
 
         result << staff;
     }
+    _database.close();
 
     return result;
 }
 
 Staff StaffConnector::getOne(string value, string field) {
     Staff result;
+
+    // Open the database
+    _database.open();
+    if(!_database.isOpen()) {
+        qDebug() << _database.lastError() << "\n";
+        return result;
+    }
 
     // Create the query
     QSqlQuery query(_database);
@@ -86,6 +101,7 @@ Staff StaffConnector::getOne(string value, string field) {
         result.setTypeId(query.value(3).toInt());
         result.setType(query.value(4).toString().toStdString());
     }
+    _database.close();
 
     return result;
 }
@@ -98,6 +114,13 @@ Staff StaffConnector::getOne(string value, string field) {
 int StaffConnector::insert(Staff element) {
     bool result = false;
     int nextId = getLastId() + 1;
+
+    // Open the database
+    _database.open();
+    if(!_database.isOpen()) {
+        qDebug() << _database.lastError() << "\n";
+        return -1;
+    }
 
     // Create the query
     QSqlQuery query(_database);
@@ -115,6 +138,7 @@ int StaffConnector::insert(Staff element) {
         qDebug() << query.lastError() << "\n";
         return -1;
     }
+    _database.close();
 
     return nextId;
 }
@@ -142,6 +166,13 @@ QList<Staff> StaffConnector::getNonIt() {
     // Initialize the result
     QList<Staff> result;
 
+    // Open the database
+    _database.open();
+    if(!_database.isOpen()) {
+        qDebug() << _database.lastError() << "\n";
+        return result;
+    }
+
     // Create the query
     QSqlQuery query(_database);
     bool queryResult = query.exec("SELECT * FROM " + getTable() + " NATURAL JOIN TType WHERE IdType != 7");
@@ -153,6 +184,8 @@ QList<Staff> StaffConnector::getNonIt() {
 
     // Get all result
     result = setResult(query);
+
+    _database.close();
 
     return result;
 }

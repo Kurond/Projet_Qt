@@ -23,6 +23,7 @@ public:
     string isFormValid();
     Patient getPatient();
     QList<Staff> getAffectedStaff();
+    void setPatient(Patient * patient);
 
 private slots:
     void on_cancelButton_clicked();

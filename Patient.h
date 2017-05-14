@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <string>
 #include <map>
+#include <QSqlRecord>
+#include <QVariant>
 
 using namespace std;
 
@@ -34,6 +36,7 @@ public:
   Patient();
   Patient(const string &fistName, const string &lastName, const string &address, const string &city,
           const string &comment, int phone, int postalCode, int duration, int priority);
+  Patient(QSqlRecord record);
 
   int getId() const;
   void setId(int id);
@@ -58,6 +61,7 @@ public:
   const string &getConsultationDate() const;
   void setConsultationDate(const string &consultationDate);
 
+  void display();
 };
 
 

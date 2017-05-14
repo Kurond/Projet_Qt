@@ -17,7 +17,6 @@ public:
     explicit AddStaffForm(QWidget *parent = 0);
     ~AddStaffForm();
     Staff getStaff() const;
-    void setStaff(Staff staff);
     string isFormValid() const;
 
 private slots:
