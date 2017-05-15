@@ -14,7 +14,11 @@ public:
     virtual inline Consult getOne(string value, string field);
     virtual inline int insert(Consult element);
 
+
+
     static ConsultConnector* getInstance();
+
+    inline QList<Consult> getPatientConsult(int patientId);
 
 protected:
     inline ConsultConnector();
@@ -100,6 +104,41 @@ int ConsultConnector::insert(Consult element) {
     // Close database and return
     closeDatabase();
     return nextId;
+}
+
+QList<Consult> ConsultConnector::getPatientConsult(int patientId) {
+    // Initialize the result
+    QList<Consult> result;
+
+    // Open the database
+    if(!openDatabase()) return result;
+
+    // Create the query
+    QSqlQuery query(_database);
+
+    query.prepare("SELECT * FROM " + getTable() + " WHERE IdPatient=:id");
+    query.bindValue(":id", patientId);
+    bool queryResult = query.exec();
+
+    if (!queryResult) {
+        qDebug() << query.lastError() << "\n";
+        return result;
+    }
+
+    // Get all result
+    while (query.next()) {
+        Consult consult;
+
+        consult._id = query.value(0).toInt();
+        consult._idPatient = query.value(1).toInt();
+        consult._idRessource = query.value(2).toInt();
+
+        result << consult;
+    }
+
+    // Close database
+    closeDatabase();
+    return result;
 }
 
 #endif // CONSULTCONNECTOR_H

@@ -143,7 +143,7 @@ void Patient::display()
     cout << "\tLastName: " <<  getLastName() << endl;
     cout << "\tAddress: " <<  getAddress() << endl;
     cout << "\tCity: " <<  getCity() << endl;
-    cout << "\tPhone: " <<  to_string(getPhone()) << endl;
+    cout << "\tPhone: " <<  getPhone() << endl;
     cout << "\tDate consult: " <<  getConsultationDate() << endl;
     cout << "}" << endl;
 }

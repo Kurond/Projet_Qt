@@ -14,4 +14,3 @@ ConsultConnector* ConsultConnector::getInstance() {
 ConsultConnector::~ConsultConnector() {
     delete _instance;
 }
-

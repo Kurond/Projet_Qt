@@ -1,5 +1,5 @@
 #include "PatientForm.h"
-#include "ui_AddPatientForm.h"
+#include "ui_PatientForm.h"
 #include "QList"
 #include "Staff.h"
 #include "StaffConnector.h"
@@ -15,13 +15,12 @@ PatientForm::PatientForm(QWidget * parent) :
     setWindowTitle("Ajout d'un patient");
 
     _staffConnector = StaffConnector::getInstance();
+    _consultConnector = ConsultConnector::getInstance();
 
     // Fill staff combo box
     _availableStaffs = _staffConnector->getNonIt();
-    for (int i = 0; i < _availableStaffs.size(); i++) {
-        QString item = QString(_availableStaffs[i].getFirstName().c_str()) + " " + QString(_availableStaffs[i].getLastName().c_str());
-        ui->ressourceComboBox->addItem(item);
-    }
+    fillComboBox();
+
     ui->hoursDurationComboBox->setCurrentIndex(1);
     ui->minsDurationComboBox->setCurrentIndex(0);
 }
@@ -63,8 +62,28 @@ void PatientForm::setPatient(Patient * patient)
     int mins = hours != 0 ? patient->getDuration()%(hours*60) : patient->getDuration();
     ui->hoursDurationComboBox->setCurrentIndex(hours);
     for (int i = 0; i < 12; i++) {
-        if (ui->minsDurationComboBox->itemText(i) == to_string(mins).c_str())
+        if (ui->minsDurationComboBox->itemText(i) == QString(mins))
             ui->minsDurationComboBox->setCurrentIndex(i);
+    }
+
+    // Load affected ressources
+    QList<Consult> consults = _consultConnector->getPatientConsult(patient->getId());
+
+    // Browse the patient consult
+    for (int i = 0; i < consults.size(); i++) {
+        // Browse all available staff
+        for (int j = 0; j < _availableStaffs.size(); j++) {
+            // Check if the staff is affected
+            if (consults[i]._idRessource == _availableStaffs[j].getId()) {
+                _affectedStaffs << _availableStaffs[j];
+                _availableStaffs.removeAt(j);
+
+                fillComboBox();
+                fillTableView();
+
+                break;
+            }
+        }
     }
 }
 
@@ -189,9 +208,44 @@ void PatientForm::on_addRessourceButton_clicked()
     // Add the resource to the list
     _affectedStaffs << _availableStaffs[ui->ressourceComboBox->currentIndex()];
 
+    fillTableView();
+
+    // Delete ressource from combo box
+    _availableStaffs.removeAt(ui->ressourceComboBox->currentIndex());
+
+    fillComboBox();
+}
+
+void PatientForm::on_removeRessourceButton_clicked()
+{
+    // check if a line is selected
+    if (ui->tableWidget->selectedItems().size() > 0) {
+        // Add the ressource in the combo box
+        _availableStaffs << _affectedStaffs[ui->tableWidget->selectedItems().at(0)->row()];
+
+        // Remove element from the table
+        _affectedStaffs.removeAt(ui->tableWidget->selectedItems().at(0)->row());
+        ui->tableWidget->removeRow(ui->tableWidget->selectedItems().at(0)->row());
+
+        // fill the combo box in
+        fillComboBox();
+    }
+
+}
+
+void PatientForm::fillComboBox() {
+    ui->ressourceComboBox->clear();
+
+    for (int i = 0; i < _availableStaffs.size(); i++) {
+        QString item = QString(_availableStaffs[i].getFirstName().c_str()) + " " + QString(_availableStaffs[i].getLastName().c_str()) + " : " + QString(_availableStaffs[i].getType().c_str());
+        ui->ressourceComboBox->addItem(item);
+    }
+}
+
+void PatientForm::fillTableView() {
     // resize the table
     ui->tableWidget->setRowCount(ui->tableWidget->rowCount() + 1);
-    ui->tableWidget->setColumnCount(2);
+    ui->tableWidget->setColumnCount(3);
 
     // Creates new elements
     QTableWidgetItem* firstNameItem = new QTableWidgetItem();
@@ -200,16 +254,11 @@ void PatientForm::on_addRessourceButton_clicked()
     QTableWidgetItem* lastNameItem = new QTableWidgetItem();
     lastNameItem->setText(_affectedStaffs[ui->tableWidget->rowCount() - 1].getLastName().c_str());
 
+    QTableWidgetItem* typeItem = new QTableWidgetItem();
+    typeItem->setText(_affectedStaffs[ui->tableWidget->rowCount() - 1].getType().c_str());
+
     // Add elements to the table
     ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, firstNameItem);
     ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, lastNameItem);
-
-    // Delete ressource from combo box
-    _availableStaffs.removeAt(ui->ressourceComboBox->currentIndex());
-    ui->ressourceComboBox->clear();
-
-    for (int i = 0; i < _availableStaffs.size(); i++) {
-        QString item = QString(_availableStaffs[i].getFirstName().c_str()) + " " + QString(_availableStaffs[i].getLastName().c_str());
-        ui->ressourceComboBox->addItem(item);
-    }
+    ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 2, typeItem);
 }

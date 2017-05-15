@@ -8,6 +8,7 @@
 
 #include "PatientConnector.h"
 #include "StaffConnector.h"
+#include "ConsultConnector.h"
 
 namespace Ui {
 class PatientForm;
@@ -30,6 +31,8 @@ private slots:
     void on_addButton_clicked();
     void on_addRessourceButton_clicked();
 
+    void on_removeRessourceButton_clicked();
+
 private:
     Ui::PatientForm *ui;
     Patient _patient;
@@ -38,6 +41,10 @@ private:
     QList<Staff> _availableStaffs;
 
     StaffConnector* _staffConnector;
+    ConsultConnector* _consultConnector;
+
+    void fillComboBox();
+    void fillTableView();
 };
 
 #endif // ADDPATIENT_H
