@@ -236,7 +236,7 @@ void MainWindow::on_editPatientButton_clicked()
                 _consultConnector->insert(consultToAdd[i]);
             }
 
-            // DeleteS
+            // Delete
             for (int i = 0; i < consultToDelete.size(); i++) {
                 _consultConnector->suppr(consultToDelete[i]._id);
             }
@@ -266,6 +266,22 @@ void MainWindow::on_addPatientPushButton_clicked()
 
 void MainWindow::on_deletePatientButton_clicked()
 {
+    // Delete consult involving this patient
+    QList<Consult> consultToDelete = _consultConnector->getPatientConsult(_patientsModel->record(_patientClickedIndex).value("Id").toInt());
+
+    for (int i = 0; i < consultToDelete.size(); i++) {
+        qDebug() << "delete : " << consultToDelete[i]._id << ", " << consultToDelete[i]._idPatient << ", " << consultToDelete[i]._idRessource;
+        _consultConnector->suppr(consultToDelete[i]._id);
+    }
+
+    qDebug() << "remainning consult";
+
+    QList<Consult> test = _consultConnector->getAll();
+    for (int i = 0; i < test.size(); i++) {
+        qDebug() << test[i]._id << ", " << test[i]._idPatient << ", " << test[i]._idRessource;
+    }
+
+    // delete the patient
     ui->patientsTableView->hideRow(_patientClickedIndex);
     ui->patientsTableView->setModel(_patientsModel);
     _patientConnector->deleteRecord(_patientClickedIndex);
