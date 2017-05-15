@@ -14,7 +14,7 @@ public:
     virtual inline Consult getOne(string value, string field);
     virtual inline int insert(Consult element);
 
-
+    inline void suppr(int consultId);
 
     static ConsultConnector* getInstance();
 
@@ -104,6 +104,26 @@ int ConsultConnector::insert(Consult element) {
     // Close database and return
     closeDatabase();
     return nextId;
+}
+
+void ConsultConnector::suppr(int consultId) {
+    // Open the database
+    if(!openDatabase()) return;
+
+    // Create the query
+    QSqlQuery query(_database);
+
+    query.prepare("DELETE FROM " + getTable() + " WHERE Id=:id");
+    query.bindValue(":id", consultId);
+    bool queryResult = query.exec();
+
+    if (!queryResult) {
+        qDebug() << query.lastError() << "\n";
+        return;
+    }
+
+    // Close database
+    closeDatabase();
 }
 
 QList<Consult> ConsultConnector::getPatientConsult(int patientId) {
