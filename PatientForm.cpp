@@ -12,7 +12,7 @@ PatientForm::PatientForm(QWidget * parent) :
     ui(new Ui::PatientForm)
 {
     ui->setupUi(this);
-
+    setWindowTitle("Ajout d'un patient");
 
     _staffConnector = StaffConnector::getInstance();
 
@@ -41,6 +41,8 @@ QList<Staff> PatientForm::getAffectedStaff() {
 
 void PatientForm::setPatient(Patient * patient)
 {
+    setWindowTitle("Modification d'un patient");
+
     ui->firstnameLineEdit->setText(patient->getFirstName().c_str());
     ui->lastnameLineEdit->setText(patient->getLastName().c_str());
     ui->commentTextEdit->setText(patient->getComment().c_str());

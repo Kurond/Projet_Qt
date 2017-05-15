@@ -12,10 +12,9 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    _standardModel(new QStandardItemModel(this))
+    _typesModel(new QStandardItemModel(this))
 {
     ui->setupUi(this);
-
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(quit_clicked()));
     connect(ui->actionPatient,  SIGNAL(triggered()), this, SLOT(addPatient()));
 
@@ -28,32 +27,26 @@ MainWindow::MainWindow(QWidget *parent) :
     _consultConnector = ConsultConnector::getInstance();
     _accountConnector = AccountConnector::getInstance();
 
-    // Prepare the tree view
-    QList<Staff> staffList = _staffConnector->getAll();
-    QList<StaffType> typeList = _staffTypeConnector->getAll();
-
-    QStandardItem * rootNode = _standardModel->invisibleRootItem();
-
-    for (int i = 0; i < typeList.size(); ++i) {
-       QStandardItem * item =  new QStandardItem(typeList.at(i).getName().c_str());
-       _typeItemsList.append(item);
-    }
-    rootNode->appendRows(_typeItemsList);
-
-    for (int i = 0; i < staffList.size(); i++) {
-        for (int j = 0; j < _typeItemsList.size(); ++j) {
-            if (staffList.at(i).getTypeId() == typeList.at(j).getId()) {
-                QStandardItem * item =  new QStandardItem((staffList.at(i).getFirstName() + " " + staffList.at(i).getLastName()).c_str());
-                _typeItemsList.at(j)->appendRow(item);
-            }
-        }
-    }
-
     // staff tree view initialization
-    ui->treeView->setModel(_standardModel);
-    ui->treeView->expandAll();
+    setupStaffTab();
 
     // patient table view initialization
+    setupPatientTab();
+}
+
+
+MainWindow::~MainWindow() {
+    delete ui;
+}
+
+void MainWindow::areButtonsEnable(bool active)
+{
+    ui->deletePatientButton->setEnabled(active);
+    ui->editPatientButton->setEnabled(active);
+}
+
+void MainWindow::setupPatientTab()
+{
     _patientsModel = _patientConnector->getTableModel(this);
     ui->patientsTableView->setModel(_patientsModel);
     ui->patientsTableView->hideColumn(3);
@@ -68,15 +61,36 @@ MainWindow::MainWindow(QWidget *parent) :
     areButtonsEnable(false);
 }
 
-
-MainWindow::~MainWindow() {
-    delete ui;
-}
-
-void MainWindow::areButtonsEnable(bool active)
+void MainWindow::setupStaffTab()
 {
-    ui->deletePatientButton->setEnabled(active);
-    ui->editPatientButton->setEnabled(active);
+    // Prepare the tree view
+    QList<Staff> staffList = _staffConnector->getAll();
+    QList<StaffType> typeList = _staffTypeConnector->getAll();
+
+    QStandardItem * rootNode = _typesModel->invisibleRootItem();
+    _typesModel->setColumnCount(2);
+    _typesModel->setHeaderData(0,Qt::Horizontal,"Prénom");
+    _typesModel->setHeaderData(1,Qt::Horizontal,"Nom");
+
+    for (int i = 0; i < typeList.size(); ++i) {
+       QStandardItem * item =  new QStandardItem(typeList.at(i).getName().c_str());
+       _typeItemsList.append(item);
+    }
+    rootNode->appendRows(_typeItemsList);
+
+    for (int i = 0; i < staffList.size(); i++) {
+        for (int j = 0; j < _typeItemsList.size(); ++j) {
+            if (staffList.at(i).getTypeId() == typeList.at(j).getId()) {
+                QList<QStandardItem*> items;
+                items.append(new QStandardItem(staffList.at(i).getFirstName().c_str()));
+                items.append(new QStandardItem(staffList.at(i).getLastName().c_str()));
+                _typeItemsList.at(j)->appendRow(items);
+            }
+        }
+    }
+    ui->treeView->setModel(_typesModel);
+    ui->treeView->setEditTriggers(QTreeView::NoEditTriggers);
+    ui->treeView->setColumnWidth(0, 200);
 }
 
 void MainWindow::on_addStaffPushButton_clicked()
@@ -106,7 +120,7 @@ void MainWindow::on_addStaffPushButton_clicked()
             _accountConnector->insert(newAccount);
 
             QList<Account> accounts = _accountConnector->getAll();
-            for (unsigned int i = 0; i < accounts.size(); i++) {
+            for (int i = 0; i < accounts.size(); i++) {
                 qDebug() << accounts[i].getLogin().c_str() << " " << accounts[i].getPassword().c_str() << "\n";
             }
         }

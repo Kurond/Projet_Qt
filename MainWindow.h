@@ -30,7 +30,7 @@ signals:
 
 private:
     Ui::MainWindow *ui;
-    QStandardItemModel * _standardModel;
+    QStandardItemModel * _typesModel;
     QList<QStandardItem *> _typeItemsList;
     QList<Patient> _patients;
 
@@ -44,6 +44,8 @@ private:
     int _patientClickedIndex;
 
     void areButtonsEnable(bool active);
+    void setupPatientTab();
+    void setupStaffTab();
 
 private slots:
     void on_addStaffPushButton_clicked();
