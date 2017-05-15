@@ -15,22 +15,20 @@ class PatientConnector : public Connector<Patient>
 {
 public:
     ~PatientConnector();
-
+    static PatientConnector* getInstance();
 
     virtual inline QList<Patient> getAll();
     virtual inline Patient getOne(string value, string field);
     virtual inline int insert(Patient element);
-    inline void update(Patient element);
-
-    static PatientConnector* getInstance();
 
     inline QSqlTableModel * getTableModel(QObject * window);
     inline void searchFilterModel(QString value);
     inline void refreshModel();
+    inline void updateRecord(int index, Patient updatePatient);
+    inline void deleteRecord(int index);
 
 protected:
     inline PatientConnector();
-    virtual inline QList<Patient> setResult(QSqlQuery query);
 
 private:
     static PatientConnector* _instance;
@@ -50,11 +48,8 @@ QList<Patient> PatientConnector::getAll() {
     QList<Patient> result;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen()) {
-        qDebug() << _database.lastError() << "\n";
-        return result;
-    }
+    if(!openDatabase()) return result;
+
     // Create the query
     QSqlQuery query(_database);
     bool queryResult = query.exec("SELECT * FROM " + getTable());
@@ -81,8 +76,7 @@ QList<Patient> PatientConnector::getAll() {
 
         result << patient;
     }
-    _database.close();
-
+    closeDatabase();
     return result;
 }
 
@@ -102,11 +96,7 @@ int PatientConnector::insert(Patient element) {
     int nextId = getLastId() + 1;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen()) {
-        qDebug() << _database.lastError() << "\n";
-        return -1;
-    }
+    if(!openDatabase()) return -1;
 
     // Create the query
     QSqlQuery query(_database);
@@ -130,87 +120,67 @@ int PatientConnector::insert(Patient element) {
         qDebug() << query.lastError() << "\n";
         return -1;
     }
-    _database.close();
-
+    closeDatabase();
     return nextId;
-}
-
-
-void PatientConnector::update(Patient element)
-{
-    // Open the database
-    _database.open();
-    if(!_database.isOpen()) {
-        qDebug() << _database.lastError() << "\n";
-    }
-
-    // Create the query
-    QSqlQuery query(_database);
-
-    element.display();
-
-    query.prepare("UPDATE " + getTable() + " SET Nom=:lastname, Prenom=:firstname, Adresse=:address, Ville=:city, CP=:postalCode, "
-                  "Commentaire=:comment, Tel=:phone, DateConsultation=:dateconsult, DureeConsultation=:duration, Priorite=:priority WHERE Id=:id");
-    query.bindValue(":id", element.getId());
-    query.bindValue(":lastname", (QString)element.getLastName().c_str());
-    query.bindValue(":firstname", (QString)element.getFirstName().c_str());
-    query.bindValue(":address", (QString)element.getAddress().c_str());
-    query.bindValue(":city", (QString)element.getCity().c_str());
-    query.bindValue(":postalCode", element.getPostalCode());
-    query.bindValue(":comment", (QString)element.getComment().c_str());
-    query.bindValue(":phone", element.getPhone());
-    query.bindValue(":dateconsult", (QString)element.getConsultationDate().c_str());
-    query.bindValue(":duration", element.getDuration());
-    query.bindValue(":priority", element.getPriority());
-    bool result = query.exec();
-
-    if (!result) {
-        qDebug() << query.lastError() << "\n";
-    }
-    _database.close();
 }
 
 QSqlTableModel* PatientConnector::getTableModel(QObject * parent)
 {
     // Open the database
-    _database.open();
-    if(!_database.isOpen()) {
-        qDebug() << _database.lastError() << "\n";
-        return NULL;
-    }
+    openDatabase();
 
     _model = new QSqlTableModel(parent, _database);
     _model->setTable(getTable());
     _model->setHeaderData(8, Qt::Horizontal, "Date");
     _model->select();
 
-    _database.close();
-
+    closeDatabase();
     return _model;
 }
 
 void PatientConnector::searchFilterModel(QString value)
 {
     // Open the database
-    _database.open();
-    if(!_database.isOpen()) {
-        qDebug() << _database.lastError() << "\n";
-    }
+    openDatabase();
     _model->setFilter(QString("Nom LIKE '%%1%' OR Prenom LIKE '%%2%' OR Ville LIKE '%%3%'").arg(value).arg(value).arg(value));
-    _database.close();
+    closeDatabase();
 }
 
 void PatientConnector::refreshModel()
 {
-    _database.open();
+    // Open the database
+    openDatabase();
     _model->select();
-    _database.close();
+    closeDatabase();
 }
 
-QList<Patient> PatientConnector::setResult(QSqlQuery query) {
-    QList<Patient> result;
-
-    return result;
+void PatientConnector::updateRecord(int index, Patient patient)
+{
+    QSqlRecord record = _model->record(index);
+    record.setValue("Nom", patient.getLastName().c_str());
+    record.setValue("Prenom", QString(patient.getFirstName().c_str()));
+    record.setValue("Adresse", QString(patient.getAddress().c_str()));
+    record.setValue("Ville", QString(patient.getCity().c_str()));
+    record.setValue("Commentaire", QString(patient.getComment().c_str()));
+    record.setValue("DateConsultation", QString(patient.getConsultationDate().c_str()));
+    record.setValue("Tel", patient.getPhone());
+    record.setValue("CP", patient.getPostalCode());
+    record.setValue("DureeConsultation", patient.getDuration());
+    record.setValue("Priorite", patient.getPriority());
+    openDatabase();
+    _model->setRecord(index, record);
+    closeDatabase();
 }
+
+void PatientConnector::deleteRecord(int index)
+{
+    openDatabase();
+    _model->removeRow(index);
+
+    qDebug() << _model->lastError();
+
+    closeDatabase();
+}
+
 
 #endif // PATIENTCONNECTOR_H

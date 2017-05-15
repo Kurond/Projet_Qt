@@ -18,8 +18,6 @@ public:
 protected:
     inline AccountConnector();
 
-    virtual inline QList<Account> setResult(QSqlQuery query);
-
 private:
     static AccountConnector* _instance;
 
@@ -36,11 +34,7 @@ QList<Account> AccountConnector::getAll()
     QList<Account> result;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen()) {
-        qDebug() << "Impossible to open database\n";
-        return result;
-    }
+    if(!openDatabase()) return result;
 
     // Create the query
     QSqlQuery query(_database);
@@ -62,7 +56,7 @@ QList<Account> AccountConnector::getAll()
         result << account;
     }
 
-    _database.close();
+    closeDatabase();
 
     return result;
 }
@@ -72,12 +66,7 @@ Account AccountConnector::getOne(string value, string field)
     Account result;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen())
-    {
-        //qDebug() << _database.lastError();
-        qDebug() << "Impossible to open database\n";
-    }
+    if(!openDatabase()) return result;
 
     // Create the query
     QSqlQuery query(_database);
@@ -95,10 +84,9 @@ Account AccountConnector::getOne(string value, string field)
         result.setPassword(query.value(3).toString().toStdString());
     }
 
-    _database.close();
+    closeDatabase();
 
     return result;
-
 }
 
 /**
@@ -108,15 +96,10 @@ Account AccountConnector::getOne(string value, string field)
  */
 int AccountConnector::insert(Account element)
 {
-    bool result = false;
     int nextId = getLastId() + 1;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen()) {
-        qDebug() << _database.lastError() << "\n";
-        return -1;
-    }
+    if(!openDatabase()) return -1;
 
     // Create the query
     QSqlQuery query(_database);
@@ -128,25 +111,17 @@ int AccountConnector::insert(Account element)
     query.bindValue(":idStaff", element.getStaffId());
     query.bindValue(":login", element.getLogin().c_str());
     query.bindValue(":password", element.getPassword().c_str());
-    result = query.exec();
+    bool queryRes = query.exec();
 
-    if (!result) {
+    if (!queryRes) {
         qDebug() << "error: " << query.lastError();
         return -1;
     }
 
     // Close database and return
-    _database.close();
+    closeDatabase();
     return nextId;
 }
-
-QList<Account> AccountConnector::setResult(QSqlQuery query)
-{
-    QList<Account> result;
-
-    return result;
-}
-
 
 
 #endif // ACCOUNTCONNECTOR_H

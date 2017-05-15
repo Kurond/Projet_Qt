@@ -19,8 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(quit_clicked()));
     connect(ui->actionPatient,  SIGNAL(triggered()), this, SLOT(addPatient()));
 
-
-    _patientClicked = NULL;
+    _patientClickedIndex = -1;
 
     // Getting connectors instance
     _staffConnector = StaffConnector::getInstance();
@@ -50,18 +49,19 @@ MainWindow::MainWindow(QWidget *parent) :
         }
     }
 
-    // qtree view initialization
+    // staff tree view initialization
     ui->treeView->setModel(_standardModel);
     ui->treeView->expandAll();
 
+    // patient table view initialization
     _patientsModel = _patientConnector->getTableModel(this);
     ui->patientsTableView->setModel(_patientsModel);
-//    ui->patientsTableView->hideColumn(3);
-//    ui->patientsTableView->hideColumn(5);
-//    ui->patientsTableView->hideColumn(6);
-//    ui->patientsTableView->hideColumn(7);
-//    ui->patientsTableView->hideColumn(9);
-//    ui->patientsTableView->hideColumn(10);
+    ui->patientsTableView->hideColumn(3);
+    ui->patientsTableView->hideColumn(5);
+    ui->patientsTableView->hideColumn(6);
+    ui->patientsTableView->hideColumn(7);
+    ui->patientsTableView->hideColumn(9);
+    ui->patientsTableView->hideColumn(10);
     ui->patientsTableView->setEditTriggers(QTableView::NoEditTriggers);
     ui->patientsTableView->show();
 
@@ -71,7 +71,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     delete ui;
-    delete _patientClicked;
 }
 
 void MainWindow::areButtonsEnable(bool active)
@@ -129,7 +128,7 @@ void MainWindow::quit_clicked() {
 }
 
 void MainWindow::addPatient() {
-    AddPatientForm addPatientForm;
+    PatientForm addPatientForm;
 
     // Execute the patient form ans wait for an acceted return
     if (addPatientForm.exec() == QDialog::Accepted) {
@@ -138,6 +137,9 @@ void MainWindow::addPatient() {
         // Get the patient created with the form and add it to the database.
         Patient newPatient = addPatientForm.getPatient();
         consult._idPatient = _patientConnector->insert(newPatient);
+
+        _patientConnector->refreshModel();
+        ui->patientsTableView->setModel(_patientsModel);
 
         // Get the affected ressource and add the to the database
         QList<Staff> ressources = addPatientForm.getAffectedStaff();
@@ -160,26 +162,15 @@ void MainWindow::on_searchButton_clicked()
 
 void MainWindow::on_editPatientButton_clicked()
 {
-    if (_patientClicked != NULL) {
-        AddPatientForm addPatientForm;
-        addPatientForm.setPatient(_patientClicked);
+    if (_patientClickedIndex != -1) {
+        PatientForm addPatientForm;
+        Patient patient(_patientsModel->record(_patientClickedIndex));
+        addPatientForm.setPatient(&patient);
 
         // Execute the patient form ans wait for an acceted return
         if (addPatientForm.exec() == QDialog::Accepted) {
-            _patientConnector->update(addPatientForm.getPatient());
-            Patient updatePatient = addPatientForm.getPatient();
-//            _patientsModel->record(index.row()).setValue("Nom", updatePatient.getLastName().c_str());
-//            _patientsModel->record(index.row()).setValue("Prenom", QString(updatePatient.getFirstName()));
-//            _patientsModel->record(index.row()).setValue("Adresse", QString(updatePatient.getAddress()));
-//            _patientsModel->record(index.row()).setValue("Ville", QString(updatePatient.getCity()));
-//            _patientsModel->record(index.row()).setValue("Commentaire", QString(updatePatient.getComment()));
-//            _patientsModel->record(index.row()).setValue("DateConsultation", QString(updatePatient.getComment()));
-//            _patientsModel->record(index.row()).setValue("Tel", updatePatient.getPhone());
-//            _patientsModel->record(index.row()).setValue("CP", updatePatient.getPostalCode());
-//            _patientsModel->record(index.row()).setValue("DureeConsultation", QString(updatePatient.getComment()));
-//            _patientsModel->record(index.row()).setValue("Priorite", updatePatient.getPriority());
-
-            _patientConnector->refreshModel();
+            Patient updatedPatient = addPatientForm.getPatient();
+            _patientConnector->updateRecord(_patientClickedIndex, updatedPatient);
         }
     }
 }
@@ -188,13 +179,8 @@ void MainWindow::on_editPatientButton_clicked()
 void MainWindow::on_patientsTableView_pressed(const QModelIndex &index)
 {
     areButtonsEnable(true);
-    if (index.isValid() && _patientClicked != NULL ? _patientsModel->record(index.row()).value("Id") != _patientClicked->getId() : _patientClicked == NULL) {
-
-        _patientsModel->record(index.row()).setValue("Nom", "COUCOU");
-        _patientsModel->insertRecord(index.row(), _patientsModel->record(index.row()));
-
-        _patientClicked = new Patient(_patientsModel->record(index.row()));
-        _patientClicked->display();
+    if (index.isValid() && _patientClickedIndex == -1 || _patientClickedIndex != index.row()) {
+        _patientClickedIndex = index.row();
     }
 }
 
@@ -207,4 +193,11 @@ void MainWindow::on_patientsTableView_doubleClicked(const QModelIndex &index)
 void MainWindow::on_addPatientPushButton_clicked()
 {
     addPatient();
+}
+
+void MainWindow::on_deletePatientButton_clicked()
+{
+    ui->patientsTableView->hideRow(_patientClickedIndex);
+    ui->patientsTableView->setModel(_patientsModel);
+    _patientConnector->deleteRecord(_patientClickedIndex);
 }

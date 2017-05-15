@@ -15,7 +15,6 @@ TEMPLATE = app
 
 SOURCES +=\
     Patient.cpp \
-    AddPatientForm.cpp \
     AddStaffForm.cpp \
     MainWindow.cpp \
     Staff.cpp \
@@ -29,12 +28,12 @@ SOURCES +=\
     AccountConnector.cpp \
     ConsultConnector.cpp \
     Consult.cpp \
-    LoginForm.cpp
+    LoginForm.cpp \
+    PatientForm.cpp
 
 HEADERS  += \
     Patient.h \
     AddStaffForm.h \
-    AddPatientForm.h \
     LoginForm.h \
     MainWindow.h \
     Staff.h \
@@ -46,10 +45,11 @@ HEADERS  += \
     StaffTypeConnector.h \
     AccountConnector.h \
     ConsultConnector.h \
-    Consult.h
+    Consult.h \
+    PatientForm.h
 
 FORMS    += \
     LoginForm.ui \
     MainWindow.ui \
     AddStaffForm.ui \
-    AddPatientForm.ui
+    PatientForm.ui

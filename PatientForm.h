@@ -10,16 +10,16 @@
 #include "StaffConnector.h"
 
 namespace Ui {
-class AddPatientForm;
+class PatientForm;
 }
 
-class AddPatientForm : public QDialog
+class PatientForm : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit AddPatientForm(QWidget *parent = 0);
-    ~AddPatientForm();
+    explicit PatientForm(QWidget *parent = 0);
+    ~PatientForm();
     string isFormValid();
     Patient getPatient();
     QList<Staff> getAffectedStaff();
@@ -31,7 +31,7 @@ private slots:
     void on_addRessourceButton_clicked();
 
 private:
-    Ui::AddPatientForm *ui;
+    Ui::PatientForm *ui;
     Patient _patient;
 
     QList<Staff> _affectedStaffs;

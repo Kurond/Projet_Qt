@@ -1,4 +1,4 @@
-#include "AddPatientForm.h"
+#include "PatientForm.h"
 #include "ui_AddPatientForm.h"
 #include "QList"
 #include "Staff.h"
@@ -7,52 +7,58 @@
 #include <QMessageBox>
 #include <QDate>
 
-AddPatientForm::AddPatientForm(QWidget * parent) :
+PatientForm::PatientForm(QWidget * parent) :
     QDialog(parent),
-    ui(new Ui::AddPatientForm)
+    ui(new Ui::PatientForm)
 {
     ui->setupUi(this);
 
 
     _staffConnector = StaffConnector::getInstance();
 
-    // Fill combo box
+    // Fill staff combo box
     _availableStaffs = _staffConnector->getNonIt();
     for (int i = 0; i < _availableStaffs.size(); i++) {
         QString item = QString(_availableStaffs[i].getFirstName().c_str()) + " " + QString(_availableStaffs[i].getLastName().c_str());
         ui->ressourceComboBox->addItem(item);
     }
     ui->hoursDurationComboBox->setCurrentIndex(1);
+    ui->minsDurationComboBox->setCurrentIndex(0);
 }
 
-AddPatientForm::~AddPatientForm()
+PatientForm::~PatientForm()
 {
     delete ui;
 }
 
-Patient AddPatientForm::getPatient() {
+Patient PatientForm::getPatient() {
     return _patient;
 }
 
-QList<Staff> AddPatientForm::getAffectedStaff() {
+QList<Staff> PatientForm::getAffectedStaff() {
     return _affectedStaffs;
 }
 
-void AddPatientForm::setPatient(Patient * patient)
+void PatientForm::setPatient(Patient * patient)
 {
     ui->firstnameLineEdit->setText(patient->getFirstName().c_str());
     ui->lastnameLineEdit->setText(patient->getLastName().c_str());
     ui->commentTextEdit->setText(patient->getComment().c_str());
     ui->addressLineEdit->setText(patient->getAddress().c_str());
-    ui->consultationDateLineEdit->setText(patient->getConsultationDate().c_str());
     ui->cityLineEdit->setText(patient->getCity().c_str());
-    ui->postalCodeLineEdit->setText(to_string(patient->getPostalCode()).c_str());
-    ui->phoneLineEdit->setText(to_string(patient->getPhone()).c_str());
+    ui->postalCodeLineEdit->setText(QString::number(patient->getPostalCode()));
+    ui->phoneLineEdit->setText(QString::number(patient->getPhone()));
     ui->priorityComboBox->setCurrentIndex(patient->getPriority()-1);
 
+    // format & display date
+    string formattedDate = patient->getConsultationDate().substr(8,2) + "/" +
+            patient->getConsultationDate().substr(5,2) + "/" +
+            patient->getConsultationDate().substr(0,4);
+    ui->consultationDateLineEdit->setText(formattedDate.c_str());
+
+    // format & display duration
     int hours = patient->getDuration()/60;
     int mins = hours != 0 ? patient->getDuration()%(hours*60) : patient->getDuration();
-
     ui->hoursDurationComboBox->setCurrentIndex(hours);
     for (int i = 0; i < 12; i++) {
         if (ui->minsDurationComboBox->itemText(i) == to_string(mins).c_str())
@@ -60,7 +66,7 @@ void AddPatientForm::setPatient(Patient * patient)
     }
 }
 
-string AddPatientForm::isFormValid() {
+string PatientForm::isFormValid() {
     string errors = "";
 
     // If the first name wasn't set
@@ -96,7 +102,7 @@ string AddPatientForm::isFormValid() {
     }
 
     // If the date wasn't set
-    if (!_affectedStaffs.isEmpty() && !ui->consultationDateLineEdit->text().isEmpty()) {
+    if (!ui->consultationDateLineEdit->text().isEmpty()) {
         QDate consultationDate = QDate::fromString(ui->consultationDateLineEdit->text(), "dd/MM/yyyy");
 
         // If date doesn't respect the format
@@ -104,7 +110,14 @@ string AddPatientForm::isFormValid() {
             errors = errors.append("Le champs date ne respecte pas le format. \n");
         }
         else {
-            _patient.setConsultationDate(consultationDate.toString().toStdString());
+            int month = consultationDate.month();
+            int day = consultationDate.day();
+            QString formattedDate = QString::number(consultationDate.year()) + "-" +
+                    (month < 10 ? "0"+QString::number(month) : QString::number(month)) + "-" +
+                    (day < 10 ? "0"+QString::number(day) : QString::number(day));
+
+            qDebug() << formattedDate;
+            _patient.setConsultationDate(formattedDate.toStdString());
         }
     }
     else if (!_affectedStaffs.isEmpty()){
@@ -140,17 +153,21 @@ string AddPatientForm::isFormValid() {
         }
     }
 
+    // Save the comment
+    _patient.setComment(ui->commentTextEdit->toPlainText().toStdString());
+    // Save the priority
     _patient.setPriority(ui->priorityComboBox->currentText().toInt());
+    // Save the duration
     _patient.setDuration(ui->hoursDurationComboBox->currentText().toInt()*60+ui->minsDurationComboBox->currentText().toInt());
 
     return errors;
 }
 
-void AddPatientForm::on_cancelButton_clicked() {
+void PatientForm::on_cancelButton_clicked() {
     reject();
 }
 
-void AddPatientForm::on_addButton_clicked() {
+void PatientForm::on_addButton_clicked() {
     string accepted = isFormValid();
 
     if (accepted == "") {
@@ -165,7 +182,7 @@ void AddPatientForm::on_addButton_clicked() {
 
 }
 
-void AddPatientForm::on_addRessourceButton_clicked()
+void PatientForm::on_addRessourceButton_clicked()
 {
     // Add the resource to the list
     _affectedStaffs << _availableStaffs[ui->ressourceComboBox->currentIndex()];

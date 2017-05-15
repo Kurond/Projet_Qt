@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "AddPatientForm.h"
+#include "PatientForm.h"
 #include "QStandardItemModel"
 #include "StaffConnector.h"
 #include "ConsultConnector.h"
@@ -41,7 +41,7 @@ private:
     AccountConnector* _accountConnector;
 
     QSqlTableModel* _patientsModel;
-    Patient * _patientClicked;
+    int _patientClickedIndex;
 
     void areButtonsEnable(bool active);
 
@@ -54,6 +54,7 @@ private slots:
     void on_patientsTableView_pressed(const QModelIndex &index);
     void on_patientsTableView_doubleClicked(const QModelIndex &index);
     void on_addPatientPushButton_clicked();
+    void on_deletePatientButton_clicked();
 };
 
 #endif // MAINWINDOW_H

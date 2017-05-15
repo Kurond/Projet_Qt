@@ -20,7 +20,6 @@ public:
 
 protected:
     inline StaffTypeConnector();
-    virtual inline QList<StaffType> setResult(QSqlQuery query);
 
 private:
     static StaffTypeConnector* _instance;
@@ -34,11 +33,7 @@ QList<StaffType> StaffTypeConnector::getAll() {
     QList<StaffType> result;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen()) {
-        qDebug() << "Impossible to open database\n";
-        return result;
-    }
+    if(!openDatabase()) return result;
 
     // Create the query
     QSqlQuery query(_database);
@@ -47,17 +42,6 @@ QList<StaffType> StaffTypeConnector::getAll() {
         qDebug() << "Impossible to read database\n";
         return result;
     }
-
-    // Get all result
-    result = setResult(query);
-
-    _database.close();
-
-    return result;
-}
-
-QList<StaffType> StaffTypeConnector::setResult(QSqlQuery query) {
-     QList<StaffType> result;
 
     // Get all result
     while (query.next()) {
@@ -69,20 +53,17 @@ QList<StaffType> StaffTypeConnector::setResult(QSqlQuery query) {
         result << staffType;
     }
 
+
+    closeDatabase();
+
     return result;
 }
-
 
 StaffType StaffTypeConnector::getOne(string value, string field) {
     StaffType result;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen())
-    {
-        //qDebug() << _database.lastError();
-        qDebug() << "Impossible to open database\n";
-    }
+    if(!openDatabase()) return result;
 
     // Create the query
     QSqlQuery query(_database);
@@ -98,8 +79,7 @@ StaffType StaffTypeConnector::getOne(string value, string field) {
         result.setName(query.value(1).toString().toStdString());
     }
 
-    _database.close();
-
+    closeDatabase();
     return result;
 }
 

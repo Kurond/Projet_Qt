@@ -27,11 +27,12 @@ public:
     static bool createDatabase();
     static bool loadDatabase();
 
+    inline bool openDatabase();
+    inline bool closeDatabase();
+
 protected:
     QString getTable() const;
     QString getDatabaseName() const;
-
-    virtual inline QList<T> setResult(QSqlQuery query) = 0;
 
     void getDatabase();
     QSqlDatabase _database;
@@ -70,11 +71,7 @@ int Connector<T>::getLastId()
     int result = 0;
 
     // Open the database
-    if(!_database.isOpen())
-    {
-        //qDebug() << _database.lastError();
-        qDebug() << "Impossible to open database\n";
-    }
+    if(!openDatabase()) return result;
 
     // Create the query
     QSqlQuery query(_database);
@@ -88,7 +85,7 @@ int Connector<T>::getLastId()
     if (query.next()) {
         result = query.value(0).toInt();
     }
-
+    closeDatabase();
     return result;
 }
 
@@ -327,6 +324,28 @@ bool Connector<T>::createDatabase() {
         qDebug() << "Erreur à création de la base !\n";
         return false;
     }
+}
+
+template<typename T>
+bool Connector<T>::openDatabase()
+{
+    if (!_database.isOpen()) _database.open();
+    if (!_database.isOpen()) {
+        qDebug() << "open database error";
+        return false;
+    }
+    return true;
+}
+
+template<typename T>
+bool Connector<T>::closeDatabase()
+{
+    if (_database.isOpen()) _database.close();
+    if (_database.isOpen()) {
+        qDebug() << "close database error";
+        return false;
+    }
+    return true;
 }
 
 #endif // DATABASE_H

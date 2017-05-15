@@ -19,8 +19,6 @@ public:
 protected:
     inline ConsultConnector();
 
-    virtual inline QList<Consult> setResult(QSqlQuery query);
-
     static ConsultConnector* _instance;
 };
 
@@ -37,11 +35,7 @@ QList<Consult> ConsultConnector::getAll() {
     QList<Consult> result;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen()) {
-        qDebug() << "Impossible to open database\n";
-        return result;
-    }
+    if(!openDatabase()) return result;
 
     // Create the query
     QSqlQuery query(_database);
@@ -64,7 +58,7 @@ QList<Consult> ConsultConnector::getAll() {
     }
 
     // Close database
-    _database.close();
+    closeDatabase();
     return result;
 }
 
@@ -86,11 +80,7 @@ int ConsultConnector::insert(Consult element) {
     int nextId = getLastId() + 1;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen()) {
-        qDebug() << _database.lastError() << "\n";
-        return -1;
-    }
+    if(!openDatabase()) return -1;
 
     // Create the query
     QSqlQuery query(_database);
@@ -108,13 +98,8 @@ int ConsultConnector::insert(Consult element) {
     }
 
     // Close database and return
-    _database.close();
+    closeDatabase();
     return nextId;
 }
 
-QList<Consult> ConsultConnector::setResult(QSqlQuery query) {
-    QList<Consult> result;
-
-    return result;
-}
 #endif // CONSULTCONNECTOR_H
