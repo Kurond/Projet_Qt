@@ -35,6 +35,10 @@ MainWindow::MainWindow(QWidget *parent) :
     // patient table view initialization
     setupPatientTab();
 
+    // Initiate date
+    ui->beginDateEdit->setDate(QDate::currentDate());
+    ui->endDateEdit->setDate(QDate::currentDate());
+
     ui->statusBar->showMessage("Choisissez une action");
 }
 
@@ -213,6 +217,8 @@ void MainWindow::on_searchButton_clicked()
 {
     qDebug() << ui->searchTextBox->text();
     _patientConnector->searchFilterModel(ui->searchTextBox->text());
+    _patientConnector->searchDateFilterModel(ui->beginDateEdit->date(), ui->endDateEdit->date());
+
     arePatientButtonsEnable(false);
 
 }
@@ -283,6 +289,7 @@ void MainWindow::on_editPatientButton_clicked()
             for (int i = 0; i < consultToDelete.size(); i++) {
                 _consultConnector->suppr(consultToDelete[i]._id);
             }
+
             ui->statusBar->showMessage("Patient modifié");
         }
     }
@@ -310,6 +317,25 @@ void MainWindow::on_addPatientPushButton_clicked()
 
 void MainWindow::on_deletePatientButton_clicked()
 {
+    // Delete consult involving this patient
+    QList<Consult> consultToDelete = _consultConnector->getPatientConsult(_patientsModel->record(_patientClickedIndex).value("Id").toInt());
+
+    for (int i = 0; i < consultToDelete.size(); i++) {
+        qDebug() << "delete : " << consultToDelete[i]._id << ", " << consultToDelete[i]._idPatient << ", " << consultToDelete[i]._idRessource;
+        _consultConnector->suppr(consultToDelete[i]._id);
+    }
+
+    qDebug() << "remainning consult";
+
+    QList<Consult> test = _consultConnector->getAll();
+    for (int i = 0; i < test.size(); i++) {
+        qDebug() << test[i]._id << ", " << test[i]._idPatient << ", " << test[i]._idRessource;
+    }
+
+    // delete the patient
+    ui->patientsTableView->hideRow(_patientClickedIndex);
+    ui->patientsTableView->setModel(_patientsModel);
+    _patientConnector->deleteRecord(_patientClickedIndex);
     QMessageBox::StandardButton reply;
       reply = QMessageBox::question(this, "Attention", "Voulez-vous vraiment supprimer ce patient ?",QMessageBox::Yes|QMessageBox::No);
       if (reply == QMessageBox::Yes) {
@@ -320,7 +346,7 @@ void MainWindow::on_deletePatientButton_clicked()
       }
 }
 
-void MainWindow::selectionChangedSlot(const QItemSelection &newSelection, const QItemSelection &oldSelection)
+void MainWindow::selectionChangedSlot(const QItemSelection &, const QItemSelection &)
 {
     areStaffButtonsEnable(true);
 }
