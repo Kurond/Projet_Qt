@@ -52,6 +52,8 @@ void PatientForm::setPatient(Patient * patient)
     ui->phoneLineEdit->setText(QString::number(patient->getPhone()));
     ui->priorityComboBox->setCurrentIndex(patient->getPriority()-1);
 
+    _patient.setId(patient->getId());
+
     // format & display date
     string formattedDate = patient->getConsultationDate().substr(8,2) + "/" +
             patient->getConsultationDate().substr(5,2) + "/" +
