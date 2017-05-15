@@ -40,6 +40,8 @@ private:
     QList<Staff> _availableStaffs;
 
     StaffConnector* _staffConnector;
+
+    void fillComboBox();
 };
 
 #endif // ADDPATIENT_H

@@ -18,10 +18,8 @@ PatientForm::PatientForm(QWidget * parent) :
 
     // Fill staff combo box
     _availableStaffs = _staffConnector->getNonIt();
-    for (int i = 0; i < _availableStaffs.size(); i++) {
-        QString item = QString(_availableStaffs[i].getFirstName().c_str()) + " " + QString(_availableStaffs[i].getLastName().c_str());
-        ui->ressourceComboBox->addItem(item);
-    }
+    fillComboBox();
+
     ui->hoursDurationComboBox->setCurrentIndex(1);
     ui->minsDurationComboBox->setCurrentIndex(0);
 }
@@ -189,7 +187,7 @@ void PatientForm::on_addRessourceButton_clicked()
 
     // resize the table
     ui->tableWidget->setRowCount(ui->tableWidget->rowCount() + 1);
-    ui->tableWidget->setColumnCount(2);
+    ui->tableWidget->setColumnCount(3);
 
     // Creates new elements
     QTableWidgetItem* firstNameItem = new QTableWidgetItem();
@@ -198,18 +196,19 @@ void PatientForm::on_addRessourceButton_clicked()
     QTableWidgetItem* lastNameItem = new QTableWidgetItem();
     lastNameItem->setText(_affectedStaffs[ui->tableWidget->rowCount() - 1].getLastName().c_str());
 
+    QTableWidgetItem* typeItem = new QTableWidgetItem();
+    typeItem->setText(_affectedStaffs[ui->tableWidget->rowCount() - 1].getType().c_str());
+
     // Add elements to the table
     ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, firstNameItem);
     ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, lastNameItem);
+    ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 2, typeItem);
 
     // Delete ressource from combo box
     _availableStaffs.removeAt(ui->ressourceComboBox->currentIndex());
     ui->ressourceComboBox->clear();
 
-    for (int i = 0; i < _availableStaffs.size(); i++) {
-        QString item = QString(_availableStaffs[i].getFirstName().c_str()) + " " + QString(_availableStaffs[i].getLastName().c_str());
-        ui->ressourceComboBox->addItem(item);
-    }
+    fillComboBox();
 }
 
 void PatientForm::on_removeRessourceButton_clicked()
@@ -224,10 +223,14 @@ void PatientForm::on_removeRessourceButton_clicked()
         ui->tableWidget->removeRow(ui->tableWidget->selectedItems().at(0)->row());
 
         // fill the combo box in
-        for (int i = 0; i < _availableStaffs.size(); i++) {
-            QString item = QString(_availableStaffs[i].getFirstName().c_str()) + " " + QString(_availableStaffs[i].getLastName().c_str());
-            ui->ressourceComboBox->addItem(item);
-        }
+        fillComboBox();
     }
 
+}
+
+void PatientForm::fillComboBox() {
+    for (int i = 0; i < _availableStaffs.size(); i++) {
+        QString item = QString(_availableStaffs[i].getFirstName().c_str()) + " " + QString(_availableStaffs[i].getLastName().c_str()) + " : " + QString(_availableStaffs[i].getType().c_str());
+        ui->ressourceComboBox->addItem(item);
+    }
 }
