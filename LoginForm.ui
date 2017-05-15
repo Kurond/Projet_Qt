@@ -6,43 +6,36 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>198</height>
+    <width>343</width>
+    <height>185</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Authentification</string>
   </property>
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>381</width>
-     <height>171</height>
+     <width>321</width>
+     <height>161</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="mainLayout">
-    <item row="1" column="2">
-     <widget class="QPushButton" name="connectButton">
-      <property name="text">
-       <string>Connecter</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <layout class="QVBoxLayout" name="verticalLayout">
+    <item row="3" column="2">
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLabel" name="loginLabel">
+       <widget class="QPushButton" name="connectButton">
         <property name="text">
-         <string>Identifiant</string>
+         <string>Connecter</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="passLabel">
+       <widget class="QPushButton" name="cancelButon">
         <property name="text">
-         <string>Mot de passe</string>
+         <string>Annuler</string>
         </property>
        </widget>
       </item>
@@ -69,12 +62,23 @@
       </item>
      </layout>
     </item>
-    <item row="2" column="2">
-     <widget class="QPushButton" name="cancelButon">
-      <property name="text">
-       <string>Annuler</string>
-      </property>
-     </widget>
+    <item row="0" column="1">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="loginLabel">
+        <property name="text">
+         <string>Identifiant</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="passLabel">
+        <property name="text">
+         <string>Mot de passe</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>

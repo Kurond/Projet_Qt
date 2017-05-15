@@ -10,27 +10,30 @@
 class StaffTypeConnector: public Connector<StaffType>
 {
 public:
+       ~StaffTypeConnector();
+
+    virtual inline QList<StaffType> getAll(int id = 0);
+    virtual inline StaffType getOne(string value, string field);
+    virtual inline int insert(StaffType element);
+
+    static StaffTypeConnector* getInstance();
+
+protected:
     inline StaffTypeConnector();
 
-    virtual inline QList<StaffType> selectAll();
-    virtual inline QList<StaffType> selectFromId();
-    virtual inline bool insert(StaffType element);
+private:
+    static StaffTypeConnector* _instance;
 };
 
 StaffTypeConnector::StaffTypeConnector() :  Connector<StaffType>("TType", "DB")
 {}
 
-QList<StaffType> StaffTypeConnector::selectAll() {
+QList<StaffType> StaffTypeConnector::getAll(int id) {
     // Initialize the result
     QList<StaffType> result;
 
     // Open the database
-    _database.open();
-    if(!_database.isOpen())
-    {
-        //qDebug() << _database.lastError();
-        qDebug() << "Impossible to open database\n";
-    }
+    if(!openDatabase()) return result;
 
     // Create the query
     QSqlQuery query(_database);
@@ -47,24 +50,42 @@ QList<StaffType> StaffTypeConnector::selectAll() {
         staffType.setId(query.value(0).toInt());
         staffType.setName(query.value(1).toString().toStdString());
 
-        qDebug() << query.value(0).toString();
-        qDebug() << query.value(1).toString();
-
         result << staffType;
     }
 
-    _database.close();
+
+    closeDatabase();
 
     return result;
 }
 
+StaffType StaffTypeConnector::getOne(string value, string field) {
+    StaffType result;
 
-QList<StaffType> StaffTypeConnector::selectFromId() {
+    // Open the database
+    if(!openDatabase()) return result;
 
+    // Create the query
+    QSqlQuery query(_database);
+    bool queryResult = query.exec("SELECT * FROM " + getTable() + " WHERE " + field.c_str() + " = '" + value.c_str() + "'");
+    if (!queryResult) {
+        qDebug() << "Impossible to reaad database\n";
+        return result;
+    }
+
+    // Get all result
+    if (query.next()) {
+        result.setId(query.value(0).toInt());
+        result.setName(query.value(1).toString().toStdString());
+    }
+
+    closeDatabase();
+    return result;
 }
 
-bool StaffTypeConnector::insert(StaffType element) {
 
+int StaffTypeConnector::insert(StaffType element) {
+    return -1;
 }
 
 #endif // STAFFTYPECONNECTOR_H

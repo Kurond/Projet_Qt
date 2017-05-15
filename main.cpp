@@ -2,22 +2,22 @@
 #include "LoginForm.h"
 #include "AddStaffForm.h"
 #include <QApplication>
+#include <QMessageBox>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    MainWindow mainWindow;
-    LoginWindow loginWindow;
-    AddStaffForm staffWindow;
 
-    QObject::connect(&loginWindow, SIGNAL(connectionSucceded(bool)), &mainWindow, SLOT(setVisible(bool)));
-    QObject::connect(&loginWindow, SIGNAL(connectionCancel()), &app, SLOT(quit()));
-    QObject::connect(&loginWindow, SIGNAL(connectionSucceded(bool)), &loginWindow, SLOT(onConnection(bool)));
+    StaffConnector::loadDatabase();
 
-    QObject::connect(&mainWindow, SIGNAL(quit()), &app, SLOT(quit()));
+    LoginForm loginForm;
+    MainWindow * mainWindow;
 
-    //mainWindow.show();
-    loginWindow.show();
+    if (loginForm.exec() == QDialog::Accepted) {
+        mainWindow = new MainWindow(app.activeWindow());
+        mainWindow->setVisible(true);
+    }
+    else app.quit();
 
     return app.exec();
 }

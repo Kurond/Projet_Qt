@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>635</width>
-    <height>442</height>
+    <width>636</width>
+    <height>441</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Gestionnaire des patients</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTabWidget" name="tabWidget">
@@ -20,7 +20,7 @@
       <x>10</x>
       <y>0</y>
       <width>611</width>
-      <height>371</height>
+      <height>381</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -30,123 +30,161 @@
      <attribute name="title">
       <string>Recherche</string>
      </attribute>
-     <widget class="QPushButton" name="searchButton">
+     <widget class="QWidget" name="gridLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>500</x>
-        <y>300</y>
-        <width>99</width>
-        <height>27</height>
+        <x>10</x>
+        <y>10</y>
+        <width>591</width>
+        <height>31</height>
        </rect>
       </property>
-      <property name="text">
-       <string>Rechercher</string>
-      </property>
-     </widget>
-     <widget class="QWidget" name="formLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>17</x>
-        <y>13</y>
-        <width>581</width>
-        <height>281</height>
-       </rect>
-      </property>
-      <layout class="QFormLayout" name="formLayout">
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="searchTextBox">
+         <property name="placeholderText">
+          <string>Identifiant, nom, prénom ou ville</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Nom</string>
+          <string>Rechercher un patient :</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="nameText">
-         <property name="placeholderText">
-          <string>Nom du patient</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
+       <item row="0" column="2">
+        <widget class="QPushButton" name="searchButton">
          <property name="text">
-          <string>Prenom</string>
+          <string>Rechercher</string>
          </property>
         </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="surnameText">
-         <property name="placeholderText">
-          <string>Prenom du patient</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QDateEdit" name="beginDate"/>
-       </item>
-       <item row="4" column="1">
-        <widget class="QDateEdit" name="endDate"/>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Rendez-vous</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>A partir de</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Jusqu'à</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>identifiant</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QLineEdit" name="idText"/>
        </item>
       </layout>
+     </widget>
+     <widget class="QPushButton" name="addPatientPushButton">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>320</y>
+        <width>171</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Ajouter un patient</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="gridLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>9</x>
+        <y>50</y>
+        <width>591</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QTableView" name="patientsTableView">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="deletePatientButton">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>320</y>
+        <width>151</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Supprimer patient</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="editPatientButton">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>320</y>
+        <width>141</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Modifier patient</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
       <string>Planification</string>
      </attribute>
-     <widget class="QTreeView" name="treeView">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>11</y>
-        <width>581</width>
-        <height>291</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QPushButton" name="addStaffPushButton">
       <property name="geometry">
        <rect>
-        <x>442</x>
-        <y>310</y>
-        <width>161</width>
-        <height>32</height>
+        <x>430</x>
+        <y>320</y>
+        <width>171</width>
+        <height>21</height>
        </rect>
       </property>
       <property name="text">
        <string>Ajouter du personnel</string>
       </property>
+     </widget>
+     <widget class="QPushButton" name="editStaffButton">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>320</y>
+        <width>171</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Modifier personnel</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="deleteStaffButton">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>320</y>
+        <width>171</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Supprimer personnel</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="gridLayoutWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>591</width>
+        <height>301</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QTreeView" name="treeView"/>
+       </item>
+      </layout>
      </widget>
     </widget>
    </widget>
@@ -156,8 +194,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>635</width>
-     <height>25</height>
+     <width>636</width>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -197,6 +235,9 @@
    <property name="text">
     <string>Quiter</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
   </action>
   <action name="actionPatient">
    <property name="text">
@@ -211,6 +252,11 @@
   <action name="actionAbout">
    <property name="text">
     <string> A propos</string>
+   </property>
+  </action>
+  <action name="actionMdifier">
+   <property name="text">
+    <string>Modifier</string>
    </property>
   </action>
  </widget>

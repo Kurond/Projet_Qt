@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "Staff.h"
+#include "StaffTypeConnector.h"
 
 namespace Ui {
 class AddStaffForm;
@@ -30,6 +31,8 @@ private:
     Ui::AddStaffForm *ui;
     void setVisibleConnexion(bool);
     Staff _staff;
+    StaffTypeConnector* _staffTypeConnector;
+    void fillTypeCombobox();
 };
 
 #endif // HEALTHCARESTAFF_H

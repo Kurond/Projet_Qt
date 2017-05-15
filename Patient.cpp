@@ -32,6 +32,22 @@ Patient::Patient(const string &fistName, const string &lastName, const string &a
 
 }
 
+Patient::Patient(QSqlRecord record)
+    : _id(record.value("Id").toInt()),
+      _firstName(record.value("Prenom").toString().toStdString()),
+      _lastName(record.value("Nom").toString().toStdString()),
+      _address(record.value("Adresse").toString().toStdString()),
+      _city(record.value("Ville").toString().toStdString()),
+      _comment(record.value("Commentaire").toString().toStdString()),
+      _consultationDate(record.value("DateConsultation").toString().toStdString()),
+      _phone(record.value("Tel").toInt()),
+      _postalCode(record.value("CP").toInt()),
+      _duration(record.value("DureeConsultation").toInt()),
+      _priority(record.value("Priorite").toInt())
+{
+
+}
+
 int Patient::getId() const {
     return _id;
 }
@@ -118,4 +134,16 @@ const string &Patient::getConsultationDate() const {
 
 void Patient::setConsultationDate(const string &consultationDate) {
     _consultationDate = consultationDate;
+}
+
+void Patient::display()
+{
+    cout << "Patient { " << endl;
+    cout << "\tFirstName: " << getFirstName() << endl;
+    cout << "\tLastName: " <<  getLastName() << endl;
+    cout << "\tAddress: " <<  getAddress() << endl;
+    cout << "\tCity: " <<  getCity() << endl;
+    cout << "\tPhone: " <<  getPhone() << endl;
+    cout << "\tDate consult: " <<  getConsultationDate() << endl;
+    cout << "}" << endl;
 }
