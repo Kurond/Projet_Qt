@@ -4,6 +4,9 @@
 #include <QObject>
 #include <string>
 #include <iostream>
+#include <QSqlQuery>
+#include <QDebug>
+#include "Patient.h"
 
 using namespace std;
 
@@ -11,6 +14,7 @@ class Staff
 {
 public:
     Staff();
+    Staff(QSqlQuery * query);
     Staff(const string &fistName, const string &_lastName, const int idType, const string &type);
     ~Staff();
 
@@ -28,6 +32,8 @@ public:
     void setLogin(const string &login);
     const string &getPassword() const;
     void setPassword(const string &password);
+    QList<Patient> getPatientsConsult() const;
+    void setPatientsConsult(const QList<Patient> &patientsConsult);
 
     void display();
 
@@ -40,6 +46,7 @@ private:
     string _login;
     string _password;
 
+    QList<Patient> _patientsConsult;
 signals:
 
 public slots:

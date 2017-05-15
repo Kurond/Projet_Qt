@@ -12,7 +12,7 @@ class StaffTypeConnector: public Connector<StaffType>
 public:
        ~StaffTypeConnector();
 
-    virtual inline QList<StaffType> getAll();
+    virtual inline QList<StaffType> getAll(int id = 0);
     virtual inline StaffType getOne(string value, string field);
     virtual inline int insert(StaffType element);
 
@@ -28,7 +28,7 @@ private:
 StaffTypeConnector::StaffTypeConnector() :  Connector<StaffType>("TType", "DB")
 {}
 
-QList<StaffType> StaffTypeConnector::getAll() {
+QList<StaffType> StaffTypeConnector::getAll(int id) {
     // Initialize the result
     QList<StaffType> result;
 

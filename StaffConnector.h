@@ -7,6 +7,7 @@
 
 #include <QSqlQuery>
 #include <QSqlTableModel>
+#include <PatientConnector.h>
 
 class StaffConnector  : public Connector<Staff>
 {
@@ -14,8 +15,7 @@ public:
     ~StaffConnector();
     static StaffConnector* getInstance();
 
-    virtual inline QList<Staff> getAll();
-    //virtual inline QList<Staff> getAllWithPatients();
+    virtual inline QList<Staff> getAll(int id = 0);
     virtual inline Staff getOne(string value, string field);
     virtual inline int insert(Staff element);
 
@@ -40,7 +40,7 @@ StaffConnector::StaffConnector() : Connector<Staff>("TStaff", "DB")
 }
 
 
-QList<Staff> StaffConnector::getAll() {
+QList<Staff> StaffConnector::getAll(int id) {
     // Initialize the result
     QList<Staff> result;
 
@@ -60,20 +60,14 @@ QList<Staff> StaffConnector::getAll() {
     // result = setResult(query);       ne marche pas je comprend pas... en attendant :
 
     while (query.next()) {
-        Staff staff;
-
-        staff.setId(query.value(0).toInt());
-        staff.setLastName(query.value(1).toString().toStdString());
-        staff.setFirstName(query.value(2).toString().toStdString());
-        staff.setTypeId(query.value(3).toInt());
-        staff.setType(query.value(4).toString().toStdString());
-
+        Staff staff(&query);
         result << staff;
     }
 
     closeDatabase();
     return result;
 }
+
 
 Staff StaffConnector::getOne(string value, string field) {
     Staff result;
@@ -91,15 +85,11 @@ Staff StaffConnector::getOne(string value, string field) {
 
     // Get all result
     if (query.next()) {
-        result.setId(query.value(0).toInt());
-        result.setLastName(query.value(1).toString().toStdString());
-        result.setFirstName(query.value(2).toString().toStdString());
-        result.setTypeId(query.value(3).toInt());
-        result.setType(query.value(4).toString().toStdString());
+        Staff result(&query);
+        closeDatabase();
+        return result;
     }
-
     closeDatabase();
-    return result;
 }
 
 /**
@@ -153,14 +143,7 @@ QList<Staff> StaffConnector::getNonIt() {
     }
 
     while (query.next()) {
-        Staff staff;
-
-        staff.setId(query.value(0).toInt());
-        staff.setLastName(query.value(1).toString().toStdString());
-        staff.setFirstName(query.value(2).toString().toStdString());
-        staff.setTypeId(query.value(3).toInt());
-        staff.setType(query.value(4).toString().toStdString());
-
+        Staff staff(&query);
         result << staff;
     }
     closeDatabase();

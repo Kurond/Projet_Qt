@@ -4,6 +4,15 @@ Staff::Staff() :_id(0), _firstName(""), _lastName(""), _type(""), _idType(0), _l
 {
 }
 
+Staff::Staff(QSqlQuery *query) :
+    _id(query->value(0).toInt()),
+    _lastName(query->value(1).toString().toStdString()),
+    _firstName(query->value(2).toString().toStdString()),
+    _idType(query->value(3).toInt())
+{
+    if (query->size() > 4) setType(query->value(4).toString().toStdString());
+}
+
 Staff::Staff(const string &firstName, const string &lastName, const int idType, const string &type) :
   _firstName(firstName), _lastName(lastName), _type(type), _idType(idType)
 {
@@ -77,13 +86,29 @@ void Staff::setPassword(const string &password) {
 void Staff::display()
 {
     cout << "Staff { " << endl;
+    cout << "\tId: " << getId() << endl;
     cout << "\tFirstName: " << getFirstName() << endl;
     cout << "\tLastName: " <<  getLastName() << endl;
     cout << "\tType: " <<  getType() << endl;
     cout << "\tidType: " <<  getTypeId() << endl;
     cout << "\tLogin: " <<  getLogin() << endl;
     cout << "\tPassword: " <<  getPassword() << endl;
+    cout << "\tconsultSize: " <<  _patientsConsult.size() << endl;
+    for (int i = 0; i < _patientsConsult.size(); i++) {
+        Patient patient = _patientsConsult.at(i);
+        patient.display();
+    }
     cout << "}" << endl;
+}
+
+QList<Patient> Staff::getPatientsConsult() const
+{
+    return _patientsConsult;
+}
+
+void Staff::setPatientsConsult(const QList<Patient> &patientsConsult)
+{
+    _patientsConsult = patientsConsult;
 }
 
 ostream& operator<<(ostream& os, const Staff& staff)

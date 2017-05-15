@@ -19,7 +19,7 @@ public:
     inline Connector(QString table, QString databaseName);
     inline ~Connector();
 
-    virtual inline QList<T> getAll() = 0;
+    virtual inline QList<T> getAll(int id = 0) = 0;
     virtual inline T getOne(string value, string field) = 0;
     virtual inline int insert(T element) = 0;
     virtual inline int getLastId();

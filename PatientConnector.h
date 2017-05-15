@@ -17,7 +17,7 @@ public:
     ~PatientConnector();
     static PatientConnector* getInstance();
 
-    virtual inline QList<Patient> getAll();
+    virtual inline QList<Patient> getAll(int id = 0);
     virtual inline Patient getOne(string value, string field);
     virtual inline int insert(Patient element);
 
@@ -43,7 +43,7 @@ private:
  */
 PatientConnector::PatientConnector() : Connector<Patient>("TPatient", "DB") { }
 
-QList<Patient> PatientConnector::getAll() {
+QList<Patient> PatientConnector::getAll(int consultId) {
     // Initialize the result
     QList<Patient> result;
 
@@ -52,7 +52,9 @@ QList<Patient> PatientConnector::getAll() {
 
     // Create the query
     QSqlQuery query(_database);
-    bool queryResult = query.exec("SELECT * FROM " + getTable());
+    bool queryResult = query.exec("SELECT * FROM " + getTable() +
+        (consultId ? ", TConsult WHERE TConsult.IdPatient = TPatient.Id AND TConsult.IdRessource = " + QString::number(consultId) : ""));
+
     if (!queryResult) {
         qDebug() << "Impossible to read database\n";
         return result;
@@ -61,7 +63,6 @@ QList<Patient> PatientConnector::getAll() {
     // Get all result
     while (query.next()) {
         Patient patient;
-
         patient.setId(query.value(0).toInt());
         patient.setLastName(query.value(1).toString().toStdString());
         patient.setFirstName(query.value(2).toString().toStdString());
@@ -76,6 +77,7 @@ QList<Patient> PatientConnector::getAll() {
 
         result << patient;
     }
+
     closeDatabase();
     return result;
 }

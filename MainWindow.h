@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QItemSelection>
 #include "PatientForm.h"
 #include "QStandardItemModel"
 #include "StaffConnector.h"
@@ -10,6 +11,7 @@
 #include "PatientConnector.h"
 #include "AccountConnector.h"
 #include "Staff.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -43,7 +45,8 @@ private:
     QSqlTableModel* _patientsModel;
     int _patientClickedIndex;
 
-    void areButtonsEnable(bool active);
+    void arePatientButtonsEnable(bool active);
+    void areStaffButtonsEnable(bool active);
     void setupPatientTab();
     void setupStaffTab();
 
@@ -57,6 +60,7 @@ private slots:
     void on_patientsTableView_doubleClicked(const QModelIndex &index);
     void on_addPatientPushButton_clicked();
     void on_deletePatientButton_clicked();
+    void selectionChangedSlot(const QItemSelection &, const QItemSelection &);
 };
 
 #endif // MAINWINDOW_H

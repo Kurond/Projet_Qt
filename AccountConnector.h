@@ -10,7 +10,7 @@ class AccountConnector : public Connector<Account>
 public:
     ~AccountConnector();
 
-    virtual inline QList<Account> getAll();
+    virtual inline QList<Account> getAll(int id = 0);
     virtual inline Account getOne(string value, string field);
     virtual inline int insert(Account element);
 
@@ -28,7 +28,7 @@ AccountConnector::AccountConnector() : Connector<Account>("TCompte", "DB")
 
 }
 
-QList<Account> AccountConnector::getAll()
+QList<Account> AccountConnector::getAll(int id)
 {
     // Initialize the result
     QList<Account> result;

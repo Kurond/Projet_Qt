@@ -10,7 +10,7 @@ class ConsultConnector : public Connector<Consult>
 public:
     ~ConsultConnector();
 
-    virtual inline QList<Consult> getAll();
+    virtual inline QList<Consult> getAll(int id = 0);
     virtual inline Consult getOne(string value, string field);
     virtual inline int insert(Consult element);
 
@@ -34,7 +34,7 @@ protected:
 ConsultConnector::ConsultConnector() : Connector<Consult>("TConsult", "DB") { }
 
 
-QList<Consult> ConsultConnector::getAll() {
+QList<Consult> ConsultConnector::getAll(int id) {
     // Initialize the result
     QList<Consult> result;
 

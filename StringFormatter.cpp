@@ -37,3 +37,14 @@ QString StringFormatter::toFrDate(std::string date)
 
     return formattedDate.c_str();
 }
+
+QString StringFormatter::toReadableDuration(int minutes)
+{
+    int hours = minutes/60;
+    int mins = hours != 0 ? minutes%(hours*60) : minutes;
+
+    QString hoursStr = QString::number(hours);
+    QString minsStr = QString::number(mins);
+
+    return hoursStr + "h" + minsStr;
+}
