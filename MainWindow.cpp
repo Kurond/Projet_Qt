@@ -34,6 +34,10 @@ MainWindow::MainWindow(QWidget *parent) :
     // patient table view initialization
     setupPatientTab();
 
+    // Initiate date
+    ui->beginDateEdit->setDate(QDate::currentDate());
+    ui->endDateEdit->setDate(QDate::currentDate());
+
     ui->statusBar->showMessage("Choisissez une action");
 }
 
@@ -180,6 +184,8 @@ void MainWindow::on_searchButton_clicked()
 {
     qDebug() << ui->searchTextBox->text();
     _patientConnector->searchFilterModel(ui->searchTextBox->text());
+    _patientConnector->searchDateFilterModel(ui->beginDateEdit->date(), ui->endDateEdit->date());
+
     areButtonsEnable(false);
 
 }
@@ -250,6 +256,7 @@ void MainWindow::on_editPatientButton_clicked()
             for (int i = 0; i < consultToDelete.size(); i++) {
                 _consultConnector->suppr(consultToDelete[i]._id);
             }
+
             ui->statusBar->showMessage("Patient modifié");
         }
     }
@@ -296,4 +303,5 @@ void MainWindow::on_deletePatientButton_clicked()
     ui->patientsTableView->hideRow(_patientClickedIndex);
     ui->patientsTableView->setModel(_patientsModel);
     _patientConnector->deleteRecord(_patientClickedIndex);
+      if (reply == QMessageBox::Yes) {
 }
