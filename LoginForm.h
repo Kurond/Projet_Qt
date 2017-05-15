@@ -14,6 +14,7 @@ class LoginForm : public QDialog
 public:
     explicit LoginForm(QWidget *parent = 0);
     ~LoginForm();
+    void login();
 
 signals:
     void connectionCancel();
@@ -21,7 +22,7 @@ signals:
 
 private:
     Ui::LoginWindow *ui;
-    bool future_dbconnection();
+    bool isLoginCorrect();
 
     AccountConnector* _accountConnector;
 

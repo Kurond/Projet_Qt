@@ -24,15 +24,31 @@ LoginForm::~LoginForm() {
     delete ui;
 }
 
-bool LoginForm::future_dbconnection() {
+void LoginForm::login()
+{
+    if (isLoginCorrect()) {
+        //emit connectionSucceded(true);
+        accept();
+    } else {
+        QMessageBox::warning(this, tr("Login error"),
+            tr("The login or the passsword is wrong"),
+            QMessageBox::Ok,
+            QMessageBox::Cancel);
+
+        ui->passText->setText("");
+    }
+}
+
+bool LoginForm::isLoginCorrect() {
     Account account = _accountConnector->getOne(ui->loginText->text().toStdString(), "Login");
 
-    if (ui->passText->text().toStdString() == account.getPassword()) {
+    if (ui->passText->text().toStdString() == account.getPassword())
          return true;
-    }
 
     return false;
 }
+
+
 
 // SLOTS
 
@@ -50,13 +66,9 @@ void LoginForm::onConnection(bool success) {
 }
 
 void LoginForm::on_connectButton_clicked() {
-    if (future_dbconnection()) {
-        emit connectionSucceded(true);
-    } else {
-        emit connectionSucceded(false);
-    }
+    login();
 }
 
 void LoginForm::on_cancelButon_clicked() {
-    emit connectionCancel();
+    reject();
 }

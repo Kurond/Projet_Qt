@@ -143,7 +143,6 @@ bool Connector<T>::loadDatabase()
         qDebug() << "Erreur à création de la base !\n";
         return false;
     }
-
 }
 
 

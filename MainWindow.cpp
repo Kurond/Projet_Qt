@@ -19,7 +19,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(quit_clicked()));
     connect(ui->actionPatient,  SIGNAL(triggered()), this, SLOT(addPatient()));
 
-    StaffConnector::loadDatabase();
 
     _patientClicked = NULL;
 
@@ -168,6 +167,18 @@ void MainWindow::on_editPatientButton_clicked()
         // Execute the patient form ans wait for an acceted return
         if (addPatientForm.exec() == QDialog::Accepted) {
             _patientConnector->update(addPatientForm.getPatient());
+            Patient updatePatient = addPatientForm.getPatient();
+//            _patientsModel->record(index.row()).setValue("Nom", updatePatient.getLastName().c_str());
+//            _patientsModel->record(index.row()).setValue("Prenom", QString(updatePatient.getFirstName()));
+//            _patientsModel->record(index.row()).setValue("Adresse", QString(updatePatient.getAddress()));
+//            _patientsModel->record(index.row()).setValue("Ville", QString(updatePatient.getCity()));
+//            _patientsModel->record(index.row()).setValue("Commentaire", QString(updatePatient.getComment()));
+//            _patientsModel->record(index.row()).setValue("DateConsultation", QString(updatePatient.getComment()));
+//            _patientsModel->record(index.row()).setValue("Tel", updatePatient.getPhone());
+//            _patientsModel->record(index.row()).setValue("CP", updatePatient.getPostalCode());
+//            _patientsModel->record(index.row()).setValue("DureeConsultation", QString(updatePatient.getComment()));
+//            _patientsModel->record(index.row()).setValue("Priorite", updatePatient.getPriority());
+
             _patientConnector->refreshModel();
         }
     }
@@ -178,6 +189,10 @@ void MainWindow::on_patientsTableView_pressed(const QModelIndex &index)
 {
     areButtonsEnable(true);
     if (index.isValid() && _patientClicked != NULL ? _patientsModel->record(index.row()).value("Id") != _patientClicked->getId() : _patientClicked == NULL) {
+
+        _patientsModel->record(index.row()).setValue("Nom", "COUCOU");
+        _patientsModel->insertRecord(index.row(), _patientsModel->record(index.row()));
+
         _patientClicked = new Patient(_patientsModel->record(index.row()));
         _patientClicked->display();
     }
