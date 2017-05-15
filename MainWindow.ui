@@ -204,6 +204,9 @@
    <property name="text">
     <string>Quiter</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
   </action>
   <action name="actionPatient">
    <property name="text">

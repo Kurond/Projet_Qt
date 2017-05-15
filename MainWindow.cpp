@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QString>
 #include <QModelIndex>
+#include <QMessageBox>
 
 using namespace std;
 
@@ -32,6 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // patient table view initialization
     setupPatientTab();
+
+    ui->statusBar->showMessage("Choisissez une action");
 }
 
 
@@ -120,19 +123,25 @@ void MainWindow::on_addStaffPushButton_clicked()
             _accountConnector->insert(newAccount);
 
             QList<Account> accounts = _accountConnector->getAll();
+            //----------------------------------------------------------------
             for (int i = 0; i < accounts.size(); i++) {
                 qDebug() << accounts[i].getLogin().c_str() << " " << accounts[i].getPassword().c_str() << "\n";
             }
+            //-----------------------------------------------------------------
         }
+        ui->statusBar->showMessage("Personnel ajouté");
     }
+    else ui->statusBar->showMessage("Ajout de personnel annulé");
 
     // Recreate the tree on the window
     QListIterator<QStandardItem *> list(_typeItemsList);
     while (list.hasNext()) {
         QStandardItem * type = list.next();
         if (type->text().toStdString() == newStaff.getType()){
-            QStandardItem * newStaffItem =  new QStandardItem((newStaff.getFirstName() + " " + newStaff.getLastName()).c_str());
-            type->appendRow(newStaffItem);
+            QList<QStandardItem*> items;
+            items.append(new QStandardItem(newStaff.getFirstName().c_str()));
+            items.append(new QStandardItem(newStaff.getLastName().c_str()));
+            type->appendRow(items);
         }
     }
 }
@@ -158,12 +167,13 @@ void MainWindow::addPatient() {
         // Get the affected ressource and add the to the database
         QList<Staff> ressources = addPatientForm.getAffectedStaff();
 
-        for (unsigned int i = 0; i < ressources.size(); i++) {
+        for (int i = 0; i < ressources.size(); i++) {
             consult._idRessource = ressources[i].getId();
             _consultConnector->insert(consult);
         }
+        ui->statusBar->showMessage("Patient ajouté");
     }
-
+    else ui->statusBar->showMessage("Ajout de patient annulé");
 }
 
 void MainWindow::on_searchButton_clicked()
@@ -185,6 +195,7 @@ void MainWindow::on_editPatientButton_clicked()
         if (addPatientForm.exec() == QDialog::Accepted) {
             Patient updatedPatient = addPatientForm.getPatient();
             _patientConnector->updateRecord(_patientClickedIndex, updatedPatient);
+            ui->statusBar->showMessage("Patient modifié");
         }
     }
 }
@@ -211,7 +222,12 @@ void MainWindow::on_addPatientPushButton_clicked()
 
 void MainWindow::on_deletePatientButton_clicked()
 {
-    ui->patientsTableView->hideRow(_patientClickedIndex);
-    ui->patientsTableView->setModel(_patientsModel);
-    _patientConnector->deleteRecord(_patientClickedIndex);
+    QMessageBox::StandardButton reply;
+      reply = QMessageBox::question(this, "Attention", "Voulez-vous vraiment supprimer ce patient ?",QMessageBox::Yes|QMessageBox::No);
+      if (reply == QMessageBox::Yes) {
+        ui->patientsTableView->hideRow(_patientClickedIndex);
+        ui->patientsTableView->setModel(_patientsModel);
+        _patientConnector->deleteRecord(_patientClickedIndex);
+        ui->statusBar->showMessage("Patient supprimé");
+      }
 }
