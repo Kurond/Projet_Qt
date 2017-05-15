@@ -15,6 +15,7 @@ public:
     static StaffConnector* getInstance();
 
     virtual inline QList<Staff> getAll();
+    //virtual inline QList<Staff> getAllWithPatients();
     virtual inline Staff getOne(string value, string field);
     virtual inline int insert(Staff element);
 

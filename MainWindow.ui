@@ -132,28 +132,59 @@
      <attribute name="title">
       <string>Planification</string>
      </attribute>
-     <widget class="QTreeView" name="treeView">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>11</y>
-        <width>581</width>
-        <height>291</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QPushButton" name="addStaffPushButton">
       <property name="geometry">
        <rect>
-        <x>420</x>
-        <y>310</y>
+        <x>430</x>
+        <y>320</y>
         <width>171</width>
-        <height>32</height>
+        <height>21</height>
        </rect>
       </property>
       <property name="text">
        <string>Ajouter du personnel</string>
       </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>320</y>
+        <width>171</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Modifier personnel</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>320</y>
+        <width>171</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Supprimer personnel</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="gridLayoutWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>591</width>
+        <height>301</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QTreeView" name="treeView"/>
+       </item>
+      </layout>
      </widget>
     </widget>
    </widget>

@@ -6,33 +6,35 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>686</width>
-    <height>599</height>
+    <width>486</width>
+    <height>749</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="1">
-    <layout class="QGridLayout" name="gridLayout_3">
-     <item row="13" column="2">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QPushButton" name="addButton">
-         <property name="text">
-          <string>Ajouter</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="cancelButton">
-         <property name="text">
-          <string>Annuler</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0" colspan="2">
+    <layout class="QFormLayout" name="formLayout_2">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Nom</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="lastnameLineEdit">
+       <property name="placeholderText">
+        <string/>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
@@ -41,58 +43,10 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Nom</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="2">
-      <widget class="QComboBox" name="hoursDurationComboBox">
-       <item>
-        <property name="text">
-         <string>0</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>1</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>3</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>4</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>5</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="label_11">
-       <property name="text">
-        <string>Priorité</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Code postal</string>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="firstnameLineEdit">
+       <property name="placeholderText">
+        <string/>
        </property>
       </widget>
      </item>
@@ -103,29 +57,8 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Date de consultation</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="0">
-      <widget class="QLabel" name="label_8">
-       <property name="text">
-        <string>Commmentaires</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="0">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>Ressources</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="2" colspan="2">
-      <widget class="QTextEdit" name="commentTextEdit"/>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="addressLineEdit"/>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_10">
@@ -134,81 +67,33 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="2">
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QComboBox" name="ressourceComboBox"/>
-       </item>
-      </layout>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="cityLineEdit"/>
      </item>
-     <item row="6" column="3">
-      <widget class="QComboBox" name="minsDurationComboBox">
-       <item>
-        <property name="text">
-         <string>0</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>5</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>10</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>15</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>20</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>25</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>30</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>35</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>40</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>45</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>50</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>55</string>
-        </property>
-       </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Code postal</string>
+       </property>
       </widget>
      </item>
-     <item row="11" column="0">
-      <widget class="QLabel" name="label_9">
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="postalCodeLineEdit"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>Téléphone</string>
+        <string>Date de consultation</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLineEdit" name="consultationDateLineEdit">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="placeholderText">
+        <string>Format: jj/mm/yyyy</string>
        </property>
       </widget>
      </item>
@@ -219,30 +104,116 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="2" colspan="2">
-      <widget class="QLineEdit" name="lastnameLineEdit">
-       <property name="placeholderText">
-        <string/>
+     <item row="6" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QComboBox" name="hoursDurationComboBox">
+         <item>
+          <property name="text">
+           <string>0</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>4</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>5</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="minsDurationComboBox">
+         <item>
+          <property name="text">
+           <string>0</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>5</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>10</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>15</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>20</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>25</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>30</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>35</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>40</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>45</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>50</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>55</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_11">
+       <property name="text">
+        <string>Priorité</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="2" colspan="2">
-      <widget class="QLineEdit" name="addressLineEdit"/>
-     </item>
-     <item row="1" column="2" colspan="2">
-      <widget class="QLineEdit" name="firstnameLineEdit">
-       <property name="placeholderText">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2" colspan="2">
-      <widget class="QLineEdit" name="cityLineEdit"/>
-     </item>
-     <item row="4" column="2" colspan="2">
-      <widget class="QLineEdit" name="postalCodeLineEdit"/>
-     </item>
-     <item row="7" column="2" colspan="2">
+     <item row="7" column="1">
       <widget class="QComboBox" name="priorityComboBox">
        <item>
         <property name="text">
@@ -271,38 +242,77 @@
        </item>
       </widget>
      </item>
-     <item row="5" column="2" colspan="2">
-      <widget class="QLineEdit" name="consultationDateLineEdit">
+     <item row="8" column="0">
+      <widget class="QLabel" name="label_7">
        <property name="text">
-        <string/>
-       </property>
-       <property name="placeholderText">
-        <string>Format: jj/mm/yyyy</string>
+        <string>Ressources</string>
        </property>
       </widget>
      </item>
-     <item row="8" column="2" colspan="2">
+     <item row="8" column="1">
       <widget class="QTableWidget" name="tableWidget"/>
      </item>
-     <item row="11" column="2" colspan="2">
-      <widget class="QLineEdit" name="phoneLineEdit"/>
+     <item row="9" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QComboBox" name="ressourceComboBox"/>
+       </item>
+      </layout>
      </item>
-     <item row="9" column="3">
+     <item row="10" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QPushButton" name="addRessourceButton">
+         <property name="text">
+          <string>Ajouter</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QPushButton" name="removeRessourceButton">
          <property name="cursor">
           <cursorShape>ArrowCursor</cursorShape>
          </property>
          <property name="text">
-          <string>Retirer une ressource</string>
+          <string>Supprimer</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="11" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Téléphone</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <widget class="QLineEdit" name="phoneLineEdit"/>
+     </item>
+     <item row="12" column="0">
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Commmentaires</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="1">
+      <widget class="QTextEdit" name="commentTextEdit"/>
+     </item>
+     <item row="13" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="addButton">
+         <property name="text">
+          <string>Ajouter</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="addRessourceButton">
+        <widget class="QPushButton" name="cancelButton">
          <property name="text">
-          <string>Ajouter une ressource</string>
+          <string>Annuler</string>
          </property>
         </widget>
        </item>

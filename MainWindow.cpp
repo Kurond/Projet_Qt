@@ -204,7 +204,7 @@ void MainWindow::on_editPatientButton_clicked()
 void MainWindow::on_patientsTableView_pressed(const QModelIndex &index)
 {
     areButtonsEnable(true);
-    if (index.isValid() && _patientClickedIndex == -1 || _patientClickedIndex != index.row()) {
+    if (index.isValid() && (_patientClickedIndex == -1 || _patientClickedIndex != index.row())) {
         _patientClickedIndex = index.row();
     }
 }
