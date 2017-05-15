@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>591</width>
+    <width>686</width>
     <height>599</height>
    </rect>
   </property>
@@ -16,7 +16,7 @@
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="1">
     <layout class="QGridLayout" name="gridLayout_3">
-     <item row="12" column="2">
+     <item row="13" column="2">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QPushButton" name="addButton">
@@ -110,7 +110,7 @@
        </property>
       </widget>
      </item>
-     <item row="11" column="0">
+     <item row="12" column="0">
       <widget class="QLabel" name="label_8">
        <property name="text">
         <string>Commmentaires</string>
@@ -123,6 +123,9 @@
         <string>Ressources</string>
        </property>
       </widget>
+     </item>
+     <item row="12" column="2" colspan="2">
+      <widget class="QTextEdit" name="commentTextEdit"/>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_10">
@@ -137,20 +140,6 @@
         <widget class="QComboBox" name="ressourceComboBox"/>
        </item>
       </layout>
-     </item>
-     <item row="10" column="0">
-      <widget class="QLabel" name="label_9">
-       <property name="text">
-        <string>Téléphone</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>Durée (heure:min)</string>
-       </property>
-      </widget>
      </item>
      <item row="6" column="3">
       <widget class="QComboBox" name="minsDurationComboBox">
@@ -216,15 +205,22 @@
        </item>
       </widget>
      </item>
-     <item row="0" column="2" colspan="2">
-      <widget class="QLineEdit" name="lastnameLineEdit">
-       <property name="placeholderText">
-        <string/>
+     <item row="11" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Téléphone</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="2" colspan="2">
-      <widget class="QLineEdit" name="firstnameLineEdit">
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Durée (heure:min)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2" colspan="2">
+      <widget class="QLineEdit" name="lastnameLineEdit">
        <property name="placeholderText">
         <string/>
        </property>
@@ -233,21 +229,18 @@
      <item row="2" column="2" colspan="2">
       <widget class="QLineEdit" name="addressLineEdit"/>
      </item>
+     <item row="1" column="2" colspan="2">
+      <widget class="QLineEdit" name="firstnameLineEdit">
+       <property name="placeholderText">
+        <string/>
+       </property>
+      </widget>
+     </item>
      <item row="3" column="2" colspan="2">
       <widget class="QLineEdit" name="cityLineEdit"/>
      </item>
      <item row="4" column="2" colspan="2">
       <widget class="QLineEdit" name="postalCodeLineEdit"/>
-     </item>
-     <item row="5" column="2" colspan="2">
-      <widget class="QLineEdit" name="consultationDateLineEdit">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="placeholderText">
-        <string>Format: jj/mm/yyyy</string>
-       </property>
-      </widget>
      </item>
      <item row="7" column="2" colspan="2">
       <widget class="QComboBox" name="priorityComboBox">
@@ -278,21 +271,42 @@
        </item>
       </widget>
      </item>
-     <item row="8" column="2" colspan="2">
-      <widget class="QTableWidget" name="tableWidget"/>
-     </item>
-     <item row="9" column="3">
-      <widget class="QPushButton" name="addRessourceButton">
+     <item row="5" column="2" colspan="2">
+      <widget class="QLineEdit" name="consultationDateLineEdit">
        <property name="text">
-        <string>Ajouter une ressource</string>
+        <string/>
+       </property>
+       <property name="placeholderText">
+        <string>Format: jj/mm/yyyy</string>
        </property>
       </widget>
      </item>
-     <item row="10" column="2" colspan="2">
-      <widget class="QLineEdit" name="phoneLineEdit"/>
+     <item row="8" column="2" colspan="2">
+      <widget class="QTableWidget" name="tableWidget"/>
      </item>
      <item row="11" column="2" colspan="2">
-      <widget class="QTextEdit" name="commentTextEdit"/>
+      <widget class="QLineEdit" name="phoneLineEdit"/>
+     </item>
+     <item row="9" column="3">
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QPushButton" name="removeRessourceButton">
+         <property name="cursor">
+          <cursorShape>ArrowCursor</cursorShape>
+         </property>
+         <property name="text">
+          <string>Retirer une ressource</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="addRessourceButton">
+         <property name="text">
+          <string>Ajouter une ressource</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>

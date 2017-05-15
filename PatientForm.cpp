@@ -1,5 +1,5 @@
 #include "PatientForm.h"
-#include "ui_AddPatientForm.h"
+#include "ui_PatientForm.h"
 #include "QList"
 #include "Staff.h"
 #include "StaffConnector.h"
@@ -61,7 +61,7 @@ void PatientForm::setPatient(Patient * patient)
     int mins = hours != 0 ? patient->getDuration()%(hours*60) : patient->getDuration();
     ui->hoursDurationComboBox->setCurrentIndex(hours);
     for (int i = 0; i < 12; i++) {
-        if (ui->minsDurationComboBox->itemText(i) == to_string(mins).c_str())
+        if (ui->minsDurationComboBox->itemText(i) == QString(mins))
             ui->minsDurationComboBox->setCurrentIndex(i);
     }
 }
@@ -210,4 +210,24 @@ void PatientForm::on_addRessourceButton_clicked()
         QString item = QString(_availableStaffs[i].getFirstName().c_str()) + " " + QString(_availableStaffs[i].getLastName().c_str());
         ui->ressourceComboBox->addItem(item);
     }
+}
+
+void PatientForm::on_removeRessourceButton_clicked()
+{
+    // check if a line is selected
+    if (ui->tableWidget->selectedItems().size() > 0) {
+        // Add the ressource in the combo box
+        _availableStaffs << _affectedStaffs[ui->tableWidget->selectedItems().at(0)->row()];
+
+        // Remove element from the table
+        _affectedStaffs.removeAt(ui->tableWidget->selectedItems().at(0)->row());
+        ui->tableWidget->removeRow(ui->tableWidget->selectedItems().at(0)->row());
+
+        // fill the combo box in
+        for (int i = 0; i < _availableStaffs.size(); i++) {
+            QString item = QString(_availableStaffs[i].getFirstName().c_str()) + " " + QString(_availableStaffs[i].getLastName().c_str());
+            ui->ressourceComboBox->addItem(item);
+        }
+    }
+
 }

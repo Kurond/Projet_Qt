@@ -30,6 +30,8 @@ private slots:
     void on_addButton_clicked();
     void on_addRessourceButton_clicked();
 
+    void on_removeRessourceButton_clicked();
+
 private:
     Ui::PatientForm *ui;
     Patient _patient;
