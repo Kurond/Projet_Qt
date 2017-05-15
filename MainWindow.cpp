@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QString>
 #include <QModelIndex>
+#include <QMessageBox>
 
 using namespace std;
 
@@ -34,8 +35,10 @@ MainWindow::MainWindow(QWidget *parent) :
     setupPatientTab();
 
     // Initiate date
-    ui->beginDateEdit->setDate(QDate());
-    ui->endDateEdit->setDate(QDate());
+    ui->beginDateEdit->setDate(QDate::currentDate());
+    ui->endDateEdit->setDate(QDate::currentDate());
+
+    ui->statusBar->showMessage("Choisissez une action");
 }
 
 
@@ -124,19 +127,25 @@ void MainWindow::on_addStaffPushButton_clicked()
             _accountConnector->insert(newAccount);
 
             QList<Account> accounts = _accountConnector->getAll();
+            //----------------------------------------------------------------
             for (int i = 0; i < accounts.size(); i++) {
                 qDebug() << accounts[i].getLogin().c_str() << " " << accounts[i].getPassword().c_str() << "\n";
             }
+            //-----------------------------------------------------------------
         }
+        ui->statusBar->showMessage("Personnel ajouté");
     }
+    else ui->statusBar->showMessage("Ajout de personnel annulé");
 
     // Recreate the tree on the window
     QListIterator<QStandardItem *> list(_typeItemsList);
     while (list.hasNext()) {
         QStandardItem * type = list.next();
         if (type->text().toStdString() == newStaff.getType()){
-            QStandardItem * newStaffItem =  new QStandardItem((newStaff.getFirstName() + " " + newStaff.getLastName()).c_str());
-            type->appendRow(newStaffItem);
+            QList<QStandardItem*> items;
+            items.append(new QStandardItem(newStaff.getFirstName().c_str()));
+            items.append(new QStandardItem(newStaff.getLastName().c_str()));
+            type->appendRow(items);
         }
     }
 }
@@ -162,18 +171,21 @@ void MainWindow::addPatient() {
         // Get the affected ressource and add the to the database
         QList<Staff> ressources = addPatientForm.getAffectedStaff();
 
-        for (unsigned int i = 0; i < ressources.size(); i++) {
+        for (int i = 0; i < ressources.size(); i++) {
             consult._idRessource = ressources[i].getId();
             _consultConnector->insert(consult);
         }
+        ui->statusBar->showMessage("Patient ajouté");
     }
-
+    else ui->statusBar->showMessage("Ajout de patient annulé");
 }
 
 void MainWindow::on_searchButton_clicked()
 {
     qDebug() << ui->searchTextBox->text();
     _patientConnector->searchFilterModel(ui->searchTextBox->text());
+    _patientConnector->searchDateFilterModel(ui->beginDateEdit->date(), ui->endDateEdit->date());
+
     areButtonsEnable(false);
 
 }
@@ -244,6 +256,8 @@ void MainWindow::on_editPatientButton_clicked()
             for (int i = 0; i < consultToDelete.size(); i++) {
                 _consultConnector->suppr(consultToDelete[i]._id);
             }
+
+            ui->statusBar->showMessage("Patient modifié");
         }
     }
 }
@@ -252,7 +266,7 @@ void MainWindow::on_editPatientButton_clicked()
 void MainWindow::on_patientsTableView_pressed(const QModelIndex &index)
 {
     areButtonsEnable(true);
-    if (index.isValid() && _patientClickedIndex == -1 || _patientClickedIndex != index.row()) {
+    if (index.isValid() && (_patientClickedIndex == -1 || _patientClickedIndex != index.row())) {
         _patientClickedIndex = index.row();
     }
 }
@@ -289,4 +303,14 @@ void MainWindow::on_deletePatientButton_clicked()
     ui->patientsTableView->hideRow(_patientClickedIndex);
     ui->patientsTableView->setModel(_patientsModel);
     _patientConnector->deleteRecord(_patientClickedIndex);
+
+    // Prevent user before deletation
+    QMessageBox::StandardButton reply;
+      reply = QMessageBox::question(this, "Attention", "Voulez-vous vraiment supprimer ce patient ?",QMessageBox::Yes|QMessageBox::No);
+      if (reply == QMessageBox::Yes) {
+        ui->patientsTableView->hideRow(_patientClickedIndex);
+        ui->patientsTableView->setModel(_patientsModel);
+        _patientConnector->deleteRecord(_patientClickedIndex);
+        ui->statusBar->showMessage("Patient supprimé");
+      }
 }

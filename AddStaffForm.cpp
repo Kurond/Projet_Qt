@@ -2,6 +2,7 @@
 #include "ui_AddStaffForm.h"
 #include "Staff.h"
 #include "QMessageBox"
+#include "StringFormatter.h"
 
 AddStaffForm::AddStaffForm(QWidget *parent) :
     QDialog(parent),
@@ -30,8 +31,8 @@ void AddStaffForm::on_addPushButton_clicked()
             QMessageBox::Cancel);
     }
     else {
-        _staff.setFirstName(ui->firstNameLineEdit->text().toStdString());
-        _staff.setLastName(ui->lastNameLineEdit->text().toStdString());
+        _staff.setFirstName(StringFormatter::upperFirst(ui->firstNameLineEdit->text()).toStdString());
+        _staff.setLastName(StringFormatter::upperFirst(ui->lastNameLineEdit->text()).toStdString());
         _staff.setType(ui->typeComboBox->currentText().toStdString());
 
         if (_staff.getType() == "Informaticien") {

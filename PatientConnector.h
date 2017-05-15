@@ -24,6 +24,7 @@ public:
 
     inline QSqlTableModel * getTableModel(QObject * window);
     inline void searchFilterModel(QString value);
+    inline void searchDateFilterModel(QDate begin, QDate end);
     inline void refreshModel();
     inline void updateRecord(int index, Patient updatePatient);
     inline void deleteRecord(int index);
@@ -38,7 +39,7 @@ private:
     QDate _beginDateFilter, _endDateFilter;
     QString _searchFilter;
 
-    //inline applyFilter();
+    inline void applyFilter();
 };
 
 
@@ -146,10 +147,15 @@ QSqlTableModel* PatientConnector::getTableModel(QObject * parent)
 
 void PatientConnector::searchFilterModel(QString value)
 {
-    // Open the database
-    openDatabase();
-    _model->setFilter(QString("Nom LIKE '%%1%' OR Prenom LIKE '%%2%' OR Ville LIKE '%%3%'").arg(value).arg(value).arg(value));
-    closeDatabase();
+    _searchFilter = value;
+    applyFilter();
+}
+
+void PatientConnector::searchDateFilterModel(QDate begin, QDate end) {
+    _beginDateFilter = begin;
+    _endDateFilter = end;
+
+   applyFilter();
 }
 
 void PatientConnector::refreshModel()
@@ -184,6 +190,20 @@ void PatientConnector::deleteRecord(int index)
     _model->removeRow(index);
 
     qDebug() << _model->lastError();
+
+    closeDatabase();
+}
+
+void PatientConnector::applyFilter() {
+    // Open the database
+    openDatabase();
+    _model->setFilter(QString("Nom LIKE '%%1%' OR Prenom LIKE '%%2%' OR Ville LIKE '%%3%'").arg(_searchFilter).arg(_searchFilter).arg(_searchFilter));
+
+    if (_beginDateFilter < _endDateFilter) {
+        QString beginDate = QString(_beginDateFilter.day()) + "-" + QString(_beginDateFilter.month()) + "-" + QString(_beginDateFilter.year());
+        QString endDate = QString(_endDateFilter.day()) + "-" + QString(_endDateFilter.month()) + "-" + QString(_endDateFilter.year());
+        _model->setFilter(QString("DateConsultation < '%1' AND DateConsultation < '%2'").arg(endDate).arg(beginDate));
+    }
 
     closeDatabase();
 }

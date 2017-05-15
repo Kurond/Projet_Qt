@@ -29,7 +29,8 @@ SOURCES +=\
     ConsultConnector.cpp \
     Consult.cpp \
     LoginForm.cpp \
-    PatientForm.cpp
+    PatientForm.cpp \
+    StringFormatter.cpp
 
 HEADERS  += \
     Patient.h \
@@ -46,7 +47,8 @@ HEADERS  += \
     AccountConnector.h \
     ConsultConnector.h \
     Consult.h \
-    PatientForm.h
+    PatientForm.h \
+    StringFormatter.h
 
 FORMS    += \
     LoginForm.ui \

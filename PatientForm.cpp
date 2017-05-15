@@ -6,6 +6,7 @@
 #include<iostream>
 #include <QMessageBox>
 #include <QDate>
+#include "StringFormatter.h"
 
 PatientForm::PatientForm(QWidget * parent) :
     QDialog(parent),
@@ -97,7 +98,7 @@ string PatientForm::isFormValid() {
         errors = errors.append("Le champs prenom ne peut pas être vide. \n");
     }
     else {
-        _patient.setFirstName(ui->firstnameLineEdit->text().toStdString());
+        _patient.setFirstName(StringFormatter::upperFirst(ui->firstnameLineEdit->text()).toStdString());
     }
 
     // If the last name wasn't set
@@ -105,7 +106,7 @@ string PatientForm::isFormValid() {
         errors = errors.append("Le champs nom ne peut pas être vide. \n");
     }
     else {
-        _patient.setLastName(ui->lastnameLineEdit->text().toStdString());
+        _patient.setLastName(StringFormatter::upperFirst(ui->lastnameLineEdit->text()).toStdString());
     }
 
     // If the city wasn't set
@@ -113,7 +114,7 @@ string PatientForm::isFormValid() {
         errors = errors.append("Le champs ville ne peut pas être vide. \n");
     }
     else {
-        _patient.setCity(ui->cityLineEdit->text().toStdString());
+        _patient.setCity(StringFormatter::upperFirst(ui->cityLineEdit->text()).toStdString());
     }
 
     // If the adress wasn't set
@@ -121,7 +122,7 @@ string PatientForm::isFormValid() {
         errors = errors.append("Le champs adresse ne peut pas être vide. \n");
     }
     else {
-        _patient.setAddress(ui->addressLineEdit->text().toStdString());
+        _patient.setAddress(StringFormatter::upperFirst(ui->addressLineEdit->text()).toStdString());
     }
 
     // If the date wasn't set
@@ -133,14 +134,7 @@ string PatientForm::isFormValid() {
             errors = errors.append("Le champs date ne respecte pas le format. \n");
         }
         else {
-            int month = consultationDate.month();
-            int day = consultationDate.day();
-            QString formattedDate = QString::number(consultationDate.year()) + "-" +
-                    (month < 10 ? "0"+QString::number(month) : QString::number(month)) + "-" +
-                    (day < 10 ? "0"+QString::number(day) : QString::number(day));
-
-            qDebug() << formattedDate;
-            _patient.setConsultationDate(formattedDate.toStdString());
+            _patient.setConsultationDate(StringFormatter::toEnDate(consultationDate).toStdString());
         }
     }
     else if (!_affectedStaffs.isEmpty()){
