@@ -185,6 +185,61 @@ void MainWindow::on_editPatientButton_clicked()
         if (addPatientForm.exec() == QDialog::Accepted) {
             Patient updatedPatient = addPatientForm.getPatient();
             _patientConnector->updateRecord(_patientClickedIndex, updatedPatient);
+
+            // Update the consults
+            QList<Consult> oldConsults = _consultConnector->getPatientConsult(updatedPatient.getId());
+            QList<Staff> newAffectedStaff = addPatientForm.getAffectedStaff();
+
+            QList<Consult> consultToAdd;
+            QList<Consult> consultToDelete;
+
+            // Find new consult
+            for (int i = 0; i < newAffectedStaff.size(); i++) {
+                bool found = false;
+
+                for (int j = 0; j < oldConsults.size(); j++) {
+                    // If the consult is in both old and new : nothing to change
+                    if (oldConsults[j]._idRessource == newAffectedStaff[i].getId()) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    Consult consult;
+                    consult._idPatient = updatedPatient.getId();
+                    consult._idRessource = newAffectedStaff[i].getId();
+
+                    consultToAdd << consult;
+                }
+            }
+
+            // Find deleted consult
+            for (int i = 0; i < oldConsults.size(); i++){
+                bool found = false;
+
+                for (int j = 0; j < newAffectedStaff.size(); j++) {
+                    // If the consult is in both old and new : nothing to change
+                    if (oldConsults[i]._idRessource == newAffectedStaff[j].getId()) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    consultToDelete << oldConsults[i];
+                }
+            }
+
+            // Add
+            for (int i = 0; i < consultToAdd.size(); i++) {
+                _consultConnector->insert(consultToAdd[i]);
+            }
+
+            // DeleteS
+            for (int i = 0; i < consultToDelete.size(); i++) {
+                _consultConnector->suppr(consultToDelete[i]._id);
+            }
         }
     }
 }
