@@ -8,6 +8,7 @@
 #include <QSqlError>
 #include <QSqlTableModel>
 #include <QSqlRecord>
+#include <QDate>
 
 using namespace std;
 
@@ -33,6 +34,11 @@ protected:
 private:
     static PatientConnector* _instance;
     QSqlTableModel * _model;
+
+    QDate _beginDateFilter, _endDateFilter;
+    QString _searchFilter;
+
+    //inline applyFilter();
 };
 
 

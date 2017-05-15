@@ -32,6 +32,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // patient table view initialization
     setupPatientTab();
+
+    // Initiate date
+    ui->beginDateEdit->setDate(QDate());
+    ui->endDateEdit->setDate(QDate());
 }
 
 
